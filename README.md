@@ -2,7 +2,7 @@
 
 | Student's name | SCIPER |
 | -------------- | ------ |
-|Ferdinand | 346900 |
+|Ferdinand Ytteborg | 346900 |
 |Fredrik Hægermark | 346122 |
 |Joël Lingg | 352760 |
 
