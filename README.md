@@ -2,13 +2,15 @@
 
 | Student's name | SCIPER |
 | -------------- | ------ |
-|Ferdinand | 346900 |
+|Ferdinand Ytteborg | 346900 |
 |Fredrik Hægermark | 346122 |
 |Joël Lingg | 352760 |
 
 [Milestone 1](#milestone-1) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
 
 ## Milestone 1 (8th April, 5pm)
+
+[Milestone 1](Reports/Milestone_1.pdf)
 
 **10% of the final grade**
 
