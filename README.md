@@ -10,6 +10,8 @@
 
 ## Milestone 1 (8th April, 5pm)
 
+[Milestone 1](Reports/Milestone_1.pdf)
+
 **10% of the final grade**
 
 This is a preliminary milestone to let you set up goals for your final project and assess the feasibility of your ideas.
