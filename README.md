@@ -10,7 +10,7 @@
 
 ## Milestone 1 (8th April, 5pm)
 
-[Milestone 1](Reports/Milestone_1.pdf)
+[Milestone 1](com-480-data-visualization/datavis-project-2022-data-wizards)
 
 
 ## Milestone 2 (6th May, 5pm)
