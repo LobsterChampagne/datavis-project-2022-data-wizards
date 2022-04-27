@@ -1,0 +1,60 @@
+* {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.nav {
+    height: 10%;
+    background: #41b3a3;
+    color: #fff;
+    font-size: 35px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+.container {
+    display: block;
+    width: 100%;
+    margin: auto;
+    margin-top: 2em;
+}
+
+.container .text {
+    margin: auto;
+    width: 60%;
+}
+
+.container p {
+    margin-top: 1em;
+    font-size: 20px;
+}
+
+.viz {
+    
+}
+
+.viz h1 {
+    font-size: 30px;
+    color:#41b3a3;
+}
+
+.viz img {
+    display: block;
+    margin: auto;
+    width: 40%;
+}
+
+.footer {
+    margin-top: 2em;
+    height: 40%;
+    background: #41b3a3;
+    color: #fff;
+}
