@@ -59,6 +59,18 @@ h2 {
     color: #fff;
 }
 
+.disclaimer {
+    color: #aaa;
+}
+
+.disclaimer p {
+    font-size: 10px;
+}
+
+.disclaimer h1 {
+    font-size: 20px;
+}
+
 #git {
     display: block;
     margin: auto;
