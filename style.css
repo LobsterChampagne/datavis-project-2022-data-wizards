@@ -58,3 +58,8 @@ h2 {
     background: #41b3a3;
     color: #fff;
 }
+
+#git {
+    display: block;
+    margin: auto;
+}
