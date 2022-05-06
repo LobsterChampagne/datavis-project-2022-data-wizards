@@ -6,7 +6,7 @@
 |Fredrik Hægermark | 346122 |
 |Joël Lingg | 352760 |
 
-[Milestone 1](Reports/Milestone%201.pdf) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
+[Milestone 1](Reports/Milestone%201.pdf) • [Milestone 2](Reports/Milestone%201.pdf) • [Milestone 3](#milestone-3)
 
 ## Milestone 1 (8th April, 5pm)
 
@@ -16,6 +16,8 @@
 ## Milestone 2 (6th May, 5pm)
 
 **10% of the final grade**
+
+[Milestone 2](Reports/Milestone%202.pdf)
 
 <a href="https://com-480-data-visualization.github.io/datavis-project-2022-data-wizards/" target="_blank">Website Skeleton</a>
 
