@@ -6,7 +6,7 @@
 |Fredrik Hægermark | 346122 |
 |Joël Lingg | 352760 |
 
-[Milestone 1](Reports/Milestone%201.pdf) • [Milestone 2](Reports/Milestone%201.pdf) • [Milestone 3](#milestone-3)
+[Milestone 1](Reports/Milestone%201.pdf) • [Milestone 2](Reports/Milestone%202.pdf) • [Milestone 3](#milestone-3)
 
 ## Milestone 1 (8th April, 5pm)
 
