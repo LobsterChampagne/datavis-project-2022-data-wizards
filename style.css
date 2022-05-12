@@ -4,19 +4,50 @@
 }
 
 .nav {
-    height: 10%;
+    display: flex;
     background: #41b3a3;
     color: #fff;
-    font-size: 35px;
     text-align: center;
     vertical-align: middle;
 }
 
-h1 {
-    text-align: center;
+.smallboxNav {
+    text-align: left;
+    margin: auto;
+    margin-top: 10px;
+    width: 10%;
+    height: 100%;
+    font-size: 18px;
 }
 
-h2 {
+.smallboxNav p {
+    margin-left: 10px;
+}
+
+.boxNav {
+    padding: 20px;
+    width: 80%;
+    font-size: 45px;
+}
+
+.smallboxNav img {
+    width: 80%;
+}
+
+.providers {
+    display: flex;
+    width: 60%;
+    margin: auto;
+    margin-top: 3em;
+    margin-bottom: 5em;
+}
+
+.providers img {
+    width: 80%;
+    margin: auto;
+}
+
+h1, h2 {
     text-align: center;
 }
 
@@ -25,6 +56,15 @@ h2 {
     width: 100%;
     margin: auto;
     margin-top: 2em;
+}
+
+.container h1 {
+    font-size: 45px;
+    color:#000;
+}
+
+#by {
+    text-align: center;
 }
 
 .container .text {
@@ -38,7 +78,7 @@ h2 {
 }
 
 .viz {
-    
+    margin-top: 5em;
 }
 
 .viz h1 {
@@ -53,25 +93,67 @@ h2 {
 }
 
 .footer {
+    padding: 10px;
     margin-top: 2em;
-    height: 40%;
     background: #41b3a3;
     color: #fff;
 }
 
-.disclaimer {
-    color: #aaa;
+#hat {
+    display: flex;
+    margin: auto;
+    height: 50px;
+    transform: translateY(10px);
 }
 
-.disclaimer p {
-    font-size: 10px;
+.footer h1 {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
-.disclaimer h1 {
-    font-size: 20px;
+.footer p {
+    text-align: center;
+    margin-bottom: 1em;
 }
 
 #git {
     display: block;
     margin: auto;
+}
+
+.themBoys{
+    margin-top: 1em;
+    width: 80%;
+    display: flex;
+    margin: auto;
+    margin-top: 1em;
+}
+
+.boywiz {
+    width: 20%;
+    font-size: 20px;
+    text-align: center;
+    margin: auto;
+}
+
+.boywiz img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.disclaimer {
+    color: #fff;
+    width: 80%;
+    margin: auto;
+    margin-top: 2em;
+}
+
+.disclaimer p {
+    margin-top: 10px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.disclaimer h1 {
+    font-size: 20px;
 }

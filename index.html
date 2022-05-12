@@ -9,31 +9,66 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="icon" type="image/x-icon" href="/media/favicon.png">
 </head>
 
 <body>
     <div class="nav">
-        Data Wizards
+        <div class="smallboxNav">
+            <p>COM-480</p>
+            <p>Data visualization</p>
+        </div>
+        <div class="boxNav">
+            <p>Data Wizards</p>
+        </div>        
+        <div class="smallboxNav">
+            <img src="media/epfl_logo.png" alt="">
+        </div>
     </div>
 
     <div class="container">
+        <div class="providers">
+            <img src="media/providers.png" alt="">
+        </div>
         <div class="text">
             <h1>What's the best streaming provider for you?</h1>
+            <p id="by">
+                <b style="color:#41b3a3;">By:</b> J. Lingg, F. S. Ytteborg, F. A. Hægermark
+            </p>
             <p>
-                It's Friday evening and you're sitting on your couch. You really feel like watching a movie or start on a new series, but you are yet to decide upon which streaming provider to chose. There are so many options. Choosing the correct streaming provider
-                that suits you the best might be a challenging task. If you are the kind of person that don't know which streaming provider to chose? Are you more into movies or series? What are the kind of movie categories you like? These are just a
-                few out of many questions to take into consideration when choosing your streaming provider. The goal of this website and visualizations is to give you some insights and help you chose the best provider for you!
+                It's a lovely Friday evening and you're just home from a long day at work. You're finding yourself sitting 
+                on your couch with a cold beverage in one hand and the remote control in the other. 
+                You really feel like watching a movie or getting started on a new series.
+                However, you're previous subscription just ran out and you feel like it's time for a change.
+                So you're sitting there wondering; What streaming provider suits me the most? 
+                There are so many options!
+            </p>
+            <p>
+                Choosing the correct streaming provider that suits you the best might be a challenging task.
+                There is a lot of things to take into account and lots of question that needs to be addressed. 
+                Are you more into movies or series? What kind of movie categories do you like? What movies does your  
+                favorite actor star in? 
+                These are just a few out of many questions to take into consideration when choosing your 
+                streaming provider. 
+                If you are the kind of person that find yourself in this situation or you simply just 
+                don't know which streaming provider to chose? Then this website is perfect for you!
+                The goal of this website and visualizations is to give you some 
+                insights and help you chose the most suitable and best streaming provider according to your preferences.
             </p>
         </div>
-        
-
     </div>
+
     <div class="container viz">
         <h1>Basic Overview</h1>
         <div class="text">
             <p>
-                This section should give you an idea of how many movies and TV shows are available on the four services. As you can see Netflix and prime have by far the biggest amount of content. So if you just want content and don't mind what you wnant to watch you'll be fine with Netflix and Prime.
+                This section gives you an idea of how many movies and TV shows that are available 
+                on the four different services. As you can see Netflix and Prime have by far the biggest 
+                amount of content. So if you just want content and don't mind what you want to 
+                watch you'll be fine with Netflix and Prime.
             </p>
+            <br>
 
         </div>
         <!--<div class="flourish-embed flourish-sankey" data-src="visualisation/9615889"><script src="https://public.flourish.studio/resources/embed.js"></script></div>-->
@@ -65,18 +100,40 @@
            <img src="media/lineChart.jpg" alt="">
     </div>
 
-    <div class="disclaimer">
-        <h1>Disclaimer</h1>
-        <p>
-            A word of caution to begin with. This website uses data provided by Kaggle. We can't guarantee the correctness. Also, the data are from April 2022 and won't be updated in the future. Therefore the findings you'll make with this website might not hold in the far future. 
-        </p>
-    </div>
-    
+        
     <div class="footer">
+        <img id="hat" src="media/favicon.png" alt="">
         <h1>Data Wizards</h1>
-        <a href ="https://github.com/com-480-data-visualization/datavis-project-2022-data-wizards"> <img id="git" src="media/GitHub-Mark-Light-32px.png" alt=""> </a>
-    </div>
+        <p>Check out our Github repository:</p>
+        <a target="_blank" href="https://github.com/com-480-data-visualization/datavis-project-2022-data-wizards">
+            <img id="git" src="media/GitHub-Mark-Light-32px.png" alt="">
+        </a>
+        
+        <div class="themBoys">
+            <div class="boywiz">
+                <img src="https://media-exp1.licdn.com/dms/image/C5603AQFw8Y20z7Xwpg/profile-displayphoto-shrink_400_400/0/1581262502109?e=1657756800&v=beta&t=QrKjCFCx1IPo4Wrqbu7ie8gYj53LfR9zDa6msWy3nLY" alt="">
+                <p>Joël Lingg</p>
+            </div>
+            <div class="boywiz">
+                <img src="" alt="">
+                <p>Ferdinand Ytteborg</p>
+            </div>
+            <div class="boywiz">
+                <img src="https://media-exp1.licdn.com/dms/image/C4E03AQHedAu-2c3DAA/profile-displayphoto-shrink_400_400/0/1634765459408?e=1657756800&v=beta&t=9-w6avhaPkZBl-wfxQbVhov4e8FzhVOcwxaLAruk8ys" alt="">
+                <p>Fredrik Hægermark</p>
+            </div>
+        </div>
 
+        <div class="disclaimer">
+            <h1>Disclaimer</h1>
+            <p>
+                A word of caution to begin with. This website uses data provided by Kaggle. 
+                We can't guarantee the correctness. Also, the data are from April 2022 and won't 
+                be updated in the future. Therefore the findings you'll make with this website 
+                might not hold in the far future. 
+            </p>
+        </div>
+    </div>
 
 </body>
 
