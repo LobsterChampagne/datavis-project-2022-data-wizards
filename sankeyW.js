@@ -76,16 +76,16 @@ class sankeyPlot {
       var color = 'black'
       switch (name) {
         case 'Netflix':
-          color = '#E50914'
+          color = '#fbe5d6'
           break
         case 'Hulu':
-          color = '#3dbb3d'
+          color = '#e2f0d9'
           break
         case 'Prime':
-          color = '#00A8E1'
+          color = '#deebf7'
           break
         case 'Disney':
-          color = '#113CCF'
+          color = '#bdd7ee'
           break
       }
       return color
