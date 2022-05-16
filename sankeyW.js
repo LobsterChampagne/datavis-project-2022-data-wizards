@@ -117,11 +117,11 @@ whenDocumentLoaded(() => {
   ]
   d3.csv('./Data/cast_per_platform.csv')
 	.then(function(dd) {
-  var known_actors = dd.filter(d => d.cnt >20).map(d => d.cast);  
+  var known_actors = dd.filter(d => d.cnt >10).map(d => d.cast);  
 	var known_data = dd.filter(d => known_actors.includes(d.cast));
 	links = known_data.map(d => ({source:(d.cast), target:(d.service), value:d.cnt}));
   
-  actors = [...new Set(known_data.map(d =>d.cast))].map(d => ({name:d}));
+  actors = [...new Set(known_data.map(d =>d.cast))].sort().map(d => ({name:d}));
 console.log(actors);
 console.log(known_data.map(d =>({name:d.cast})))
  
