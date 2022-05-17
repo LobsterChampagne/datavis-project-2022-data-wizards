@@ -157,3 +157,7 @@ h1, h2 {
 .disclaimer h1 {
     font-size: 20px;
 }
+
+.slider{
+    width:50% !important;
+}

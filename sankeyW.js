@@ -117,42 +117,123 @@ whenDocumentLoaded(() => {
   ]
   d3.csv('./Data/cast_per_platform.csv')
 	.then(function(dd) {
-  var known_actors = dd.filter(d => d.cnt >10).map(d => d.cast);  
-	var known_data = dd.filter(d => known_actors.includes(d.cast));
+    console.log(dd)
+    var actors_total = dd.reduce(function(prev,curr) {
+      if(!prev[curr.cast]){
+        prev[curr.cast] = 0;
+      }
+
+      prev[curr.cast] = prev[curr.cast]+parseInt(curr.cnt);      
+      return prev;
+    },{})
+  actors_total = Object.keys(actors_total).map(key => ({cast:key,cnt:actors_total[key]}));
+  
+  
+  //var known_actors = dd.filter(d => d.cnt >=10).map(d => d.cast);
+  var known_actors = asdf.filter(d => d.cnt >= 10 ).map(d=>d.cast);
+  
+  
+  var known_data = dd.filter(d => known_actors.includes(d.cast));
 	links = known_data.map(d => ({source:(d.cast), target:(d.service), value:d.cnt}));
   
   actors = [...new Set(known_data.map(d =>d.cast))].sort().map(d => ({name:d}));
-console.log(actors);
-console.log(known_data.map(d =>({name:d.cast})))
  
+  default_cast = ["Nicolas Cage","John Wayne"]
+
+  /*
   var menu = d3
-      .select('#example-getting-started')
+      .select('#sankey_select')
       .selectAll('option')
       .data(actors)
       .enter()
       .append('option')
       .attr('value', d => d.name)
       .text(d => d.name)
+      .filter(d => default_cast.includes(d.name))
+      .attr("selected","selected");
+*/
+actors_grouped = [...new Set(known_data.map(d =>d.cast))].sort().map(d => ({name:d,group:get_group(d)}))
+
+actors_grouped = group_by(actors_grouped,"group")
+
+console.log(actors_grouped);
+
+var groups = Object.keys(actors_grouped);
+console.log(groups);
+var menu = d3
+.select('#sankey_select')
+.selectAll("optgroup")
+
+menu = menu.data(groups)
+.enter()
+.append('optgroup')
+.attr('label', d => d)
+.each(function(d) {
+  console.log(d);
+  console.log(actors_grouped[d])
+  d3.select(this).selectAll('option')
+  .data(actors_grouped[d])
+  .enter()
+  .append("option")
+  .attr("value",f => f.name)
+  .text(f=>f.name)
+  .filter(f => default_cast.includes(f.name))
+  .attr("selected","selected");
+})
 
 
-  $('#example-getting-started').multiselect({
+
+/*
+for (var i = 0; i< groups.length;i++){
+menu = menu
+.data(groups[i])
+.enter()
+.append('optgroup')
+.attr('label', d => d)
+.data(actors_grouped[groups[i]])
+.enter()
+.append("option")
+.attr('value',d => d.name)
+.text(d => d.name)
+}*/
+
+
+
+
+  $('#sankey_select').multiselect({
     maxHeight: 300,
     enableFiltering: true,
+    enableClickableOptGroups: false,
+    enableCollapsibleOptGroups: false,
+    enableCaseInsensitiveFiltering: true,
+    enableResetButton: true,
+    resetButtonText: 'Reset',
     onChange: function () {
       console.log(actors)
-      selection = $('#example-getting-started').val()
+      selection = $('#sankey_select').val()
       data = get_data(actors, providers, links, selection)
       plot = new sankeyPlot('sankey', data)
     }
   })
 
-    //var selection = ["Nicolas Cage","John Wayne"]
-    selection=null
-    var data = get_data(actors, providers, links, selection)
+  btn = $("#reset_button").on("click", function(e) {
+    $("#sankey_select").val([]).multiselect("refresh");
+  
+  })
+
+    selection=$('#sankey_select').val()
+    var data = get_data(actors, providers, links, null)
     plot = new sankeyPlot('sankey', data)
 
+    var data = get_data(actors, providers, links, selection)
+    plot = new sankeyPlot('sankey', data)
     // https://stackoverflow.com/a/33710002
-    
+   
+  function create_multiselect() {
+
+  }
+
+
 })
 })
 
@@ -173,4 +254,26 @@ function get_data (actors, providers, links, selection) {
     }
   }
   return data
+}
+
+function get_group (d) {
+  var group = d.charAt(0).toUpperCase();
+  if(group.toLowerCase() == group){
+    group = "other";
+  }
+  return group;
+}
+
+function group_by (arr,key) {
+   var grouped = arr.reduce((prev, cur) => {
+    if(!prev[cur[key]]){
+      prev[cur[key]] = []
+    };
+    cur_copy = Object.assign({},cur);
+    delete cur_copy[key]
+    prev[cur[key]].push(cur_copy);
+
+    return prev;
+  },{})
+  return grouped;
 }
