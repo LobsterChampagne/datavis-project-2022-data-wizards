@@ -159,9 +159,17 @@ h1, h2 {
 }
 
 .slider{
-    width:20% !important;
+    width:30% !important;
 }
 
 .form-control{
-    width:20% !important;
+    width:30% !important;
+}
+
+.sankey_stroke {
+    opacity: 1.0
+}
+
+.sankey_stroke:hover {
+    opacity: 0.6
 }

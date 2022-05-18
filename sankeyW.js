@@ -2,6 +2,8 @@
 
 class sankeyPlot {
   constructor (svg_element_id, data, draw) {
+    //Adapted from https://stackoverflow.com/q/50429070
+
     console.log(data)
     this.svg = d3.select('#' + svg_element_id)
     this.svg.selectAll('*').remove()
@@ -26,8 +28,8 @@ class sankeyPlot {
     let node = this.svg.append('g').selectAll('g')
 
     sankey(data)
-    if(!draw){
-      return;
+    if (!draw) {
+      return
     }
     link = link
       .data(data.links)
@@ -38,6 +40,11 @@ class sankeyPlot {
       .attr('stroke-width', d => {
         return d.width
       })
+      .attr("class","sankey_stroke")
+
+    link.append('title').text(d => {
+      return d.source.name + ' on ' + d.target.name + '\n' + d.value
+    })
 
     node = node
       .data(data.nodes)
@@ -57,6 +64,9 @@ class sankeyPlot {
       })
       .attr('width', d => {
         return d.x1 - d.x0
+      })
+      .attr('fill', d => {
+        return darker(get_color(d.name))
       })
 
     node
@@ -89,8 +99,42 @@ class sankeyPlot {
         case 'Disney':
           color = '#bdd7ee'
           break
+        default:
+          {
+            //Hash color generator from https://stackoverflow.com/a/16348977
+            var hash = 0
+            for (var i = 0; i < name.length; i++) {
+              hash = name.charCodeAt(i) + ((hash << 5) - hash)
+            }
+            color = '#'
+            for (var i = 0; i < 3; i++) {
+              var value = (hash >> (i * 8)) & 0xff
+              color += ('00' + value.toString(16)).substr(-2)
+            }
+          }
+          break
       }
       return color
+    }
+    function darker (color) {
+      var new_color = "#"
+      color = color.replace("#","");
+      
+      for(var i = 0;i<3;i++){
+        var val = parseInt(color.slice(2*i,2*i+2),16);
+        val = 0.9*val|0;
+        if(val<0){
+          val = 0;
+        }
+        var new_val = val.toString(16);
+        console.log(color.slice(2*i,2*i+2));
+        while(new_val.length <2){
+          new_val = '0'+new_val;
+        }
+        new_color += new_val;
+      }
+      
+      return new_color
     }
   }
 }
@@ -133,7 +177,7 @@ whenDocumentLoaded(() => {
       prev[curr.cast] = prev[curr.cast] + parseInt(curr.cnt)
       return prev
     }, {})
-  
+
     asdf = Object.keys(actors_total).map(key => ({
       cast: key,
       cnt: actors_total[key]
@@ -158,16 +202,15 @@ whenDocumentLoaded(() => {
       .text(d => d.name)
       .filter(d => default_cast.includes(d.name))
       .attr("selected","selected");
-*/ 
+*/
+
     var number_of_movies = document.getElementById('number_of_movies').value
 
     //var known_actors = dd.filter(d => d.cnt >=10).map(d => d.cast);
     var known_actors = asdf
       .filter(d => d.cnt >= number_of_movies)
       .map(d => d.cast)
-    var known_data = dd.filter(
-      d => known_actors.includes(d.cast)
-    )
+    var known_data = dd.filter(d => known_actors.includes(d.cast))
     links = known_data.map(d => ({
       source: d.cast,
       target: d.service,
@@ -190,11 +233,9 @@ whenDocumentLoaded(() => {
     function create_select () {
       number_of_movies = document.getElementById('number_of_movies').value
       known_actors = asdf
-      .filter(d => d.cnt >= number_of_movies)
-      .map(d => d.cast)
-      known_data = dd.filter(
-        d => known_actors.includes(d.cast)
-      )
+        .filter(d => d.cnt >= number_of_movies)
+        .map(d => d.cast)
+      known_data = dd.filter(d => known_actors.includes(d.cast))
       console.log(links)
       links = known_data.map(d => ({
         source: d.cast,
@@ -208,13 +249,13 @@ whenDocumentLoaded(() => {
       actors_grouped = [...new Set(known_data.map(d => d.cast))]
         .sort()
         .map(d => ({ name: d, group: get_group(d) }))
-  
-      actors_grouped = group_by(actors_grouped, 'group')
-  
-      groups = Object.keys(actors_grouped) 
 
-      var menu = d3.select('#sankey_select').html("")
-      menu=menu.selectAll('optgroup')
+      actors_grouped = group_by(actors_grouped, 'group')
+
+      groups = Object.keys(actors_grouped)
+
+      var menu = d3.select('#sankey_select').html('')
+      menu = menu.selectAll('optgroup')
       menu = menu
         .data(groups)
         .enter()
@@ -231,27 +272,26 @@ whenDocumentLoaded(() => {
             .filter(f => default_cast.includes(f.name))
             .attr('selected', 'selected')
         })
-        data = get_data(actors, providers, links, null)
-        plot = new sankeyPlot('sankey', data,false)
-        
+      data = get_data(actors, providers, links, null)
+      plot = new sankeyPlot('sankey', data, false)
     }
 
-      $('#sankey_select').multiselect({
-        maxHeight: 300,
-        enableFiltering: true,
-        enableClickableOptGroups: false,
-        enableCollapsibleOptGroups: false,
-        enableCaseInsensitiveFiltering: true,
-        enableResetButton: true,
-        resetButtonText: 'Reset',
-        onChange: function () {
-          console.log('here')
-          selection = $('#sankey_select').val()
-          data = get_data(actors, providers, links, selection)
-          plot = new sankeyPlot('sankey', data,true)
-        }
-      })
-  
+    $('#sankey_select').multiselect({
+      // https://stackoverflow.com/a/33710002
+      maxHeight: 300,
+      enableFiltering: true,
+      enableClickableOptGroups: false,
+      enableCollapsibleOptGroups: false,
+      enableCaseInsensitiveFiltering: true,
+      enableResetButton: true,
+      resetButtonText: 'Reset',
+      onChange: function () {
+        selection = $('#sankey_select').val()
+        data = get_data(actors, providers, links, selection)
+        plot = new sankeyPlot('sankey', data, selection)
+      }
+    })
+
     var btn = $('#reset_button').on('click', function (e) {
       d3.select('#sankey_select').html('')
 
@@ -261,19 +301,28 @@ whenDocumentLoaded(() => {
         .multiselect('rebuild')
     })
 
-    $('#number_of_movies').on('input', function() {
-      $('#number_of_movies_txt').val(document.getElementById('number_of_movies').value)
+    var btn_slc = $('#clear_select_button').on('click', function (e) {
+      $('#sankey_select')
+        .val([])
+        .multiselect('rebuild')
+      plot = new sankeyPlot('sankey', data, null)
+    })
+
+    $('#number_of_movies').on('input', function () {
+      $('#number_of_movies_txt').val(
+        'Min. number of movies of actor: ' +
+          document.getElementById('number_of_movies').value
+      )
+      
     })
     selection = $('#sankey_select').val()
 
     var data = get_data(actors, providers, links, null)
     console.log(data)
-    plot = new sankeyPlot('sankey', data,false)
+    plot = new sankeyPlot('sankey', data, false)
 
     var data = get_data(actors, providers, links, selection)
-    plot = new sankeyPlot('sankey', data,true)
-
-    // https://stackoverflow.com/a/33710002
+    plot = new sankeyPlot('sankey', data, true)
   })
 })
 
