@@ -79,6 +79,7 @@ h1, h2 {
 
 .viz {
     margin-top: 5em;
+    padding: 50px;
 }
 
 .viz h1 {
@@ -172,4 +173,8 @@ h1, h2 {
 
 .multiselect-search{
     width: 100% !important;
+}
+
+svg{
+    margin:50px;
 }
