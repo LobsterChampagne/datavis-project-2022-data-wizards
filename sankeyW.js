@@ -1,7 +1,7 @@
 //Skeletton from Exercise 8
 
 class sankeyPlot {
-  constructor (svg_element_id, data) {
+  constructor (svg_element_id, data, draw) {
     console.log(data)
     this.svg = d3.select('#' + svg_element_id)
     this.svg.selectAll('*').remove()
@@ -26,7 +26,9 @@ class sankeyPlot {
     let node = this.svg.append('g').selectAll('g')
 
     sankey(data)
-
+    if(!draw){
+      return;
+    }
     link = link
       .data(data.links)
       .enter()
@@ -105,42 +107,47 @@ function whenDocumentLoaded (action) {
 whenDocumentLoaded(() => {
   console.log('Sankey: Do what ever you want here')
   //plot_object = new MapPlot('map-plot');
-  var providers = [{ name: 'Netflix' }, { name: 'Hulu' }, { name: 'Prime' },{name:'Disney'}]
-  var actors = [{ name: 'A' }, { name: 'B' }, { name: 'C' }]
 
-  var links = [
-    { source: 'A', target: 'Netflix', value: 10 },
-    { source: 'B', target: 'Hulu', value: 20 },
-    { source: 'B', target: 'Netflix', value: 10 },
-    { source: 'C', target: 'Hulu', value: 10 },
-    { source: 'C', target: 'Prime', value: 10 }
-  ]
-  d3.csv('./Data/cast_per_platform.csv')
-	.then(function(dd) {
-    console.log(dd)
-    var actors_total = dd.reduce(function(prev,curr) {
-      if(!prev[curr.cast]){
-        prev[curr.cast] = 0;
+  d3.csv('./Data/cast_per_platform.csv').then(function (dd) {
+    var providers = [
+      { name: 'Netflix' },
+      { name: 'Hulu' },
+      { name: 'Prime' },
+      { name: 'Disney' }
+    ]
+    var actors = [{ name: 'A' }, { name: 'B' }, { name: 'C' }]
+
+    var links = [
+      { source: 'A', target: 'Netflix', value: 10 },
+      { source: 'B', target: 'Hulu', value: 20 },
+      { source: 'B', target: 'Netflix', value: 10 },
+      { source: 'C', target: 'Hulu', value: 10 },
+      { source: 'C', target: 'Prime', value: 10 }
+    ]
+
+    var actors_total = dd.reduce(function (prev, curr) {
+      if (!prev[curr.cast]) {
+        prev[curr.cast] = 0
       }
 
-      prev[curr.cast] = prev[curr.cast]+parseInt(curr.cnt);      
-      return prev;
-    },{})
-  actors_total = Object.keys(actors_total).map(key => ({cast:key,cnt:actors_total[key]}));
+      prev[curr.cast] = prev[curr.cast] + parseInt(curr.cnt)
+      return prev
+    }, {})
   
-  
-  //var known_actors = dd.filter(d => d.cnt >=10).map(d => d.cast);
-  var known_actors = asdf.filter(d => d.cnt >= 10 ).map(d=>d.cast);
-  
-  
-  var known_data = dd.filter(d => known_actors.includes(d.cast));
-	links = known_data.map(d => ({source:(d.cast), target:(d.service), value:d.cnt}));
-  
-  actors = [...new Set(known_data.map(d =>d.cast))].sort().map(d => ({name:d}));
- 
-  default_cast = ["Nicolas Cage","John Wayne"]
+    asdf = Object.keys(actors_total).map(key => ({
+      cast: key,
+      cnt: actors_total[key]
+    }))
+    var number_of_movies = document.getElementById('number_of_movies').value
 
-  /*
+    //var known_actors = dd.filter(d => d.cnt >=10).map(d => d.cast);
+    var known_actors = asdf
+      .filter(d => d.cnt >= number_of_movies)
+      .map(d => d.cast)
+
+    default_cast = ['Nicolas Cage', 'John Wayne']
+
+    /*
   var menu = d3
       .select('#sankey_select')
       .selectAll('option')
@@ -151,94 +158,127 @@ whenDocumentLoaded(() => {
       .text(d => d.name)
       .filter(d => default_cast.includes(d.name))
       .attr("selected","selected");
-*/
-actors_grouped = [...new Set(known_data.map(d =>d.cast))].sort().map(d => ({name:d,group:get_group(d)}))
+*/ 
+    var number_of_movies = document.getElementById('number_of_movies').value
 
-actors_grouped = group_by(actors_grouped,"group")
+    //var known_actors = dd.filter(d => d.cnt >=10).map(d => d.cast);
+    var known_actors = asdf
+      .filter(d => d.cnt >= number_of_movies)
+      .map(d => d.cast)
+    var known_data = dd.filter(
+      d => known_actors.includes(d.cast)
+    )
+    links = known_data.map(d => ({
+      source: d.cast,
+      target: d.service,
+      value: d.cnt
+    }))
 
-console.log(actors_grouped);
+    actors = [...new Set(known_data.map(d => d.cast))]
+      .sort()
+      .map(d => ({ name: d }))
+    actors_grouped = [...new Set(known_data.map(d => d.cast))]
+      .sort()
+      .map(d => ({ name: d, group: get_group(d) }))
 
-var groups = Object.keys(actors_grouped);
-console.log(groups);
-var menu = d3
-.select('#sankey_select')
-.selectAll("optgroup")
+    actors_grouped = group_by(actors_grouped, 'group')
 
-menu = menu.data(groups)
-.enter()
-.append('optgroup')
-.attr('label', d => d)
-.each(function(d) {
-  console.log(d);
-  console.log(actors_grouped[d])
-  d3.select(this).selectAll('option')
-  .data(actors_grouped[d])
-  .enter()
-  .append("option")
-  .attr("value",f => f.name)
-  .text(f=>f.name)
-  .filter(f => default_cast.includes(f.name))
-  .attr("selected","selected");
-})
+    var groups = Object.keys(actors_grouped)
 
+    create_select()
 
-
-/*
-for (var i = 0; i< groups.length;i++){
-menu = menu
-.data(groups[i])
-.enter()
-.append('optgroup')
-.attr('label', d => d)
-.data(actors_grouped[groups[i]])
-.enter()
-.append("option")
-.attr('value',d => d.name)
-.text(d => d.name)
-}*/
-
-
-
-
-  $('#sankey_select').multiselect({
-    maxHeight: 300,
-    enableFiltering: true,
-    enableClickableOptGroups: false,
-    enableCollapsibleOptGroups: false,
-    enableCaseInsensitiveFiltering: true,
-    enableResetButton: true,
-    resetButtonText: 'Reset',
-    onChange: function () {
-      console.log(actors)
-      selection = $('#sankey_select').val()
-      data = get_data(actors, providers, links, selection)
-      plot = new sankeyPlot('sankey', data)
-    }
-  })
-
-  btn = $("#reset_button").on("click", function(e) {
-    $("#sankey_select").val([]).multiselect("refresh");
+    function create_select () {
+      number_of_movies = document.getElementById('number_of_movies').value
+      known_actors = asdf
+      .filter(d => d.cnt >= number_of_movies)
+      .map(d => d.cast)
+      known_data = dd.filter(
+        d => known_actors.includes(d.cast)
+      )
+      console.log(links)
+      links = known_data.map(d => ({
+        source: d.cast,
+        target: d.service,
+        value: d.cnt
+      }))
+      console.log(links)
+      actors = [...new Set(known_data.map(d => d.cast))]
+        .sort()
+        .map(d => ({ name: d }))
+      actors_grouped = [...new Set(known_data.map(d => d.cast))]
+        .sort()
+        .map(d => ({ name: d, group: get_group(d) }))
   
-  })
+      actors_grouped = group_by(actors_grouped, 'group')
+  
+      groups = Object.keys(actors_grouped) 
 
-    selection=$('#sankey_select').val()
+      var menu = d3.select('#sankey_select').html("")
+      menu=menu.selectAll('optgroup')
+      menu = menu
+        .data(groups)
+        .enter()
+        .append('optgroup')
+        .attr('label', d => d)
+        .each(function (d) {
+          d3.select(this)
+            .selectAll('option')
+            .data(actors_grouped[d])
+            .enter()
+            .append('option')
+            .attr('value', f => f.name)
+            .text(f => f.name)
+            .filter(f => default_cast.includes(f.name))
+            .attr('selected', 'selected')
+        })
+        data = get_data(actors, providers, links, null)
+        plot = new sankeyPlot('sankey', data,false)
+        
+    }
+
+      $('#sankey_select').multiselect({
+        maxHeight: 300,
+        enableFiltering: true,
+        enableClickableOptGroups: false,
+        enableCollapsibleOptGroups: false,
+        enableCaseInsensitiveFiltering: true,
+        enableResetButton: true,
+        resetButtonText: 'Reset',
+        onChange: function () {
+          console.log('here')
+          selection = $('#sankey_select').val()
+          data = get_data(actors, providers, links, selection)
+          plot = new sankeyPlot('sankey', data,true)
+        }
+      })
+  
+    var btn = $('#reset_button').on('click', function (e) {
+      d3.select('#sankey_select').html('')
+
+      create_select()
+      $('#sankey_select')
+        .val([])
+        .multiselect('rebuild')
+    })
+
+    $('#number_of_movies').on('input', function() {
+      $('#number_of_movies_txt').val(document.getElementById('number_of_movies').value)
+    })
+    selection = $('#sankey_select').val()
+
     var data = get_data(actors, providers, links, null)
-    plot = new sankeyPlot('sankey', data)
+    console.log(data)
+    plot = new sankeyPlot('sankey', data,false)
 
     var data = get_data(actors, providers, links, selection)
-    plot = new sankeyPlot('sankey', data)
+    plot = new sankeyPlot('sankey', data,true)
+
     // https://stackoverflow.com/a/33710002
-   
-  function create_multiselect() {
-
-  }
-
-
-})
+  })
 })
 
 function get_data (actors, providers, links, selection) {
-  console.log(links)
+  console.log(selection)
   if (selection == null) {
     data = {
       links: links,
@@ -257,23 +297,23 @@ function get_data (actors, providers, links, selection) {
 }
 
 function get_group (d) {
-  var group = d.charAt(0).toUpperCase();
-  if(group.toLowerCase() == group){
-    group = "other";
+  var group = d.charAt(0).toUpperCase()
+  if (group.toLowerCase() == group) {
+    group = 'other'
   }
-  return group;
+  return group
 }
 
-function group_by (arr,key) {
-   var grouped = arr.reduce((prev, cur) => {
-    if(!prev[cur[key]]){
+function group_by (arr, key) {
+  var grouped = arr.reduce((prev, cur) => {
+    if (!prev[cur[key]]) {
       prev[cur[key]] = []
-    };
-    cur_copy = Object.assign({},cur);
+    }
+    cur_copy = Object.assign({}, cur)
     delete cur_copy[key]
-    prev[cur[key]].push(cur_copy);
+    prev[cur[key]].push(cur_copy)
 
-    return prev;
-  },{})
-  return grouped;
+    return prev
+  }, {})
+  return grouped
 }

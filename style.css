@@ -159,5 +159,9 @@ h1, h2 {
 }
 
 .slider{
-    width:50% !important;
+    width:20% !important;
+}
+
+.form-control{
+    width:20% !important;
 }
