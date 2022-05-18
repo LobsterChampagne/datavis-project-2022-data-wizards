@@ -166,10 +166,10 @@ h1, h2 {
     width:30% !important;
 }
 
-.sankey_stroke {
-    opacity: 1.0
-}
-
 .sankey_stroke:hover {
     opacity: 0.6
+}
+
+.multiselect-search{
+    width: 100% !important;
 }
