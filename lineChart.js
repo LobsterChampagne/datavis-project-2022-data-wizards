@@ -21,26 +21,28 @@ d3.csv('Data/release_year.csv')
 			.domain(d3.extent(data, d => d.release_year))
 			.range([ 0, width - 45 ]);
 		svg.append("g")
-			.attr("transform", `translate(30, ${height - 30})`)
+			.attr("transform", `translate(35, ${height - 30})`)
 			.call(d3.axisBottom(x).ticks(5));
 
 		var y = d3.scaleLinear()
-			.domain([0, d3.max(data, d => d.count)])
+			.domain([0, d3.max(data, d => +d.count)])
 			.range([ height - 45, 0 ]);
 		svg.append("g")
-			.attr("transform", `translate(30, 15)`)
+			.attr("transform", `translate(35, 15)`)
 			.call(d3.axisLeft(y))
 
 		const line = d3.line()
 			.x(d => x(d.release_year))
 			.y(d => y(d.count));
-		 svg.selectAll("path.line")
-			.data(data)
-			.join("path")
-			  .attr("class", "line")
-			  .attr("fill", "none")
-			  .style("stroke", 'red')
-			  .attr("d", d => line(d));
+		svg.append("path")
+			.datum(data)
+			.attr("fill", "none")
+			.attr("stroke", "steelblue")
+			.attr("stroke-linejoin", "round")
+			.attr("stroke-linecap", "round")
+			.attr("stroke-width", 1.5)
+			.attr("transform", `translate(35, 15)`)
+			.attr("d", line);
 	}
 )
 
