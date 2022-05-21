@@ -47,7 +47,8 @@
     margin: auto;
 }
 
-h1, h2 {
+h1,
+h2 {
     text-align: center;
 }
 
@@ -60,7 +61,7 @@ h1, h2 {
 
 .container h1 {
     font-size: 45px;
-    color:#000;
+    color: #000;
 }
 
 #by {
@@ -84,7 +85,7 @@ h1, h2 {
 
 .viz h1 {
     font-size: 30px;
-    color:#41b3a3;
+    color: #41b3a3;
 }
 
 .viz img {
@@ -122,7 +123,7 @@ h1, h2 {
     margin: auto;
 }
 
-.themBoys{
+.themBoys {
     margin-top: 1em;
     width: 80%;
     display: flex;
@@ -159,22 +160,90 @@ h1, h2 {
     font-size: 20px;
 }
 
-.slider{
-    width:30% !important;
+.slider {
+    width: 30% !important;
+    display: inline-block !important;
 }
 
-.form-control{
-    width:30% !important;
+.form-control {
+    width: 50% !important;
+    display: inline-block !important;
 }
 
 .sankey_stroke:hover {
     opacity: 0.6
 }
+rect:hover{
+    opacity: 0.6;
+}
 
-.multiselect-search{
+.multiselect-search {
     width: 100% !important;
 }
 
-svg{
-    margin:50px;
+svg {
+    margin: 50px;
+}
+
+#sankey_env {
+    display: none;
+    height: 80%;
+}
+
+#sankey_laod {
+    height: 50%;
+}
+
+.loader {
+    animation: grow 2s linear infinite;
+
+}
+
+.loader img {
+    width: 10%;
+    margin-top: 20%;
+}
+
+@keyframes grow {
+    0% {
+        transform: scale(0.5) rotate(0deg);
+    }
+
+    50% {
+        transform: scale(1.0) rotate(180deg);
+    }
+
+    100% {
+        transform: scale(0.5) rotate(360deg);
+    }
+}
+
+.one-line {
+    display: inline-block;
+    width: 100%;
+}
+
+#empty_sankey_select {
+    display: none;
+    height: 50%;
+    width: auto;
+}
+
+.sankey_plot {
+    height: 90%;
+}
+
+.info {
+
+    display: inline-block;
+}
+
+.info img {
+    height: 20px;
+    width: 20px;
+}
+
+.info_text {
+    display: none;
+    position: absolute;
 }

@@ -21,7 +21,7 @@
         </div>
         <div class="boxNav">
             <p>Data Wizards</p>
-        </div>        
+        </div>
         <div class="smallboxNav">
             <img src="media/epfl_logo.png" alt="">
         </div>
@@ -37,23 +37,24 @@
                 <b style="color:#41b3a3;">By:</b> J. Lingg, F. S. Ytteborg, F. A. Hægermark
             </p>
             <p>
-                It's a lovely Friday evening and you're just home from a long day at work. You're finding yourself sitting 
-                on your couch with a cold beverage in one hand and the remote control in the other. 
+                It's a lovely Friday evening and you're just home from a long day at work. You're finding yourself
+                sitting
+                on your couch with a cold beverage in one hand and the remote control in the other.
                 You really feel like watching a movie or getting started on a new series.
                 However, you're previous subscription just ran out and you feel like it's time for a change.
-                So you're sitting there wondering; What streaming provider suits me the most? 
+                So you're sitting there wondering; What streaming provider suits me the most?
                 There are so many options!
             </p>
             <p>
                 Choosing the correct streaming provider that suits you the best might be a challenging task.
-                There is a lot of things to take into account and lots of question that needs to be addressed. 
-                Are you more into movies or series? What kind of movie categories do you like? What movies does your  
-                favorite actor star in? 
-                These are just a few out of many questions to take into consideration when choosing your 
-                streaming provider. 
-                If you are the kind of person that find yourself in this situation or you simply just 
+                There is a lot of things to take into account and lots of question that needs to be addressed.
+                Are you more into movies or series? What kind of movie categories do you like? What movies does your
+                favorite actor star in?
+                These are just a few out of many questions to take into consideration when choosing your
+                streaming provider.
+                If you are the kind of person that find yourself in this situation or you simply just
                 don't know which streaming provider to chose? Then this website is perfect for you!
-                The goal of this website and visualizations is to give you some 
+                The goal of this website and visualizations is to give you some
                 insights and help you chose the most suitable and best streaming provider according to your preferences.
             </p>
         </div>
@@ -63,9 +64,9 @@
         <h1>Basic Overview</h1>
         <div class="text">
             <p>
-                This section gives you an idea of how many movies and TV shows that are available 
-                on the four different services. As you can see Netflix and Prime have by far the biggest 
-                amount of content. So if you just want content and don't mind what you want to 
+                This section gives you an idea of how many movies and TV shows that are available
+                on the four different services. As you can see Netflix and Prime have by far the biggest
+                amount of content. So if you just want content and don't mind what you want to
                 watch you'll be fine with Netflix and Prime.
             </p>
             <br>
@@ -82,40 +83,60 @@
         <h1>Sankey-Diagram</h1>
         <div class="text">
             <p>
-                The Sankey-Diagram should help you to see, which streaming platform offers you the most of your favorite directors. Use the field in the upper left hand of the plot to choose your actors. The Sankey diagram adapts to your choice and you'll see which
+                The Sankey-Diagram should help you to see, which streaming platform offers you the most of your favorite
+                directors. Use the field in the upper left hand of the plot to choose your actors. The Sankey diagram
+                adapts to your choice and you'll see which
                 provider offers you the most.
             </p>
 
         </div>
-        
-        <select id="sankey_select" multiple="multiple"></select>
-        <button type="button" class="btn btn-primary" id="clear_select_button">Clear</button>
-        <input type="range" min="1" max="50" value="15" class="slider" id="number_of_movies">
-       
-        <input class="form-control" type="text" placeholder="15" readonly id="number_of_movies_txt">
-        <button type="button" class="btn btn-primary" id="reset_button">Reset</button>
-        <svg id="sankey" viewBox="-10 -10 220 120" width="100%">
-          
-        </svg>
-        <!--<div class="flourish-embed flourish-sankey" data-src="visualisation/9615889"><script src="https://public.flourish.studio/resources/embed.js"></script></div>-->
-
-        <img src="media/sankeyDiagram.jpg" alt="">
+        <div id="sankey_load" class="loader">
+            <img src="media/epfl_logo.png" alt="">
+        </div>
+        <div id="sankey_env">
+            <div id="artist_select" class="one-line">
+                <select id="sankey_select" multiple="multiple"></select>
+                <button type="button" class="btn btn-primary" id="clear_select_button">Clear</button>
+                <div class="info" id="info_artist"><img src="media/info.png"></div>
+            </div>
+            <div class="info_text" id="info_artist_select">
+                TODO
+            </div>
+            <br>
+            <div class="sankey_plot">
+                <img src="media/meme.jpg" alt="" id="empty_sankey_select">
+                <svg id="sankey" viewBox="-10 -10 220 120" height="90%" width="100%"> </svg>
+            </div>
+            <div class="one-line">
+                <input class="form-control" type="text" placeholder="Min. number of movies of actor: 15" readonly
+                    id="number_of_movies_txt">
+                <input type="range" min="1" max="50" value="15" class="slider" id="number_of_movies">
+                <button type="button" class="btn btn-primary" id="reset_button">Go</button>
+                <div class="info" id="info_size"><img src="media/info.png"></div>
+            </div>
+            <div class="info_text" id="info_size_select">
+                TODO
+            </div>
+            <!--<div class="flourish-embed flourish-sankey" data-src="visualisation/9615889"><script src="https://public.flourish.studio/resources/embed.js"></script></div>-->
+        </div>
+        <!--<img src="media/sankeyDiagram.jpg" alt="">-->
     </div>
 
     <div class="container viz">
         <h1>Line chart</h1>
         <div class="text">
             <p>
-                The line chart bellow should help you to see, which streaming platform has the highest rate of adding new content. You can choose your most beloved categories to adapt this plot to your needs.
+                The line chart bellow should help you to see, which streaming platform has the highest rate of adding
+                new content. You can choose your most beloved categories to adapt this plot to your needs.
             </p>
         </div>
         <svg id="lineChart">
-    
+
         </svg>
-        
+
     </div>
 
-        
+
     <div class="footer">
         <img id="hat" src="media/favicon.png" alt="">
         <h1>Data Wizards</h1>
@@ -123,18 +144,21 @@
         <a target="_blank" href="https://github.com/com-480-data-visualization/datavis-project-2022-data-wizards">
             <img id="git" src="media/GitHub-Mark-Light-32px.png" alt="">
         </a>
-        
+
         <div class="themBoys">
             <div class="boywiz">
-                <img src="https://media-exp1.licdn.com/dms/image/C5603AQFw8Y20z7Xwpg/profile-displayphoto-shrink_400_400/0/1581262502109?e=1657756800&v=beta&t=QrKjCFCx1IPo4Wrqbu7ie8gYj53LfR9zDa6msWy3nLY" alt="">
+                <img src="https://media-exp1.licdn.com/dms/image/C5603AQFw8Y20z7Xwpg/profile-displayphoto-shrink_400_400/0/1581262502109?e=1657756800&v=beta&t=QrKjCFCx1IPo4Wrqbu7ie8gYj53LfR9zDa6msWy3nLY"
+                    alt="">
                 <p>Joël Lingg</p>
             </div>
             <div class="boywiz">
-                <img src="https://media-exp1.licdn.com/dms/image/C4D03AQGw6xOFYEuQgA/profile-displayphoto-shrink_400_400/0/1652384904156?e=1657756800&v=beta&t=TcFtqMnQAdZDgAy-31LFUeFz2bYODgjDNkZzsJ4EuPU" alt="">
+                <img src="https://media-exp1.licdn.com/dms/image/C4D03AQGw6xOFYEuQgA/profile-displayphoto-shrink_400_400/0/1652384904156?e=1657756800&v=beta&t=TcFtqMnQAdZDgAy-31LFUeFz2bYODgjDNkZzsJ4EuPU"
+                    alt="">
                 <p>Ferdinand Ytteborg</p>
             </div>
             <div class="boywiz">
-                <img src="https://media-exp1.licdn.com/dms/image/C4E03AQHedAu-2c3DAA/profile-displayphoto-shrink_400_400/0/1634765459408?e=1657756800&v=beta&t=9-w6avhaPkZBl-wfxQbVhov4e8FzhVOcwxaLAruk8ys" alt="">
+                <img src="https://media-exp1.licdn.com/dms/image/C4E03AQHedAu-2c3DAA/profile-displayphoto-shrink_400_400/0/1634765459408?e=1657756800&v=beta&t=9-w6avhaPkZBl-wfxQbVhov4e8FzhVOcwxaLAruk8ys"
+                    alt="">
                 <p>Fredrik Hægermark</p>
             </div>
         </div>
@@ -142,31 +166,35 @@
         <div class="disclaimer">
             <h1>Disclaimer</h1>
             <p>
-                A word of caution to begin with. This website uses data provided by Kaggle. 
-                We can't guarantee the correctness. Also, the data are from April 2022 and won't 
-                be updated in the future. Therefore the findings you'll make with this website 
-                might not hold in the far future. 
+                A word of caution to begin with. This website uses data provided by Kaggle.
+                We can't guarantee the correctness. Also, the data are from April 2022 and won't
+                be updated in the future. Therefore the findings you'll make with this website
+                might not hold in the far future.
             </p>
         </div>
     </div>
-        <a href ="https://github.com/com-480-data-visualization/datavis-project-2022-data-wizards"> <img id="git" src="media/GitHub-Mark-Light-32px.png" alt=""> </a>
+    <a href="https://github.com/com-480-data-visualization/datavis-project-2022-data-wizards"> <img id="git"
+            src="media/GitHub-Mark-Light-32px.png" alt=""> </a>
     </div>
-    
+
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://unpkg.com/d3-sankey@0"></script>
 
     <script src="barchart.js"></script>
-    <script src="sankeyW.js"></script>
+    
     <script src="lineChart.js"></script>
+    <script src="sankeyW.js"></script>
 
     <!--Bellow import from https://stackoverflow.com/a/48522444-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
 
-   
+
 
 </body>
 
