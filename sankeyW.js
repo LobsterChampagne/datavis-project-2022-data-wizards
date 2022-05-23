@@ -327,7 +327,7 @@ whenDocumentLoaded(() => {
           enableClickableOptGroups: false,
           enableCollapsibleOptGroups: false,
           enableCaseInsensitiveFiltering: true,
-          includeSelectAllOption: true,
+          //includeSelectAllOption: true,
           onChange: function () {
             selection = $('#sankey_select').val()
 
