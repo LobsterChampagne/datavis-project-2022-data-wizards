@@ -269,8 +269,8 @@ whenDocumentLoaded(() => {
       selection = $('#sankey_select').val()
 
       //instantiate the data by applying sankey to the full data
-      var data = get_data(actors, providers, links, null)
-      plot = new sankeyPlot('sankey', data, false)
+      //var data = get_data(actors, providers, links, null)
+      //plot = new sankeyPlot('sankey', data, false)
 
       //generate sankey by only using the required data
       var data = get_data(actors, providers, links, selection)
@@ -291,6 +291,7 @@ whenDocumentLoaded(() => {
           if (!selection) {
             document.getElementById("empty_sankey_select").style.display = "block";
             document.getElementById("sankey").style.display = "none";
+            return;
           } else {
             document.getElementById("empty_sankey_select").style.display = "none";
             document.getElementById("sankey").style.display = "block";
@@ -298,7 +299,9 @@ whenDocumentLoaded(() => {
 
           //aggregate the data and plot new sankey plot
           data = get_data(actors, providers, links, selection)
+          console.log(data)
           plot = new sankeyPlot('sankey', data, selection)
+          console.log(data)
         }
       })
 
@@ -324,12 +327,18 @@ whenDocumentLoaded(() => {
         document.getElementById("sankey").style.display = "none";
       })
 
+      var slider_warned = false;
       //configure the slider to choose the minimal number of movies an actor should have
       $('#number_of_movies').on('input', function () {
         $('#number_of_movies_txt').val(
           'Min. number of movies of actor: ' +
           document.getElementById('number_of_movies').value
         )
+        if(!slider_warned && document.getElementById('number_of_movies').value <= 3 ){
+          slider_warned=true;
+          alert("Pleas note that setting this value to low might make the website considerably slower since the amount of data is quite large.\n"
+          +"We recommend using values >=5, but feel free to try it yourself :)")
+        }
       })
 
 
@@ -384,7 +393,6 @@ whenDocumentLoaded(() => {
 
         //clear the html place holder
         var menu = d3.select('#sankey_select').html('')
-        console.log(actors_grouped)
         
         //insert optgroup and options into the page
         menu = menu.selectAll('optgroup')
@@ -406,8 +414,8 @@ whenDocumentLoaded(() => {
           })
           
         //aggregate the data
-        data = get_data(actors, providers, links, null)
-        plot = new sankeyPlot('sankey', data, false)
+        //data = get_data(actors, providers, links, null)
+        //plot = new sankeyPlot('sankey', data, false)
       }
 
 
@@ -428,7 +436,7 @@ function get_data(actors, providers, links, selection) {
   } else {
     var nodes = providers
     nodes = nodes.concat(actors.filter(d => selection.includes(d.name)))
-    var links_send = links.filter(d => selection.includes(d.source.name))
+    var links_send = links.filter(d => selection.includes(d.source.name) || selection.includes(d.source))
     data = {
       links: links_send,
       nodes: nodes
@@ -452,7 +460,7 @@ function group_by(arr, key) {
     if (!prev[cur[key]]) {
       prev[cur[key]] = []
     }
-    
+
     cur_copy = Object.assign({}, cur)
     delete cur_copy[key]
     prev[cur[key]].push(cur_copy)
