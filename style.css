@@ -252,3 +252,7 @@ svg {
     font-style: bold;
     font-family: sans-serif;
 }
+
+.multiselect-container {
+    max-width: 400px;
+}

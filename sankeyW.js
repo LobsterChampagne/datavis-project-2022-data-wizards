@@ -44,7 +44,7 @@ class sankeyPlot {
       .attr('stroke', d => get_color(d.target.name))
       .attr('d', d3.sankeyLinkHorizontal())
       .attr('stroke-width', d => {
-        return Math.max(d.width,"1")
+        return Math.max(d.width, "1")
       })
       .attr('class', 'sankey_stroke')
 
@@ -163,268 +163,312 @@ function whenDocumentLoaded(action) {
 
 whenDocumentLoaded(() => {
   // console.log('Sankey: Do what ever you want here')
+  $("#quantity_select").multiselect({
+    onChange: function () {
+      selection = $('#quantity_select').val()
+      console.log(selection)
+      setup();
+    }
+  })
+  setup();
+  function setup() {
+    //Load the data from the file and consolidate it 
+    //d3.csv('./Data/cast_per_platform.csv').then(function (dd) {
+    d3.csv('./Data/all_streams.csv')
+      .then(function (dd) {
+        console.log(dd)
+        quantity_selection = $('#quantity_select').val()
+        //divide the data of actors into multiple elements
+        var movies = dd.reduce(function (prev, cur) {
+        
+          switch(quantity_selection){
+            case "actors":
+              var ret = cur.cast
+              .split(',')
+              .filter(d => d != '')
+              .map(d => ({ service: cur.service, cast: d.trim() }))
+              break;
+            case "directors":
+              var ret = cur.director
+              .split(',')
+              .filter(d => d != '')
+              .map(d => ({ service: cur.service, cast: d.trim() }))
+              break;
+            case "country":
+              var ret = cur.country
+              .split(',')
+              .filter(d => d != '')
+              .map(d => ({ service: cur.service, cast: d.trim() }))
+              break;
+            case "genre":
+              var ret = cur.listed_in
+              .split(',')
+              .filter(d => d != '')
+              .map(d => ({ service: cur.service, cast: d.trim() }))
+              break;
+          }
+          /*
+          var ret = cur.cast
+            .split(',')
+            .filter(d => d != '')
+            .map(d => ({ service: cur.service, cast: d.trim() }))*/
 
-  //Load the data from the file and consolidate it 
-  //d3.csv('./Data/cast_per_platform.csv').then(function (dd) {
-  d3.csv('./Data/all_streams.csv')
-    .then(function (dd) {
+          return prev.concat(ret)
+        }, [])
 
-      //divide the data of actors into multiple elements
-      var movies = dd.reduce(function (prev, cur) {
-        var ret = cur.cast
-          .split(',')
-          .filter(d => d != '')
-          .map(d => ({ service: cur.service, cast: d.trim() }))
+        //reduce the data from above to the single movies
+        var num_movies = movies.reduce(function (prev, cur) {
+          if (!prev[cur.service + ',' + cur.cast]) {
+            prev[cur.service + ',' + cur.cast] = 0
+          }
+          prev[cur.service + ',' + cur.cast] += 1
+          return prev
+        }, {})
 
-        return prev.concat(ret)
-      }, [])
+        //get into the needed shape
+        var ret = Object.keys(num_movies).map(d => ({
+          service: d.split(',')[0],
+          cast: d.split(',')[1],
+          cnt: num_movies[d]
+        }))
+        console.log(ret)
+        return ret
 
-      //reduce the data from above to the single movies
-      var num_movies = movies.reduce(function (prev, cur) {
-        if (!prev[cur.service + ',' + cur.cast]) {
-          prev[cur.service + ',' + cur.cast] = 0
-        }
-        prev[cur.service + ',' + cur.cast] += 1
-        return prev
-      }, {})
+      })
+      .then(function (dd) {
 
-      //get into the needed shape
-      var ret = Object.keys(num_movies).map(d => ({
-        service: d.split(',')[0],
-        cast: d.split(',')[1],
-        cnt: num_movies[d]
-      }))
-      return ret
-    })
-    .then(function (dd) {
+        //disable loader
+        document.getElementById("sankey_load").style.display = "none";
+        document.getElementById("sankey_env").style.display = "block";
 
-      //disable loader
-      document.getElementById("sankey_load").style.display = "none";
-      document.getElementById("sankey_env").style.display = "block";
+        //setup some dumy data for tests
+        var providers = [
+          { name: 'Netflix' },
+          { name: 'Hulu' },
+          { name: 'Prime' },
+          { name: 'Disney' }
+        ]
+        
+        var actors = [{ name: 'A' }, { name: 'B' }, { name: 'C' }]
+        console.log(actors)
+        var links = [
+          { source: 'A', target: 'Netflix', value: 10 },
+          { source: 'B', target: 'Hulu', value: 20 },
+          { source: 'B', target: 'Netflix', value: 10 },
+          { source: 'C', target: 'Hulu', value: 10 },
+          { source: 'C', target: 'Prime', value: 10 }
+        ]
 
-      //setup some dumy data for tests
-      var providers = [
-        { name: 'Netflix' },
-        { name: 'Hulu' },
-        { name: 'Prime' },
-        { name: 'Disney' }
-      ]
-      var actors = [{ name: 'A' }, { name: 'B' }, { name: 'C' }]
-
-      var links = [
-        { source: 'A', target: 'Netflix', value: 10 },
-        { source: 'B', target: 'Hulu', value: 20 },
-        { source: 'B', target: 'Netflix', value: 10 },
-        { source: 'C', target: 'Hulu', value: 10 },
-        { source: 'C', target: 'Prime', value: 10 }
-      ]
-
-      //calculate the total number of movies an actor has in the data
-      var actors_total = dd.reduce(function (prev, curr) {
-        if (!prev[curr.cast]) {
-          prev[curr.cast] = 0
-        }
-
-        prev[curr.cast] = prev[curr.cast] + parseInt(curr.cnt)
-        return prev
-      }, {})
-
-      //reshape the above data
-      num_mov_per_cast = Object.keys(actors_total).map(key => ({
-        cast: key,
-        cnt: actors_total[key]
-      }))
-
-      default_cast = ['Nicolas Cage', 'John Wayne']
-
-
-      var number_of_movies = document.getElementById('number_of_movies').value
-
-      //filtering the data
-      var known_actors = num_mov_per_cast
-        .filter(d => d.cnt >= number_of_movies)
-        .map(d => d.cast)
-      var known_data = dd.filter(d => known_actors.includes(d.cast))
-      links = known_data.map(d => ({
-        source: d.cast,
-        target: d.service,
-        value: d.cnt
-      }))
-
-      //geenerate required arrays to generate sankey and menu
-      actors = [...new Set(known_data.map(d => d.cast))]
-        .sort()
-        .map(d => ({ name: d }))
-      actors_grouped = [...new Set(known_data.map(d => d.cast))]
-        .sort()
-        .map(d => ({ name: d, group: get_group(d) }))
-
-      actors_grouped = group_by(actors_grouped, 'group')
-      var groups = Object.keys(actors_grouped)
-
-      //instatiate the selection menu
-      create_select()
-
-      //get the chosen values from the multiselect
-      selection = $('#sankey_select').val()
-
-      //instantiate the data by applying sankey to the full data
-      //var data = get_data(actors, providers, links, null)
-      //plot = new sankeyPlot('sankey', data, false)
-
-      //generate sankey by only using the required data
-      var data = get_data(actors, providers, links, selection)
-      plot = new sankeyPlot('sankey', data, true)
-
-      //instantiate the multiselect
-      $('#sankey_select').multiselect({
-        // https://stackoverflow.com/a/33710002
-        maxHeight: 300,
-        enableFiltering: true,
-        enableClickableOptGroups: false,
-        enableCollapsibleOptGroups: false,
-        enableCaseInsensitiveFiltering: true,
-        onChange: function () {
-          selection = $('#sankey_select').val()
-
-          //if no selection was done, show meme. Otherwise show sankey diagram
-          if (!selection) {
-            document.getElementById("empty_sankey_select").style.display = "block";
-            document.getElementById("sankey").style.display = "none";
-            return;
-          } else {
-            document.getElementById("empty_sankey_select").style.display = "none";
-            document.getElementById("sankey").style.display = "block";
+        //calculate the total number of movies an actor has in the data
+        var actors_total = dd.reduce(function (prev, curr) {
+          if (!prev[curr.cast]) {
+            prev[curr.cast] = 0
           }
 
-          //aggregate the data and plot new sankey plot
-          data = get_data(actors, providers, links, selection)
-          console.log(data)
-          plot = new sankeyPlot('sankey', data, selection)
-          console.log(data)
-        }
-      })
+          prev[curr.cast] = prev[curr.cast] + parseInt(curr.cnt)
+          return prev
+        }, {})
+        console.log(actors_total)
+        //reshape the above data
+        num_mov_per_cast = Object.keys(actors_total).map(key => ({
+          cast: key,
+          cnt: actors_total[key]
+        }))
 
-      //enable button to reset the dropdown and recalculate the selection
-      var btn = $('#reset_button').on('click', function (e) {
-        d3.select('#sankey_select').html('')
-        create_select()
-        $('#sankey_select')
-          .val([])
-          .multiselect('rebuild')
-        document.getElementById("empty_sankey_select").style.display = "block";
-        document.getElementById("sankey").style.display = "none";
-      })
-
-      //configure the reset button to deselect all elements in the dropdown menu
-      var btn_slc = $('#clear_select_button').on('click', function (e) {
-        $('#sankey_select')
-          .val([])
-          .multiselect('rebuild')
-        plot = new sankeyPlot('sankey', data, null)
-
-        document.getElementById("empty_sankey_select").style.display = "block";
-        document.getElementById("sankey").style.display = "none";
-      })
-
-      var slider_warned = false;
-      //configure the slider to choose the minimal number of movies an actor should have
-      $('#number_of_movies').on('input', function () {
-        $('#number_of_movies_txt').val(
-          'Min. number of movies of actor: ' +
-          document.getElementById('number_of_movies').value
-        )
-        if(!slider_warned && document.getElementById('number_of_movies').value <= 3 ){
-          slider_warned=true;
-          alert("Pleas note that setting this value to low might make the website considerably slower since the amount of data is quite large.\n"
-          +"We recommend using values >=5, but feel free to try it yourself :)")
-        }
-      })
+        default_cast = ['Nicolas Cage', 'John Wayne']
 
 
-      //add event listeners to display the help texts
-      document.getElementById("info_artist").addEventListener("mouseover", function () {
-        document.getElementById("info_artist_select").style.display = "flex";
-      })
-      document.getElementById("info_artist").addEventListener("mouseout", function () {
-        document.getElementById("info_artist_select").style.display = "none";
-      })
-      document.getElementById("info_size").addEventListener("mouseover", function () {
-        document.getElementById("info_size_select").style.display = "flex";
-      })
-      document.getElementById("info_size").addEventListener("mouseout", function () {
-        document.getElementById("info_size_select").style.display = "none";
-      })
+        var number_of_movies = document.getElementById('number_of_movies').value
 
-      //function to create the select in the html page
-      function create_select() {
-
-        //read the value of the range
-        number_of_movies = document.getElementById('number_of_movies').value
-
-        //filter the data according to the value above
-        known_actors = num_mov_per_cast
+        //filtering the data
+        var known_actors = num_mov_per_cast
           .filter(d => d.cnt >= number_of_movies)
           .map(d => d.cast)
-        
-        //aggregate the total data
-        known_data = dd.filter(d => known_actors.includes(d.cast))
+        var known_data = dd.filter(d => known_actors.includes(d.cast))
         links = known_data.map(d => ({
           source: d.cast,
           target: d.service,
           value: d.cnt
         }))
-        
-        //generate the actors list
+
+        //geenerate required arrays to generate sankey and menu
         actors = [...new Set(known_data.map(d => d.cast))]
           .sort()
           .map(d => ({ name: d }))
 
-        //assign the actors to a group
         actors_grouped = [...new Set(known_data.map(d => d.cast))]
           .sort()
           .map(d => ({ name: d, group: get_group(d) }))
 
-        //finally create the arrays of the group
         actors_grouped = group_by(actors_grouped, 'group')
-        
-        //Get the list of all groups
-        groups = Object.keys(actors_grouped)
+        var groups = Object.keys(actors_grouped)
 
-        //clear the html place holder
-        var menu = d3.select('#sankey_select').html('')
-        
-        //insert optgroup and options into the page
-        menu = menu.selectAll('optgroup')
-        menu = menu
-          .data(groups)
-          .enter()
-          .append('optgroup')
-          .attr('label', d => d)
-          .each(function (d) {
-            d3.select(this)
-              .selectAll('option')
-              .data(actors_grouped[d])
-              .enter()
-              .append('option')
-              .attr('value', f => f.name)
-              .text(f => f.name)
-              .filter(f => default_cast.includes(f.name))
-              .attr('selected', 'selected')
-          })
-          
-        //aggregate the data
-        //data = get_data(actors, providers, links, null)
+        //instatiate the selection menu
+        create_select()
+
+        //get the chosen values from the multiselect
+        selection = $('#sankey_select').val()
+
+        //instantiate the data by applying sankey to the full data
+        //var data = get_data(actors, providers, links, null)
         //plot = new sankeyPlot('sankey', data, false)
-      }
+
+        console.log(actors)
+        //generate sankey by only using the required data
+        var data = get_data(actors, providers, links, selection)
+        plot = new sankeyPlot('sankey', data, true)
+
+        $('#sankey_select').multiselect("destroy")
+        //instantiate the multiselect
+        $('#sankey_select').multiselect({
+          // https://stackoverflow.com/a/33710002
+          maxHeight: 300,
+          enableFiltering: true,
+          enableClickableOptGroups: false,
+          enableCollapsibleOptGroups: false,
+          enableCaseInsensitiveFiltering: true,
+          includeSelectAllOption: true,
+          onChange: function () {
+            selection = $('#sankey_select').val()
+
+            //if no selection was done, show meme. Otherwise show sankey diagram
+            if (!selection) {
+              document.getElementById("empty_sankey_select").style.display = "block";
+              document.getElementById("sankey").style.display = "none";
+              return;
+            } else {
+              document.getElementById("empty_sankey_select").style.display = "none";
+              document.getElementById("sankey").style.display = "block";
+            }
+
+            //aggregate the data and plot new sankey plot
+            var data = get_data(actors, providers, links, selection)
+            console.log(actors)
+            plot = new sankeyPlot('sankey', data, selection)
+          }
+        })
+
+        //enable button to reset the dropdown and recalculate the selection
+        var btn = $('#reset_button').on('click', function (e) {
+          d3.select('#sankey_select').html('')
+          create_select()
+          $('#sankey_select')
+            .val([])
+            .multiselect('rebuild')
+          document.getElementById("empty_sankey_select").style.display = "block";
+          document.getElementById("sankey").style.display = "none";
+        })
+
+        //configure the reset button to deselect all elements in the dropdown menu
+        var btn_slc = $('#clear_select_button').on('click', function (e) {
+          $('#sankey_select')
+            .val([])
+            .multiselect('rebuild')
+          plot = new sankeyPlot('sankey', data, null)
+
+          document.getElementById("empty_sankey_select").style.display = "block";
+          document.getElementById("sankey").style.display = "none";
+        })
+
+        var slider_warned = false;
+        //configure the slider to choose the minimal number of movies an actor should have
+        $('#number_of_movies').unbind('input').on('input', function () {
+          $('#number_of_movies_txt').val(
+            'Min. number of movies of actor: ' +
+            document.getElementById('number_of_movies').value
+          )
+          if (!slider_warned && document.getElementById('number_of_movies').value <= 3) {
+            slider_warned = true;
+            alert("Pleas note that setting this value to low might make the website considerably slower since the amount of data is quite large.\n"
+              + "We recommend using values >=5, but feel free to try it yourself :)")
+          }
+        })
 
 
-    })
+        //add event listeners to display the help texts
+        document.getElementById("info_artist").addEventListener("mouseover", function () {
+          document.getElementById("info_artist_select").style.display = "flex";
+        })
+        document.getElementById("info_artist").addEventListener("mouseout", function () {
+          document.getElementById("info_artist_select").style.display = "none";
+        })
+        document.getElementById("info_size").addEventListener("mouseover", function () {
+          document.getElementById("info_size_select").style.display = "flex";
+        })
+        document.getElementById("info_size").addEventListener("mouseout", function () {
+          document.getElementById("info_size_select").style.display = "none";
+        })
+
+        //function to create the select in the html page
+        function create_select() {
+
+          //read the value of the range
+          number_of_movies = document.getElementById('number_of_movies').value
+
+          //filter the data according to the value above
+          known_actors = num_mov_per_cast
+            .filter(d => d.cnt >= number_of_movies)
+            .map(d => d.cast)
+
+          //aggregate the total data
+          known_data = dd.filter(d => known_actors.includes(d.cast))
+          links = known_data.map(d => ({
+            source: d.cast,
+            target: d.service,
+            value: d.cnt
+          }))
+
+          //generate the actors list
+          actors = [...new Set(known_data.map(d => d.cast))]
+            .sort()
+            .map(d => ({ name: d }))
+
+          //assign the actors to a group
+          actors_grouped = [...new Set(known_data.map(d => d.cast))]
+            .sort()
+            .map(d => ({ name: d, group: get_group(d) }))
+
+          //finally create the arrays of the group
+          actors_grouped = group_by(actors_grouped, 'group')
+
+          //Get the list of all groups
+          groups = Object.keys(actors_grouped)
+
+          //clear the html place holder
+          var menu = d3.select('#sankey_select').html('')
+
+          //insert optgroup and options into the page
+          menu = menu.selectAll('optgroup')
+          menu = menu
+            .data(groups)
+            .enter()
+            .append('optgroup')
+            .attr('label', d => d)
+            .each(function (d) {
+              d3.select(this)
+                .selectAll('option')
+                .data(actors_grouped[d])
+                .enter()
+                .append('option')
+                .attr('value', f => f.name)
+                .text(f => f.name)
+                .filter(f => default_cast.includes(f.name))
+                .attr('selected', 'selected')
+            })
+          
+          //aggregate the data
+          //data = get_data(actors, providers, links, null)
+          //plot = new sankeyPlot('sankey', data, false)
+        }
+
+
+      })
+  }
 })
 
 //aggregate the needed data
 function get_data(actors, providers, links, selection) {
-
+  console.log(actors)
   //If selection is empty, return everything
   if (selection == null) {
     data = {
@@ -432,7 +476,7 @@ function get_data(actors, providers, links, selection) {
       nodes: actors.concat(providers)
     }
 
-  //if selection is not empty, filter links and lists to match
+    //if selection is not empty, filter links and lists to match
   } else {
     var nodes = providers
     nodes = nodes.concat(actors.filter(d => selection.includes(d.name)))

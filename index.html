@@ -9,8 +9,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="icon" type="image/x-icon" href="media/favicon.png">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/d3-sankey@0"></script>
+
+
+    <!--Bellow import from https://stackoverflow.com/a/48522444-->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
 </head>
 
 <body>
@@ -94,14 +105,22 @@
             <img src="media/epfl_logo.png" alt="">
         </div>
         <div id="sankey_env">
+            <select class="form-select" id="quantity_select">
+                <option value="actors">Actors</option>
+                <option value="directors" selected>Directors</option>
+                <option value="country">Country</option>
+                <option value="genre">Genre</option>
+            </select>
             <div id="artist_select" class="one-line">
                 <select id="sankey_select" multiple="multiple"></select>
                 <button type="button" class="btn btn-primary" id="clear_select_button">Clear</button>
                 <div class="info" id="info_artist"><img src="media/info.png"></div>
             </div>
             <div class="info_text" id="info_artist_select">
-                Using the dropdown menu above, you should be able to select your most beloved actors. You can use the search
-                field to make your search more convenient. Although it is possible to select hundreds of characters, we recommend to choose a reasonable 
+                Using the dropdown menu above, you should be able to select your most beloved actors. You can use the
+                search
+                field to make your search more convenient. Although it is possible to select hundreds of characters, we
+                recommend to choose a reasonable
                 amount since the diagram will get crowded rather quickly.
             </div>
             <br>
@@ -117,7 +136,8 @@
                 <div class="info" id="info_size"><img src="media/info.png"></div>
             </div>
             <div class="info_text" id="info_size_select">
-                Using this set of parameters you can set the minimal amount of movies an actor should have. Lower values make the calculation slower and hence we recommend to use values above 5.
+                Using this set of parameters you can set the minimal amount of movies an actor should have. Lower values
+                make the calculation slower and hence we recommend to use values above 5.
                 Also, it does not make sense to use a streaming provider just because of one move.
             </div>
             <!--<div class="flourish-embed flourish-sankey" data-src="visualisation/9615889"><script src="https://public.flourish.studio/resources/embed.js"></script></div>-->
@@ -180,22 +200,12 @@
             src="media/GitHub-Mark-Light-32px.png" alt=""> </a>
     </div>
 
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://unpkg.com/d3-sankey@0"></script>
 
     <script src="barchart.js"></script>
-    
     <script src="lineChart.js"></script>
     <script src="sankeyW.js"></script>
 
-    <!--Bellow import from https://stackoverflow.com/a/48522444-->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+
 
 
 
