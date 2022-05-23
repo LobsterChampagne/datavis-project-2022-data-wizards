@@ -44,7 +44,7 @@ class sankeyPlot {
       .attr('stroke', d => get_color(d.target.name))
       .attr('d', d3.sankeyLinkHorizontal())
       .attr('stroke-width', d => {
-        return d.width
+        return Math.max(d.width,"1")
       })
       .attr('class', 'sankey_stroke')
 
@@ -265,15 +265,18 @@ whenDocumentLoaded(() => {
       //instatiate the selection menu
       create_select()
 
-      //TOOOOOOOOOOOODDDDDDDDDDDDDDOOOOOOOOOOOOOOOOOOO
+      //get the chosen values from the multiselect
       selection = $('#sankey_select').val()
 
+      //instantiate the data by applying sankey to the full data
       var data = get_data(actors, providers, links, null)
       plot = new sankeyPlot('sankey', data, false)
 
+      //generate sankey by only using the required data
       var data = get_data(actors, providers, links, selection)
       plot = new sankeyPlot('sankey', data, true)
 
+      //instantiate the multiselect
       $('#sankey_select').multiselect({
         // https://stackoverflow.com/a/33710002
         maxHeight: 300,
@@ -281,10 +284,10 @@ whenDocumentLoaded(() => {
         enableClickableOptGroups: false,
         enableCollapsibleOptGroups: false,
         enableCaseInsensitiveFiltering: true,
-        enableResetButton: true,
-        resetButtonText: 'Reset',
         onChange: function () {
           selection = $('#sankey_select').val()
+
+          //if no selection was done, show meme. Otherwise show sankey diagram
           if (!selection) {
             document.getElementById("empty_sankey_select").style.display = "block";
             document.getElementById("sankey").style.display = "none";
@@ -292,11 +295,14 @@ whenDocumentLoaded(() => {
             document.getElementById("empty_sankey_select").style.display = "none";
             document.getElementById("sankey").style.display = "block";
           }
+
+          //aggregate the data and plot new sankey plot
           data = get_data(actors, providers, links, selection)
           plot = new sankeyPlot('sankey', data, selection)
         }
       })
 
+      //enable button to reset the dropdown and recalculate the selection
       var btn = $('#reset_button').on('click', function (e) {
         d3.select('#sankey_select').html('')
         create_select()
@@ -307,15 +313,18 @@ whenDocumentLoaded(() => {
         document.getElementById("sankey").style.display = "none";
       })
 
+      //configure the reset button to deselect all elements in the dropdown menu
       var btn_slc = $('#clear_select_button').on('click', function (e) {
         $('#sankey_select')
           .val([])
           .multiselect('rebuild')
         plot = new sankeyPlot('sankey', data, null)
+
         document.getElementById("empty_sankey_select").style.display = "block";
         document.getElementById("sankey").style.display = "none";
       })
 
+      //configure the slider to choose the minimal number of movies an actor should have
       $('#number_of_movies').on('input', function () {
         $('#number_of_movies_txt').val(
           'Min. number of movies of actor: ' +
@@ -324,42 +333,60 @@ whenDocumentLoaded(() => {
       })
 
 
+      //add event listeners to display the help texts
       document.getElementById("info_artist").addEventListener("mouseover", function () {
         document.getElementById("info_artist_select").style.display = "flex";
       })
       document.getElementById("info_artist").addEventListener("mouseout", function () {
         document.getElementById("info_artist_select").style.display = "none";
       })
-
       document.getElementById("info_size").addEventListener("mouseover", function () {
         document.getElementById("info_size_select").style.display = "flex";
       })
       document.getElementById("info_size").addEventListener("mouseout", function () {
         document.getElementById("info_size_select").style.display = "none";
       })
+
+      //function to create the select in the html page
       function create_select() {
+
+        //read the value of the range
         number_of_movies = document.getElementById('number_of_movies').value
+
+        //filter the data according to the value above
         known_actors = num_mov_per_cast
           .filter(d => d.cnt >= number_of_movies)
           .map(d => d.cast)
+        
+        //aggregate the total data
         known_data = dd.filter(d => known_actors.includes(d.cast))
         links = known_data.map(d => ({
           source: d.cast,
           target: d.service,
           value: d.cnt
         }))
+        
+        //generate the actors list
         actors = [...new Set(known_data.map(d => d.cast))]
           .sort()
           .map(d => ({ name: d }))
+
+        //assign the actors to a group
         actors_grouped = [...new Set(known_data.map(d => d.cast))]
           .sort()
           .map(d => ({ name: d, group: get_group(d) }))
 
+        //finally create the arrays of the group
         actors_grouped = group_by(actors_grouped, 'group')
-
+        
+        //Get the list of all groups
         groups = Object.keys(actors_grouped)
 
+        //clear the html place holder
         var menu = d3.select('#sankey_select').html('')
+        console.log(actors_grouped)
+        
+        //insert optgroup and options into the page
         menu = menu.selectAll('optgroup')
         menu = menu
           .data(groups)
@@ -377,6 +404,8 @@ whenDocumentLoaded(() => {
               .filter(f => default_cast.includes(f.name))
               .attr('selected', 'selected')
           })
+          
+        //aggregate the data
         data = get_data(actors, providers, links, null)
         plot = new sankeyPlot('sankey', data, false)
       }
@@ -385,12 +414,17 @@ whenDocumentLoaded(() => {
     })
 })
 
+//aggregate the needed data
 function get_data(actors, providers, links, selection) {
+
+  //If selection is empty, return everything
   if (selection == null) {
     data = {
       links: links,
       nodes: actors.concat(providers)
     }
+
+  //if selection is not empty, filter links and lists to match
   } else {
     var nodes = providers
     nodes = nodes.concat(actors.filter(d => selection.includes(d.name)))
@@ -403,6 +437,7 @@ function get_data(actors, providers, links, selection) {
   return data
 }
 
+//extract the first character of the name and add to group. Add to group other if not alphabetical list
 function get_group(d) {
   var group = d.charAt(0).toUpperCase()
   if (group.toLowerCase() == group) {
@@ -411,11 +446,13 @@ function get_group(d) {
   return group
 }
 
+//group array by a given key
 function group_by(arr, key) {
   var grouped = arr.reduce((prev, cur) => {
     if (!prev[cur[key]]) {
       prev[cur[key]] = []
     }
+    
     cur_copy = Object.assign({}, cur)
     delete cur_copy[key]
     prev[cur[key]].push(cur_copy)

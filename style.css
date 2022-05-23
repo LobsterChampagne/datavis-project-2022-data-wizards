@@ -246,4 +246,9 @@ svg {
 .info_text {
     display: none;
     position: absolute;
+    font-size: 10pt;
+    background-color: #41b3a44d;
+    width: 80%;
+    font-style: bold;
+    font-family: sans-serif;
 }
