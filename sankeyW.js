@@ -165,46 +165,56 @@ whenDocumentLoaded(() => {
   // console.log('Sankey: Do what ever you want here')
   $("#quantity_select").multiselect({
     onChange: function () {
+      document.getElementById("sankey_load").style.display = "block";
+      document.getElementById("sankey_env").style.display = "none";
       selection = $('#quantity_select').val()
-      console.log(selection)
-      setup();
+      sleep = new Promise((d,u) => setTimeout(d, 1000))
+      sleep.then(function () {
+        setup()
+      });
     }
   })
-  setup();
+
+  //give time to other plots to be generated
+  sleep = new Promise((d,u) => setTimeout(d, 3000))
+  sleep.then(function () {
+    setup()
+  });
+
   function setup() {
     //Load the data from the file and consolidate it 
     //d3.csv('./Data/cast_per_platform.csv').then(function (dd) {
     d3.csv('./Data/all_streams.csv')
       .then(function (dd) {
-        console.log(dd)
+       
         quantity_selection = $('#quantity_select').val()
         //divide the data of actors into multiple elements
         var movies = dd.reduce(function (prev, cur) {
-        
-          switch(quantity_selection){
+
+          switch (quantity_selection) {
             case "actors":
               var ret = cur.cast
-              .split(',')
-              .filter(d => d != '')
-              .map(d => ({ service: cur.service, cast: d.trim() }))
+                .split(',')
+                .filter(d => d != '')
+                .map(d => ({ service: cur.service, cast: d.trim() }))
               break;
             case "directors":
               var ret = cur.director
-              .split(',')
-              .filter(d => d != '')
-              .map(d => ({ service: cur.service, cast: d.trim() }))
+                .split(',')
+                .filter(d => d != '')
+                .map(d => ({ service: cur.service, cast: d.trim() }))
               break;
             case "country":
               var ret = cur.country
-              .split(',')
-              .filter(d => d != '')
-              .map(d => ({ service: cur.service, cast: d.trim() }))
+                .split(',')
+                .filter(d => d != '')
+                .map(d => ({ service: cur.service, cast: d.trim() }))
               break;
             case "genre":
               var ret = cur.listed_in
-              .split(',')
-              .filter(d => d != '')
-              .map(d => ({ service: cur.service, cast: d.trim() }))
+                .split(',')
+                .filter(d => d != '')
+                .map(d => ({ service: cur.service, cast: d.trim() }))
               break;
           }
           /*
@@ -231,7 +241,7 @@ whenDocumentLoaded(() => {
           cast: d.split(',')[1],
           cnt: num_movies[d]
         }))
-        console.log(ret)
+      
         return ret
 
       })
@@ -248,9 +258,9 @@ whenDocumentLoaded(() => {
           { name: 'Prime' },
           { name: 'Disney' }
         ]
-        
+
         var actors = [{ name: 'A' }, { name: 'B' }, { name: 'C' }]
-        console.log(actors)
+        
         var links = [
           { source: 'A', target: 'Netflix', value: 10 },
           { source: 'B', target: 'Hulu', value: 20 },
@@ -268,7 +278,7 @@ whenDocumentLoaded(() => {
           prev[curr.cast] = prev[curr.cast] + parseInt(curr.cnt)
           return prev
         }, {})
-        console.log(actors_total)
+        
         //reshape the above data
         num_mov_per_cast = Object.keys(actors_total).map(key => ({
           cast: key,
@@ -313,7 +323,7 @@ whenDocumentLoaded(() => {
         //var data = get_data(actors, providers, links, null)
         //plot = new sankeyPlot('sankey', data, false)
 
-        console.log(actors)
+      
         //generate sankey by only using the required data
         var data = get_data(actors, providers, links, selection)
         plot = new sankeyPlot('sankey', data, true)
@@ -343,7 +353,7 @@ whenDocumentLoaded(() => {
 
             //aggregate the data and plot new sankey plot
             var data = get_data(actors, providers, links, selection)
-            console.log(actors)
+        
             plot = new sankeyPlot('sankey', data, selection)
           }
         })
@@ -402,6 +412,9 @@ whenDocumentLoaded(() => {
         //function to create the select in the html page
         function create_select() {
 
+          document.getElementById("sankey_load").style.display = "block";
+          document.getElementById("sankey_env").style.display = "none";
+
           //read the value of the range
           number_of_movies = document.getElementById('number_of_movies').value
 
@@ -455,7 +468,9 @@ whenDocumentLoaded(() => {
                 .filter(f => default_cast.includes(f.name))
                 .attr('selected', 'selected')
             })
-          
+
+          document.getElementById("sankey_load").style.display = "none";
+          document.getElementById("sankey_env").style.display = "block";
           //aggregate the data
           //data = get_data(actors, providers, links, null)
           //plot = new sankeyPlot('sankey', data, false)
@@ -468,7 +483,7 @@ whenDocumentLoaded(() => {
 
 //aggregate the needed data
 function get_data(actors, providers, links, selection) {
-  console.log(actors)
+ 
   //If selection is empty, return everything
   if (selection == null) {
     data = {
