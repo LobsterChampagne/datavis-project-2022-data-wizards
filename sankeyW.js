@@ -212,7 +212,7 @@ whenDocumentLoaded(() => {
               break;
             case "genre":
               var ret = cur.listed_in
-                .split(',')
+                .split(/[\s&,]+/)
                 .filter(d => d != '')
                 .map(d => ({ service: cur.service, cast: d.trim() }))
               break;
