@@ -158,6 +158,18 @@
 
     <div class="container viz">
         <h1>Line chart</h1>
+        <select class="formSelect" id="lineQuantitySelect">
+            <option value="genre">Genre</option>
+            <option value="country">Country</option>
+        </select>
+        <div id="lineSelectDiv" class="one-line">
+            <select id="lineSelect"></select>
+            <button type="button" class="btn btn-primary" id="lineClearSelectButton">Clear</button>
+            <div class="info" id="lineInfo"><img src="media/info.png"></div>
+        </div>
+        <div class="lineInfoText" id="lineInfoSelect">
+            Hello
+        </div>
         <div class="text">
             <p>
                 The line chart bellow should help you to see, which streaming platform has the highest rate of adding
