@@ -1,0 +1,273 @@
+,service,qnt,cnt
+0,Netflix,United States,3690
+1,Disney,United States,1184
+2,Hulu,United States,1097
+3,Netflix,India,1046
+4,Netflix,United Kingdom,806
+5,Netflix,Canada,445
+6,Netflix,France,393
+7,Prime,United States,334
+8,Netflix,Japan,318
+9,Hulu,Japan,281
+10,Prime,India,246
+11,Netflix,Spain,232
+12,Netflix,South Korea,231
+13,Netflix,Germany,226
+14,Hulu,United Kingdom,200
+15,Netflix,Mexico,169
+16,Netflix,China,162
+17,Netflix,Australia,160
+18,Netflix,Egypt,117
+19,Netflix,Turkey,113
+20,Netflix,Hong Kong,105
+21,Netflix,Nigeria,103
+22,Disney,United Kingdom,101
+23,Netflix,Italy,100
+24,Netflix,Brazil,97
+25,Netflix,Argentina,91
+26,Netflix,Belgium,90
+27,Netflix,Indonesia,90
+28,Netflix,Taiwan,89
+29,Hulu,Canada,88
+30,Netflix,Philippines,83
+31,Disney,Canada,77
+32,Netflix,Thailand,70
+33,Prime,United Kingdom,67
+34,Netflix,South Africa,62
+35,Netflix,Colombia,52
+36,Netflix,Netherlands,50
+37,Netflix,Denmark,48
+38,Netflix,Ireland,46
+39,Netflix,Sweden,42
+40,Hulu,Germany,41
+42,Netflix,Poland,41
+41,Netflix,Singapore,41
+43,Hulu,France,40
+44,Netflix,United Arab Emirates,37
+45,Hulu,Australia,36
+46,Prime,Canada,35
+47,Netflix,New Zealand,33
+48,Netflix,Lebanon,31
+50,Netflix,Israel,30
+49,Netflix,Norway,30
+51,Netflix,Chile,29
+52,Netflix,Russia,27
+53,Netflix,Malaysia,26
+54,Netflix,Pakistan,24
+55,Disney,Australia,23
+56,Netflix,Czech Republic,22
+57,Disney,France,22
+58,Prime,France,20
+59,Hulu,Sweden,20
+60,Netflix,Switzerland,19
+61,Prime,Germany,17
+62,Hulu,Denmark,17
+63,Hulu,South Korea,15
+66,Netflix,Romania,14
+67,Netflix,Uruguay,14
+65,Prime,Italy,14
+64,Hulu,Ireland,14
+68,Netflix,Saudi Arabia,13
+69,Hulu,Belgium,13
+70,Disney,South Korea,13
+71,Hulu,Italy,12
+72,Netflix,Austria,12
+73,Netflix,Luxembourg,12
+74,Netflix,Iceland,11
+75,Netflix,Hungary,11
+76,Prime,Spain,11
+77,Hulu,Spain,11
+78,Netflix,Finland,11
+79,Netflix,Greece,11
+83,Disney,Japan,10
+84,Netflix,Peru,10
+82,Netflix,Qatar,10
+81,Disney,China,10
+80,Netflix,Bulgaria,10
+85,Hulu,Mexico,9
+86,Netflix,Jordan,9
+87,Disney,Germany,9
+88,Netflix,Kuwait,8
+89,Disney,Ireland,8
+90,Netflix,Vietnam,7
+91,Hulu,Norway,7
+92,Netflix,Serbia,7
+93,Netflix,,7
+99,Prime,Australia,6
+103,Prime,China,6
+102,Prime,Japan,6
+101,Netflix,Cambodia,6
+100,Netflix,Kenya,6
+98,Prime,Denmark,6
+97,Hulu,China,6
+96,Netflix,Portugal,6
+95,Netflix,Morocco,6
+94,Disney,Taiwan,6
+109,Netflix,West Germany,5
+111,Netflix,Ghana,5
+110,Hulu,Colombia,5
+108,Hulu,New Zealand,5
+107,Disney,India,5
+106,Prime,Brazil,5
+105,Prime,Belgium,5
+104,Hulu,Bulgaria,5
+117,Netflix,Venezuela,4
+121,Hulu,Netherlands,4
+120,Disney,Mexico,4
+119,Netflix,Iran,4
+118,Disney,Hong Kong,4
+116,Netflix,Bangladesh,4
+115,Hulu,Russia,4
+114,Prime,Switzerland,4
+113,Disney,Spain,4
+112,Netflix,Croatia,4
+134,Prime,Mexico,3
+146,Hulu,Israel,3
+145,Netflix,Zimbabwe,3
+144,Netflix,Algeria,3
+143,Disney,Denmark,3
+142,Prime,Sweden,3
+141,Disney,Hungary,3
+140,Hulu,United Arab Emirates,3
+139,Hulu,Czech Republic,3
+138,Hulu,Switzerland,3
+137,Disney,New Zealand,3
+135,Hulu,Hong Kong,3
+136,Hulu,Romania,3
+133,Disney,South Africa,3
+126,Netflix,Slovenia,3
+132,Prime,Netherlands,3
+123,Netflix,Ukraine,3
+124,Netflix,Syria,3
+125,Disney,Argentina,3
+122,Netflix,Malta,3
+127,Netflix,Soviet Union,3
+128,Prime,Austria,3
+129,Netflix,Senegal,3
+130,Hulu,Finland,3
+131,Hulu,Luxembourg,3
+158,Disney,Austria,2
+168,Prime,Czech Republic,2
+167,Hulu,India,2
+166,Netflix,Guatemala,2
+165,Hulu,Poland,2
+163,Prime,Ireland,2
+162,Netflix,Iraq,2
+161,Hulu,Chile,2
+160,Netflix,Cayman Islands,2
+159,Hulu,Argentina,2
+164,Netflix,Georgia,2
+157,Prime,South Africa,2
+155,Netflix,Nepal,2
+154,Hulu,Austria,2
+153,Disney,Philippines,2
+152,Disney,Poland,2
+151,Disney,Singapore,2
+150,Netflix,Namibia,2
+149,Disney,United Arab Emirates,2
+148,Prime,Kosovo,2
+147,Netflix,Mauritius,2
+156,Disney,Malaysia,2
+238,Netflix,Ecuador,1
+235,Hulu,Syria,1
+236,Hulu,Taiwan,1
+237,Hulu,Thailand,1
+242,Netflix,Latvia,1
+239,Netflix,Ethiopia,1
+240,Netflix,Jamaica,1
+241,Netflix,Kazakhstan,1
+233,Disney,Slovenia,1
+243,Netflix,Liechtenstein,1
+234,Hulu,South Africa,1
+228,Disney,Namibia,1
+232,Disney,Russia,1
+231,Disney,Panama,1
+230,Disney,Pakistan,1
+229,Disney,Norway,1
+227,Disney,Luxembourg,1
+226,Disney,Kazakhstan,1
+225,Disney,Iran,1
+224,Disney,Guatemala,1
+223,Disney,Egypt,1
+222,Disney,Czech Republic,1
+245,Netflix,Malawi,1
+244,Netflix,Lithuania,1
+262,Netflix,Albania,1
+246,Netflix,Mongolia,1
+247,Netflix,Montenegro,1
+270,Netflix,Burkina Faso,1
+269,Netflix,Botswana,1
+268,Netflix,Bermuda,1
+267,Netflix,Belarus,1
+266,Netflix,Bahamas,1
+265,Netflix,Azerbaijan,1
+264,Netflix,Cameroon,1
+263,Netflix,Armenia,1
+220,Disney,Botswana,1
+261,Netflix,Afghanistan,1
+260,Hulu,Venezuela,1
+259,Hulu,Uruguay,1
+258,Hulu,Ukraine,1
+257,Hulu,Tunisia,1
+256,Netflix,Angola,1
+255,Netflix,Cuba,1
+254,Netflix,Cyprus,1
+253,Netflix,Dominican Republic,1
+252,Netflix,Paraguay,1
+251,Netflix,Panama,1
+250,Netflix,Palestine,1
+249,Netflix,Nicaragua,1
+248,Netflix,Mozambique,1
+221,Disney,Brazil,1
+203,Hulu,Costa Rica,1
+219,Disney,Belgium,1
+180,Prime,Portugal,1
+190,Prime,Malaysia,1
+189,Prime,Hungary,1
+188,Prime,Hong Kong,1
+187,Prime,Monaco,1
+186,Prime,Georgia,1
+185,Prime,Egypt,1
+184,Prime,Norway,1
+183,Netflix,Somalia,1
+182,Prime,New Zealand,1
+181,Prime,Chile,1
+179,Netflix,Uganda,1
+192,Netflix,Sri Lanka,1
+178,Prime,United Arab Emirates,1
+177,Prime,Colombia,1
+176,Prime,Thailand,1
+175,Prime,Afghanistan,1
+174,Netflix,Slovakia,1
+173,Prime,Albania,1
+172,Prime,Singapore,1
+171,Prime,Poland,1
+170,Prime,South Korea,1
+169,Prime,Argentina,1
+191,Prime,Luxembourg,1
+193,Netflix,Sudan,1
+218,Disney,Sweden,1
+207,Hulu,Iceland,1
+217,Netflix,Puerto Rico,1
+216,Disney,Switzerland,1
+215,Disney,Tanzania,1
+214,Hulu,Singapore,1
+213,Hulu,Serbia,1
+212,Hulu,Saudi Arabia,1
+211,Hulu,Qatar,1
+210,Hulu,Philippines,1
+209,Hulu,Montenegro,1
+208,Hulu,Malta,1
+206,Hulu,Hungary,1
+194,Prime,Iran,1
+205,Hulu,Greece,1
+204,Hulu,French Polynesia,1
+202,Hulu,Brazil,1
+201,Hulu,Afghanistan,1
+200,Disney,Thailand,1
+199,Disney,Syria,1
+198,Netflix,Samoa,1
+197,Disney,Angola,1
+196,Prime,Kazakhstan,1
+195,Netflix,Vatican City,1
+271,Netflix,East Germany,1
