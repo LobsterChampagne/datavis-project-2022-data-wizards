@@ -6,22 +6,24 @@ function whenDocumentLoaded(action) {
 	}
 }
 
+//Selector is the category used in the graph (the upper dropdown (genre/country))
+//select is an isntance in that category to "search" for
+
 class LineChart {
 	constructor(data) {
-		// set the SVG size
-		const width = 700, height = 450;
+		const width = 700, height = 450; // set the SVG size
 		const lineSvg = d3.select("#lineChart")
 			.attr("width", width)
 			.attr("height", height);
 
-		let lineQuantitySelection = $('#lineQuantitySelect').val()
+		$("#lineChart").empty(); //reset the SVG, useful for updating
 
 		d3.csv(data) //load the data
 		.then(function (dd) {
-       
+			let lineSelectorSelect = $('#lineSelectorSelect').val() //get the selector type
 			//divide the data into multiple elements
 			var movies = dd.reduce(function (prev, cur) {
-				switch (lineQuantitySelection) {
+				switch (lineSelectorSelect) {
 					case "country":
 					var ret = cur.country
 						.split(',')
@@ -36,9 +38,7 @@ class LineChart {
 					break;
 				}
 			return prev.concat(ret)
-			}, [])
-
-			console.log(movies)
+			}, [])			
 
 			//reduce the data from above to the single keys
 			var num_movies = movies.reduce(function (prev, cur) {
@@ -59,72 +59,65 @@ class LineChart {
 		
 			return ret
 		}).then( data => {
+			let lineSelect = $('#lineSelect').val() //get the selected value
 
-			//create the x axis scaled according to the data
+			//filter the data to that value and sort by year ascending order
+			const filteredData = data.filter(d => d.selector == lineSelect) 
+				.sort((a, b) => { return a.year - b.year })
+
+			//create the x axis scaled to the full data (1920-2022)
 			var x = d3.scaleLinear()
 				.domain(d3.extent(data, d => d.year))
 				.range([ 0, width - 45 ]);
 			lineSvg.append("g")
-				.attr("transform", `translate(35, ${height - 30})`)
+				.attr("transform", `translate(35, ${height - 30})`) //have to be shifted into visible space
 				.call(d3.axisBottom(x).ticks(5));
 	
-			//create the y axis scaled according to the data
+			//create the y axis scaled to the filtered data
 			var y = d3.scaleLinear()
-				.domain([0, d3.max(data, d => +d.count)])
+				.domain([0, d3.max(filteredData, d => +d.count)])
 				.range([ height - 45, 0 ]);
 			lineSvg.append("g")
-				.attr("transform", `translate(35, 15)`)
+				.attr("transform", `translate(35, 15)`) //have to be shifted into visible space
 				.call(d3.axisLeft(y))
-	
-			//fill in the path based on the data
-			const line = d3.line()
-				.x(d => x(d.year))
-				.y(d => y(d.count));
-			lineSvg.append("path")
-				.datum(data)
+
+			//group by provider, to make one path for each
+			var sumstat = d3.group(filteredData, d => d.service)
+
+			lineSvg.selectAll(".line")
+				.append("g")
+				.attr("class", "line")
+				.data(sumstat)
+				.enter() //enter into each line
+				.append("path")
 				.attr("fill", "none")
 				.attr("stroke", d => {
-					return get_color(d.service)
+					return get_color(d[0])
 				})
+				.attr("d", d =>{
+					return d3.line()
+					  .x(d => { return x(d.year); })
+					  .y(d => { return y(+d.count); })
+					  (d[1]) //needed to aaccess the current structure
+				  })
 				.attr("stroke-linejoin", "round")
 				.attr("stroke-linecap", "round")
-				.attr("stroke-width", 1.5)
-				.attr("transform", `translate(35, 15)`)
-				.attr("d", line);
+				.attr("stroke-width", 2)
+				.attr("transform", `translate(35, 15)`) //have to be shifted to line up with axis
+
 		}
 	)
-  
-	//function to return the colors of nodes and strokes. For the artist nodes 
-	//We used a hash color generator (just s.t. any artist will allways have the same color)
+	//function to return the colors for each provider
 	function get_color(name) {
-		var color = 'black'
 		switch (name) {
 		  	case 'Netflix':
-				color = '#fbe5d6'
-				break
+				return '#ff0202'
 		  	case 'Hulu':
-				color = '#e2f0d9'
-				break
+				return '#06ff02'
 		  	case 'Prime':
-				color = '#deebf7'
-				break
+				return '#0289ff'
 		  	case 'Disney':
-				color = '#bdd7ee'
-				break
-		  	default:
-			{
-			  	//Hash color generator from https://stackoverflow.com/a/16348977
-			  	var hash = 0
-			  	for (var i = 0; i < name.length; i++) {
-					hash = name.charCodeAt(i) + ((hash << 5) - hash)
-			  	}
-			  	color = '#'
-			  	for (var i = 0; i < 3; i++) {
-					var value = (hash >> (i * 8)) & 0xff
-					color += ('00' + value.toString(16)).substr(-2)
-			  	}
-			}
-			break
+				return '#bf02ff'
 		}
 		return color
 	  }
@@ -132,41 +125,38 @@ class LineChart {
 }
 
 whenDocumentLoaded(() => {
-	let lineChart = new LineChart('Data/all_streams.csv'); //release_year
-	create_line_select()
-	$("#lineQuantitySelect").multiselect({
+	createLineSelect() //input the options for the current selector into the lower dropdown
+	new LineChart('Data/all_streams.csv'); //create an instance of the lineChart
+	$("#lineSelectorSelect").multiselect({ //when updating the selector, both change the options and update the graph
 		onChange: function () {
-		 	lineSetup()
-			create_line_select()
+		 	graphUpdate()
+			createLineSelect()
 		}
 	})
-	function lineSetup() {
-		let lineChart = new LineChart(data);
+	$("#lineSelect").change(function () { //when update the select, update graph
+		 	graphUpdate()
+		}
+	)
+
+	function graphUpdate() {
+		new LineChart('Data/all_streams.csv');
 	}
 
-	function create_line_select() {
-		let lineQuantitySelection = $('#lineQuantitySelect').val()
+	function createLineSelect() { //function for updating lower dropdown menu
+		let lineSelectorSelect = $('#lineSelectorSelect').val() //get the value of the upper menu
 
-		let csvFile;
-		switch (lineQuantitySelection) {
-			case 'country':
-				csvFile = 'Data/netflix_titles.csv'
-				break
-			case 'genre':
-				csvFile = 'Data/netflix_titles.csv'
-				break
-		}
-		let selectors;
+		//get the csv of the option data
+		let csvFile = ((lineSelectorSelect == 'country') ? 'Data/country_per_platform.csv' : 'Data/genre_per_platform.csv');
 
 		d3.csv(csvFile)
 		.then( data => {
 				let temp = []
-				data.forEach(d => {temp.push(d.country)})
-				selectors = [...new Set(temp)].sort()
+				data.forEach(d => {temp.push(d.qnt)})
+				let selectors = [...new Set(temp)].sort() //create a set of the data in the csv (due to duplicates)
 
-				var menu = d3.select('#lineSelect').html('')
+				var menu = d3.select('#lineSelect').html('') //clear the options of the dropdown
 
-				menu = menu
+				menu = menu //add the option
 					.selectAll('option')
 					.data(selectors)
 					.enter()
