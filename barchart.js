@@ -15,6 +15,7 @@ const svg = d3.select("#barchart")
   .attr("id", "bar_plot_area")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
+// Add event listeners to the info event
 document
   .getElementById('info_year')
   .addEventListener('mouseover', function () {
@@ -30,14 +31,20 @@ document
 d3.csv("./Data/platform_per_year.csv")
   .then(function (dd) {
 
-
+    //get distinct years
     years = [... new Set(dd.map(d => d.date_added))].sort()
+    
+    //Add input function incase the user changes the range
     $('#year_plot')
       .unbind('input')
       .on('input', function () {
+
+        //delete the previously drawn things
         year = document.getElementById('year_plot').value;
         d3.select("#bar_plot_area").selectAll("g").remove()
         draw_barplot(year)
+
+        //check for special case 2023
         if (year == 2023) {
           $('#year_txt').val(
             'Today (2022 + undated)'
@@ -53,14 +60,17 @@ d3.csv("./Data/platform_per_year.csv")
     draw_barplot(document.getElementById('year_plot').value)
 
 
+    // function to draw the plot
     function draw_barplot(year) {
+
+      // filter data according the year
       data = dd.filter(d => d.date_added <= year && d.date_added != 2000 || year == 2023)
 
+      //summarize data according to the filter above
       data = data.reduce((prev, cur) => {
         if (!prev[cur.service]) {
           prev[cur.service] = { MovieOld: 0, TVShowOld: 0, MovieNew: 0, TVShowNew: 0 };
         }
-
 
         if (cur.date_added == year) {
           prev[cur.service].MovieNew += parseFloat(cur.Movie) || 0;
@@ -73,6 +83,7 @@ d3.csv("./Data/platform_per_year.csv")
       }, {})
 
 
+      //generate new data fields
       keys = Object.keys(data)
       data = keys.map(d => ({
         provider: d, MovieOld: data[d].MovieOld,
@@ -128,12 +139,14 @@ d3.csv("./Data/platform_per_year.csv")
         .join("g")
         .attr("class", "bar_hover")
 
+      // draw rects corresponding to stackedData
       bar.append("rect")
         .attr("x", d => x(d.data.provider))
         .attr("y", d => y(d[1]))
         .attr("height", d => y(d[0]) - y(d[1]))
         .attr("width", x.bandwidth())
 
+      //draw background rect for info text
       bar.append("rect")
         .attr("id", "rect_background")
         .attr("x", 450)
@@ -143,6 +156,7 @@ d3.csv("./Data/platform_per_year.csv")
         .attr("rx", 5)
         .attr("fill", "#D7F0FE")
 
+      //insert text
       bar.append("text")
         .text(d => d[1] - d[0])
         .attr("text-anchor", "left")
@@ -150,11 +164,10 @@ d3.csv("./Data/platform_per_year.csv")
         .attr("y", margin.top + 50)
 
 
-
+      // insert area for legend
       legend = svg.append("g")
 
-
-
+      // use circles as identifier
       legend.append("circle")
         .attr("cy", height / 2 - 10)
         .attr("cx", 450)
@@ -167,6 +180,7 @@ d3.csv("./Data/platform_per_year.csv")
         .attr("r", 5)
         .style("fill", '#377eb8')
 
+      // add text to legend
       legend.append("text")
         .attr("x", 460)
         .attr("y", height / 2 - 10)
@@ -179,6 +193,7 @@ d3.csv("./Data/platform_per_year.csv")
         .text("TV Shows")
         .attr("alignment-baseline", "central")
 
+      // handle special case of 2023
       if (year != 2023) {
         legend.append("circle")
           .attr("cy", height / 2 + 30)
