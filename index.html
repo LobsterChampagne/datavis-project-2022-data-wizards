@@ -77,25 +77,40 @@
             <p>
                 This section gives you an idea of how many movies and TV shows that are available
                 on the four different services. As you can see Netflix and Prime have by far the biggest
-                amount of content. So if you just want the maximum amount of content, and don't really mind what you 
+                amount of content. So if you just want the maximum amount of content, and don't really mind what you
                 watch you'll be fine with either Netflix and/or Prime.
             </p>
             <p>
-                A small comment; we have not considered price for the different providers as this might vary from country
-                to country. In terms of getting the most amount of value for your money. 
+                A small comment; we have not considered price for the different providers as this might vary from
+                country
+                to country. In terms of getting the most amount of value for your money.
                 This might be something you want to consider as well.
             </p>
             <p>
                 From the barchart below you can also see that Netflix has more TV-shows than the other providers.
                 Interestingly Hulu has a lot of TV-shows, and Prime is not beating them by much in regard to content.
-                Another interesting fact is that Hulu has a lot of TV-shows compared to the number 
+                Another interesting fact is that Hulu has a lot of TV-shows compared to the number
                 of movies available on the platform. So if you're the person that enjoys watching TV-shows,
-                but hate having to browse through endless of options (even though Netfliz and Prime have 
+                but hate having to browse through endless of options (even though Netfliz and Prime have
                 provide filtering), then Hulu might be the right option as they might continue with this distribution.
             </p>
         </div>
 
-        <div id="barchart"></div>
+        <div id="barchart">
+
+
+        </div>
+
+        <div class="one-line">
+            <input class="form-control" type="text" placeholder="Today (2022 + undated)" readonly id="year_txt">
+            <input type="range" min="2000" max="2023" value="2023" class="slider" id="year_plot">
+            <div class="info" id="info_year"><img src="media/info.png"></div>
+        </div>
+        <div class="info_text" id="info_year_select">
+            Due to the data for Amazon Prime being incomplete, we decided to add the option to have the
+            display the full data at the very end. Play around with the slider to get a feeling
+            for the speed with which Netflix and co is growing.
+        </div>
         <!--<div class="flourish-embed flourish-sankey" data-src="visualisation/9615889"><script src="https://public.flourish.studio/resources/embed.js"></script></div>-->
 
         <!--<img src="media/Amount_of_content.png" alt="">-->

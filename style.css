@@ -115,7 +115,7 @@ h2 {
 
 @keyframes rotate {
     0% {
-        transform:  rotate(0deg);
+        transform: rotate(0deg);
     }
 
     100% {
@@ -192,7 +192,8 @@ h2 {
 .sankey_stroke:hover {
     opacity: 0.6
 }
-rect:hover{
+
+rect:hover {
     opacity: 0.6;
 }
 
@@ -276,12 +277,23 @@ svg {
     max-width: 400px;
 }
 
-.bar_hover:hover text{
+.bar_hover:hover text {
     display: block;
 }
 
-.bar_hover text{
+.bar_hover text {
     display: none;
     fill: black;
 }
 
+.bar_hover #rect_background {
+    display: none;
+}
+
+.bar_hover:hover #rect_background {
+    display: block;
+}
+
+#year_txt {
+    width: auto !important;
+}
