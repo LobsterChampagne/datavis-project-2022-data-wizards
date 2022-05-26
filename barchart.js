@@ -1,4 +1,4 @@
-// Barchart for the first viz
+// Barchart for the first viz, inspired and adapted by https://d3-graph-gallery.com/graph/barplot_stacked_basicWide.html
 
 // set the dimensions and margins of the graph
 const margin = { top: 10, right: 30, bottom: 20, left: 50 },
@@ -92,12 +92,10 @@ d3.csv("./Data/platform_per_year.csv")
         TVShowNew: data[d].TVShowNew
       }))
 
-      data.columns = ["provider", "MovieOld", "TVShowOld", "MovieNew", "TVShowNew"]
+      // List of subgroups
+      const subgroups = ["MovieOld", "TVShowOld", "MovieNew", "TVShowNew"]
 
-      // List of subgroups = header of the csv files = soil condition here
-      const subgroups = data.columns.slice(1)
-
-      // List of groups = species here = value of the first column called group -> I show them on the X axis
+      // List of groups = Providers here = value of the first column called group
       const groups = data.map(d => (d.provider))
 
       // Add X axis
