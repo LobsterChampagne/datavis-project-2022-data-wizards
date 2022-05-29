@@ -79,7 +79,10 @@ class sankeyPlot {
       .attr('fill', d => {
         return darker(get_color(d.name))
       })
+      .on('click', (d,i) =>  window.open("http://www.google.com/search?q="+i.name.replace(" ","+")))
 
+    node.append("title")
+    .text(d => d.name + ', ' + d.value)
     //add the node titles to the nodes
     node
       .append('text')
