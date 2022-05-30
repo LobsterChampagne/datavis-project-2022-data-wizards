@@ -93,7 +93,6 @@ class LineChart {
 			
 			lineSvg.selectAll(".line")
 				.append("g")
-				.attr("class", "line")
 				.data(sumstat)
 				.enter() //enter into each line
 				.append("path")
@@ -135,6 +134,11 @@ class LineChart {
 					return d.service + ' ' + d.year + '\n' + d.count
 				})
 
+		//this part is for the brush
+		var brushSvg = d3.select("#lineBrush")
+			.attr("width", width)
+			.attr("height", 150)
+
 		var brush = d3.brushX()
 			.extent([
 			[x.range()[0], 0],
@@ -142,26 +146,27 @@ class LineChart {
 			])
 			.on("brush", onBrush);
 
-		let context = lineSvg.append("g")
+		let context = brushSvg.append("g")
 			.attr("class", "context")
-			
 
 		context.append("g")
 			.attr("class", "x axis top")
-			.attr("transform", "translate(0,0)")
+			.attr("transform", "translate(20, 20)")
 			.call(d3.axisBottom(x))
 
 		context.append("g")
 			.attr("class", "x brush")
 			.call(brush)
 			.selectAll("rect")
+			.attr("transform", "translate(20, 20)")
 			.attr("y", 0)
 			.attr("height", 100);
 
 		context.append("text")
 			.attr("class", "instructions")
-			.attr("transform", "translate(0," + (100+ 20) + ")")
+			.attr("transform", "translate(212, 140)") //center text
 			.text('Click and drag above to zoom / pan the data');
+		
 
 		// Brush handler. Get time-range from a brush and pass it to the charts. 
 		function onBrush(d) {
