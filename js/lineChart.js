@@ -69,7 +69,14 @@ class LineChart {
 			var x = d3.scaleLinear()
 				.domain(d3.extent(data, d => d.year))
 				.range([ 0, width - 45 ]);
+
+			var contextX = d3.scaleLinear()
+				.domain(d3.extent(data, d => d.year))
+				.range([ 0, width - 45 ]);
+
+
 			lineSvg.append("g")
+				.attr("class","x axis")
 				.attr("transform", `translate(35, ${height - 30})`) //have to be shifted into visible space
 				.call(d3.axisBottom(x).ticks(5));
 	
@@ -83,7 +90,7 @@ class LineChart {
 
 			//group by provider, to make one path for each
 			var sumstat = d3.group(filteredData, d => d.service)
-
+			
 			lineSvg.selectAll(".line")
 				.append("g")
 				.attr("class", "line")
@@ -94,6 +101,9 @@ class LineChart {
 				.attr("stroke", d => {
 					return get_color(d[0])
 				})
+				.attr("id",d => d[0])
+				.attr("class","single_line")
+				.attr("title",d=>console.log(d))
 				.attr("d", d =>{
 					return d3.line()
 					  .x(d => { return x(d.year); })
@@ -105,7 +115,72 @@ class LineChart {
 				.attr("stroke-width", 2)
 				.attr("transform", `translate(35, 15)`) //have to be shifted to line up with axis
 
-		}
+			
+		    
+			var sel = document.getElementsByClassName("single_line")
+			
+			console.log(sel)
+
+			for (let i = 0; i < sel.length; i++) {
+				sel[i].addEventListener('mouseover', function () {
+					var x = document.getElementsByClassName("single_line")
+					for(let j =0;j<x.length;j++){
+						if(x[j].id != x[i].id){
+							x[j].style.opacity = 0.3;
+						}
+					}
+				})
+				sel[i].addEventListener('mouseout', function () {
+					var x = document.getElementsByClassName("single_line")
+					for(let j =0;j<x.length;j++){
+						if(x[j].id != x[i].id){
+							x[j].style.opacity = 1;
+						}
+					}
+				})
+			}
+		
+
+		var brush = d3.brushX()
+			.extent([
+			[x.range()[0], 0],
+			[x.range()[1], 100]
+			])
+			.on("brush", onBrush);
+
+		let context = lineSvg.append("g")
+			.attr("class", "context")
+			
+
+		context.append("g")
+			.attr("class", "x axis top")
+			.attr("transform", "translate(0,0)")
+			.call(d3.axisBottom(x))
+
+		context.append("g")
+			.attr("class", "x brush")
+			.call(brush)
+			.selectAll("rect")
+			.attr("y", 0)
+			.attr("height", 100);
+
+		context.append("text")
+			.attr("class", "instructions")
+			.attr("transform", "translate(0," + (100+ 20) + ")")
+			.text('Click and drag above to zoom / pan the data');
+
+		// Brush handler. Get time-range from a brush and pass it to the charts. 
+		function onBrush(d) {
+			//var b = d3.event.selection === null ? contextXScale.domain() : d3.event.selection.map(contextXScale.invert);
+			var domain = d.selection.map(contextX.invert)
+			console.log(domain)
+			x.domain(domain)
+			lineSvg.select(".x.axis").call(d3.axisBottom(x).ticks(5))
+			lineSvg.select("path")
+  		}
+
+
+	}
 	)
 	//function to return the colors for each provider
 	function get_color(name) {
