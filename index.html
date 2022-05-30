@@ -85,12 +85,15 @@
             
             <div class="center">
                 <div id="barchart"></div>
+                <img id="bar_to_old" src="https://i.pinimg.com/550x/8a/8a/a6/8a8aa6de3ed419da57d9aab37855c618.jpg"  style="display: none;height: 50%; width: auto;">
             </div>
     
-            <div class="one-line">
+            <div class="one-line center">
+                <div style="display:block;">
                 <input class="form-control" type="text" placeholder="Today (2022 + undated)" readonly id="year_txt">
                 <input type="range" min="2000" max="2023" value="2023" class="slider" id="year_plot">
                 <div class="info" id="info_year"><img src="media/info.png"></div>
+            </div>
             </div>
             <div class="info_text" id="info_year_select">
                 Due to the data for Amazon Prime being incomplete, we decided to add the option to have the
@@ -139,7 +142,7 @@
                 <img src="media/epfl_logo.png" alt="">
             </div>
             <div id="sankey_env">
-                <select class="form-select" id="quantity_select">
+                <select class="form-select center" id="quantity_select">
                     <option value="actors" selected>Actors</option>
                     <option value="directors">Directors</option>
                     <option value="country">Country</option>
@@ -147,18 +150,18 @@
                 </select>
                 <div id="artist_select" class="one-line">
                     <select id="sankey_select" multiple="multiple"></select>
-                    <button type="button" class="btn btn-primary" id="clear_select_button">Clear</button>
+                    <button type="button" class="btn btn-primary" id="clear_select_button">Clear Selection</button>
                     <div class="info" id="info_artist"><img src="media/info.png"></div>
                 </div>
                 <div class="info_text" id="info_artist_select">
                     Using the dropdown menus above, you should be able to select your most beloved actors, directors, countries or genres. You can use the search field to make your search more convenient. Although it is possible to select hundreds of characters, we recommend to choose a reasonable amount since the diagram will get crowded rather quickly.
                 </div>
                 <br>
-                <div class="sankey_plot">
-                    <img src="media/meme.jpg" alt="" id="empty_sankey_select">
-                    <svg style="background: #fff;" id="sankey" viewBox="-10 -10 220 120" height="90%" width="100%"> </svg>
+                <div class="sankey_plot center">
+                    <img src="media/meme.jpg" alt="" id="empty_sankey_select" style="display: none;height: 50%; width: auto;">
+                    <svg style="background: #fff;" id="sankey" viewBox="0 -10 200 120" height="90%" width="100%"> </svg>
                 </div>
-                <div class="one-line">
+                <div class="one-line center">
                     <input class="form-control" type="text" placeholder="Min. number of movies of actor: 15" readonly
                         id="number_of_movies_txt">
                     <input type="range" min="1" max="50" value="15" class="slider" id="number_of_movies">
@@ -221,7 +224,7 @@
         </div>
     </div>
 
-    <div class="footer" style="margin-top: -10px;>
+    <div class="footer" style="margin-top: -10px;">
         <img id="hat" src="media/favicon.png" alt="">
         <h1>Data Wizards</h1>
         <p>Check out our Github repository:</p>
@@ -233,15 +236,21 @@
             <div class="boywiz">
                 <img src="https://media-exp1.licdn.com/dms/image/C5603AQFw8Y20z7Xwpg/profile-displayphoto-shrink_400_400/0/1581262502109?e=1657756800&v=beta&t=QrKjCFCx1IPo4Wrqbu7ie8gYj53LfR9zDa6msWy3nLY"
                     alt="">
+                <img class="wizwiz" src="https://c.tenor.com/eLV60YfRTmgAAAAM/cute-harry-potter.gif"
+                    alt="">
                 <p>Joël Lingg</p>
             </div>
             <div class="boywiz">
                 <img src="https://media-exp1.licdn.com/dms/image/C4D03AQGw6xOFYEuQgA/profile-displayphoto-shrink_400_400/0/1652384904156?e=1657756800&v=beta&t=TcFtqMnQAdZDgAy-31LFUeFz2bYODgjDNkZzsJ4EuPU"
                     alt="">
+                <img class="wizwiz" src="https://c.tenor.com/VOdWjm2zbEAAAAAC/gandalf-sax-guy.gif"
+                    alt="">
                 <p>Ferdinand Ytteborg</p>
             </div>
             <div class="boywiz">
                 <img src="https://media-exp1.licdn.com/dms/image/C4E03AQHedAu-2c3DAA/profile-displayphoto-shrink_400_400/0/1634765459408?e=1657756800&v=beta&t=9-w6avhaPkZBl-wfxQbVhov4e8FzhVOcwxaLAruk8ys"
+                    alt="">
+                <img class="wizwiz" src="https://c.tenor.com/O2O7TnMZRpoAAAAC/selena-gomez-wizards-of-waverly-place.gif"
                     alt="">
                 <p>Fredrik Hægermark</p>
             </div>

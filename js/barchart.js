@@ -54,6 +54,14 @@ d3.csv("./Data/platform_per_year.csv")
             'Year ' + document.getElementById('year_plot').value
           )
         }
+
+        if(year <=2000){
+          document.getElementById('bar_to_old').style.display = 'block'
+          document.getElementById('barchart').style.display = 'none'
+        } else {
+          document.getElementById('bar_to_old').style.display = 'none'
+          document.getElementById('barchart').style.display = 'block'
+        }
       })
 
 

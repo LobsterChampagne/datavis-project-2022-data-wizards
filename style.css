@@ -57,6 +57,8 @@ h2 {
     width: 100%;
     margin: auto;
     margin-top: 2em;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 .container h1 {
@@ -218,6 +220,7 @@ svg {
 #sankey_env {
     display: none;
     height: 80%;
+    width: 100%;
 }
 
 #sankey_laod {
@@ -233,6 +236,7 @@ svg {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .loader img {
@@ -255,18 +259,13 @@ svg {
 }
 
 .one-line {
-    display: inline-block;
+    display: flex;
     width: 100%;
-}
-
-#empty_sankey_select {
-    display: none;
-    height: 50%;
-    width: auto;
 }
 
 .sankey_plot {
     height: 90%;
+    width: 100%;
 }
 
 .info {
@@ -312,4 +311,16 @@ svg {
 
 #year_txt {
     width: auto !important;
+}
+
+.wizwiz {
+    display: none;
+}
+
+.boywiz:hover .wizwiz{
+    display: block;
+}
+
+.boywiz:hover img{
+    display:none;
 }
