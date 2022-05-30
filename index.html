@@ -71,153 +71,156 @@
         </div>
     </div>
 
-    <div class="container viz">
-        <h1>Basic Overview</h1>
-        <div class="text">
-            <p>
-                This section gives you an idea of how many movies and TV shows that are available
-                on the four different services. As you can see Netflix and Prime have by far the biggest
-                amount of content. So if you just want the maximum amount of content, and don't really mind what you
-                watch you'll be fine with either Netflix and/or Prime.
-            </p>
+    <div style="background: #fbe5d6;">
+        <div class="container viz">
+            <h1>Basic Overview</h1>
+            <div class="text">
+                <p>
+                    This section gives you an idea of how many movies and TV shows that are available
+                    on the four different services. As you can see Netflix and Prime have by far the biggest
+                    amount of content. So if you just want the maximum amount of content, and don't really mind what you
+                    watch you'll be fine with either Netflix and/or Prime.
+                </p>
+            </div>
+    
+            <div id="barchart">
+    
+    
+            </div>
+    
+            <div class="one-line">
+                <input class="form-control" type="text" placeholder="Today (2022 + undated)" readonly id="year_txt">
+                <input type="range" min="2000" max="2023" value="2023" class="slider" id="year_plot">
+                <div class="info" id="info_year"><img src="media/info.png"></div>
+            </div>
+            <div class="info_text" id="info_year_select">
+                Due to the data for Amazon Prime being incomplete, we decided to add the option to have the
+                display the full data at the very end. Play around with the slider to get a feeling
+                for the speed with which Netflix and co is growing.
+            </div>
+    
+            <div class="text">
+                <p>
+                    From the barchart above you can see that Netflix has more TV-shows than the other providers.
+                    Interestingly Hulu has a lot of TV-shows, and Prime is not beating them by much in regard to content.
+                    Another interesting fact is that Hulu has a lot of TV-shows compared to the number
+                    of movies available on the platform. So if you're the person that enjoys watching TV-shows,
+                    but hate having to browse through endless of options (even though Netfliz and Prime have
+                    provide filtering), then Hulu might be the right option as they might continue with this distribution.
+                </p>
+            </div>
+    
+            <!--<div class="flourish-embed flourish-sankey" data-src="visualisation/9615889"><script src="https://public.flourish.studio/resources/embed.js"></script></div>-->
+    
+            <!--<img src="media/Amount_of_content.png" alt="">-->
         </div>
-
-        <div id="barchart">
-
-
-        </div>
-
-        <div class="one-line">
-            <input class="form-control" type="text" placeholder="Today (2022 + undated)" readonly id="year_txt">
-            <input type="range" min="2000" max="2023" value="2023" class="slider" id="year_plot">
-            <div class="info" id="info_year"><img src="media/info.png"></div>
-        </div>
-        <div class="info_text" id="info_year_select">
-            Due to the data for Amazon Prime being incomplete, we decided to add the option to have the
-            display the full data at the very end. Play around with the slider to get a feeling
-            for the speed with which Netflix and co is growing.
-        </div>
-
-        <div class="text">
-            <p>
-                From the barchart above you can see that Netflix has more TV-shows than the other providers.
-                Interestingly Hulu has a lot of TV-shows, and Prime is not beating them by much in regard to content.
-                Another interesting fact is that Hulu has a lot of TV-shows compared to the number
-                of movies available on the platform. So if you're the person that enjoys watching TV-shows,
-                but hate having to browse through endless of options (even though Netfliz and Prime have
-                provide filtering), then Hulu might be the right option as they might continue with this distribution.
-            </p>
-        </div>
-
-        <!--<div class="flourish-embed flourish-sankey" data-src="visualisation/9615889"><script src="https://public.flourish.studio/resources/embed.js"></script></div>-->
-
-        <!--<img src="media/Amount_of_content.png" alt="">-->
     </div>
 
-    <div class="container viz">
-        <h1>Find the best provider based on your favorite actors and directors</h1>
-        <div class="text">
-            <p>
-                Who's your favorite actor and who's you favorite director? If you're the kind 
-                of person that enjoys watching TV-shows or movies with your favorite actors or 
-                by certain directors, then this visualization might be really helpful for you 
-                in terms of selecting the best streaming provider.
-                <br><br>
-            </p>
-            <h2>Did you know, that...</h2>
-            <ul>
-                <li><a href=https://wikipedia.org/wiki/Anupam_Kher target="_blank">Anupam Kher</a> acted in over 200 movies, but only one of them is on <b>Hulu</b></li>
-                <li><a href = https://en.wikipedia.org/wiki/Michael_Bay target="_blank">Michael Bay</a> is only present on <b>Netflix</b> and <b>Amazon Prime</b></li>
-                <li>You can't find pure Action movies on <b>Netflix</b> and <b>Disney+</b></li>
-                <li>You can click on all links and get to a google query</li>
-            </ul> 
-
+    <div style="background: #e2f0d9; margin-top: -70px;">
+        <div class="container viz">
+            <h1>Find the best provider based on your favorite actors and directors</h1>
+            <div class="text">
+                <p>
+                    Who's your favorite actor and who's you favorite director? If you're the kind 
+                    of person that enjoys watching TV-shows or movies with your favorite actors or 
+                    by certain directors, then this visualization might be really helpful for you 
+                    in terms of selecting the best streaming provider.
+                    <br><br>
+                </p>
+                <h2>Did you know, that...</h2>
+                <ul>
+                    <li><a href=https://wikipedia.org/wiki/Anupam_Kher target="_blank">Anupam Kher</a> acted in over 200 movies, but only one of them is on <b>Hulu</b></li>
+                    <li><a href = https://en.wikipedia.org/wiki/Michael_Bay target="_blank">Michael Bay</a> is only present on <b>Netflix</b> and <b>Amazon Prime</b></li>
+                    <li>You can't find pure Action movies on <b>Netflix</b> and <b>Disney+</b></li>
+                    <li>You can click on all links and get to a google query</li>
+                </ul> 
+    
+            </div>
+            <div id="sankey_load" class="loader">
+                <img src="media/epfl_logo.png" alt="">
+            </div>
+            <div id="sankey_env">
+                <select class="form-select" id="quantity_select">
+                    <option value="actors" selected>Actors</option>
+                    <option value="directors">Directors</option>
+                    <option value="country">Country</option>
+                    <option value="genre">Genre</option>
+                </select>
+                <div id="artist_select" class="one-line">
+                    <select id="sankey_select" multiple="multiple"></select>
+                    <button type="button" class="btn btn-primary" id="clear_select_button">Clear</button>
+                    <div class="info" id="info_artist"><img src="media/info.png"></div>
+                </div>
+                <div class="info_text" id="info_artist_select">
+                    Using the dropdown menus above, you should be able to select your most beloved actors, directors, countries or genres. You can use the search field to make your search more convenient. Although it is possible to select hundreds of characters, we recommend to choose a reasonable amount since the diagram will get crowded rather quickly.
+                </div>
+                <br>
+                <div class="sankey_plot">
+                    <img src="media/meme.jpg" alt="" id="empty_sankey_select">
+                    <svg style="background: #fff;" id="sankey" viewBox="-10 -10 220 120" height="90%" width="100%"> </svg>
+                </div>
+                <div class="one-line">
+                    <input class="form-control" type="text" placeholder="Min. number of movies of actor: 15" readonly
+                        id="number_of_movies_txt">
+                    <input type="range" min="1" max="50" value="15" class="slider" id="number_of_movies">
+                    <button type="button" class="btn btn-primary" id="reset_button">Go</button>
+                    <div class="info" id="info_size"><img src="media/info.png"></div>
+                </div>
+                <div class="info_text" id="info_size_select">
+                    Using this set of parameters you can set the minimal amount of movies an actor should have. Lower values
+                    make the calculation slower and hence we recommend to use values above 5.
+                    Also, it does not make sense to use a streaming provider just because of one move.
+                </div>
+                <!--<div class="flourish-embed flourish-sankey" data-src="visualisation/9615889"><script src="https://public.flourish.studio/resources/embed.js"></script></div>-->
+            </div>
+            <!--<img src="media/sankeyDiagram.jpg" alt="">-->
+            <div class="text" style="margin-top: 10em;">
+                <p>
+                    The Sankey-Diagram should help you to see, which streaming platform offers you 
+                    the most amount of content of your favorite directors as well as actors. By 
+                    using the field in the upper left hand of the plot you can change your search. 
+                    The Sankey diagram adapts to your choice, in that way you'll see which provider 
+                    that offers you the most in terms of what you like.
+                </p>
+            </div>
         </div>
-        <div id="sankey_load" class="loader">
-            <img src="media/epfl_logo.png" alt="">
-        </div>
-        <div id="sankey_env">
-            <select class="form-select" id="quantity_select">
-                <option value="actors" selected>Actors</option>
-                <option value="directors">Directors</option>
+    </div>
+    
+    <div style="background: #deebf7; margin-top: -70px;">
+        <div class="container viz">
+            <h1>Best at adding new content to the platform</h1>
+            <div class="text">
+                <p>
+                    Adding new content to the platform might be a key factor in determining to chose 
+                    a certain streaming provider in favour of another. The amount of new content that 
+                    a streaming provider adds to their platform is a indication of where things are going in 
+                    terms of the amount of content that they would have avaliable in the future. 
+                    If you are not into old movies or just really enjoys watching new movies, as 
+                    they are lickely to have higher quality in terms of imagery and special effects. 
+                    Then the line chart below should be helpful in visualizing just that.
+                </p>
+            </div>
+            <select class="formSelect" id="lineSelectorSelect">
                 <option value="country">Country</option>
                 <option value="genre">Genre</option>
             </select>
-            <div id="artist_select" class="one-line">
-                <select id="sankey_select" multiple="multiple"></select>
-                <button type="button" class="btn btn-primary" id="clear_select_button">Clear</button>
-                <div class="info" id="info_artist"><img src="media/info.png"></div>
+            <div id="lineSelectDiv" class="one-line">
+                <select id="lineSelect"></select>
             </div>
-            <div class="info_text" id="info_artist_select">
-                Using the dropdown menus above, you should be able to select your most beloved actors, directors, countries or genres. You can use the search field to make your search more convenient. Although it is possible to select hundreds of characters, we recommend to choose a reasonable amount since the diagram will get crowded rather quickly.
+            <svg style="background: #fff;" id="lineChart"></svg>
+    
+            <div class="text">
+                <p>
+                    The line chart above should help you see, which streaming platform has the 
+                    highest rate of adding new content. You can choose your most beloved categories 
+                    to adapt this plot to your needs, and so that you end up choosing the streaming 
+                    provider that is most suitable for you.
+                </p>
             </div>
-            <br>
-            <div class="sankey_plot">
-                <img src="media/meme.jpg" alt="" id="empty_sankey_select">
-                <svg id="sankey" viewBox="-10 -10 220 120" height="90%" width="100%"> </svg>
-            </div>
-            <div class="one-line">
-                <input class="form-control" type="text" placeholder="Min. number of movies of actor: 15" readonly
-                    id="number_of_movies_txt">
-                <input type="range" min="1" max="50" value="15" class="slider" id="number_of_movies">
-                <button type="button" class="btn btn-primary" id="reset_button">Go</button>
-                <div class="info" id="info_size"><img src="media/info.png"></div>
-            </div>
-            <div class="info_text" id="info_size_select">
-                Using this set of parameters you can set the minimal amount of movies an actor should have. Lower values
-                make the calculation slower and hence we recommend to use values above 5.
-                Also, it does not make sense to use a streaming provider just because of one move.
-            </div>
-            <!--<div class="flourish-embed flourish-sankey" data-src="visualisation/9615889"><script src="https://public.flourish.studio/resources/embed.js"></script></div>-->
         </div>
-        <!--<img src="media/sankeyDiagram.jpg" alt="">-->
-        <div class="text" style="margin-top: 10em;">
-            <p>
-                The Sankey-Diagram should help you to see, which streaming platform offers you 
-                the most amount of content of your favorite directors as well as actors. By 
-                using the field in the upper left hand of the plot you can change your search. 
-                The Sankey diagram adapts to your choice, in that way you'll see which provider 
-                that offers you the most in terms of what you like.
-            </p>
-        </div>
-
     </div>
 
-    <div class="container viz">
-        <h1>Best at adding new content to the platform</h1>
-        <div class="text">
-            <p>
-                Adding new content to the platform might be a key factor in determining to chose 
-                a certain streaming provider in favour of another. The amount of new content that 
-                a streaming provider adds to their platform is a indication of where things are going in 
-                terms of the amount of content that they would have avaliable in the future. 
-                If you are not into old movies or just really enjoys watching new movies, as 
-                they are lickely to have higher quality in terms of imagery and special effects. 
-                Then the line chart below should be helpful in visualizing just that.
-            </p>
-        </div>
-        <select class="formSelect" id="lineSelectorSelect">
-            <option value="country">Country</option>
-            <option value="genre">Genre</option>
-        </select>
-        <div id="lineSelectDiv" class="one-line">
-            <select id="lineSelect"></select>
-        </div>
-        <svg id="lineChart"></svg>
-
-        <div class="text">
-            <p>
-                The line chart above should help you see, which streaming platform has the 
-                highest rate of adding new content. You can choose your most beloved categories 
-                to adapt this plot to your needs, and so that you end up choosing the streaming 
-                provider that is most suitable for you.
-            </p>
-        </div>
-
-    </div>
-
-
-    <div class="footer">
+    <div class="footer" style="margin-top: -10px;>
         <img id="hat" src="media/favicon.png" alt="">
         <h1>Data Wizards</h1>
         <p>Check out our Github repository:</p>
