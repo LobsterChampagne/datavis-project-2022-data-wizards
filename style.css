@@ -121,8 +121,8 @@ h2 {
 
 }
 
-#hat:hover {
-    animation: rotate 1s ease 1;
+.rotate_hover:hover {
+    animation: rotate 2s ease 1;
 }
 
 @keyframes rotate {
@@ -171,7 +171,7 @@ h2 {
 }
 
 .boywiz:hover {
-    animation: rotate 1s ease 1;
+    animation: rotate 3s ease 1;
 }
 
 .disclaimer {
