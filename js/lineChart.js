@@ -208,10 +208,14 @@ whenDocumentLoaded(() => {
 			createLineSelect()
 		}
 	})
-	$("#lineSelect").change(function () { //when update the select, update graph
+	$("#lineSelect").multiselect({
+		maxHeight: 300,
+		enableCaseInsensitiveFiltering: true,
+		enableFiltering: true,
+		onChange:function () { //when update the select, update graph
 		 	graphUpdate()
 		}
-	)
+})
 
 	function graphUpdate() {
 		new LineChart('Data/all_streams.csv');
@@ -239,6 +243,11 @@ whenDocumentLoaded(() => {
 					.attr('value', f => f)
 					.text(f => f)
 					.attr('selected', 'selected')
+
+				$('#lineSelect')
+					.val([((lineSelectorSelect == 'country') ? 'United States' : 'Action')])
+					.multiselect('rebuild')
+				graphUpdate();
 			}	
 		)
 	}
