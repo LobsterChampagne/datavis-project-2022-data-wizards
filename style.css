@@ -229,6 +229,12 @@ svg {
 
 }
 
+.center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .loader img {
     width: 10%;
     margin-top: 20%;
