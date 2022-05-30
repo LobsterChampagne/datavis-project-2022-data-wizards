@@ -102,8 +102,8 @@ class LineChart {
 					return get_color(d[0])
 				})
 				.attr("id",d => d[0])
-				.attr("class","single_line")
-				.attr("title",d=>console.log(d))
+				.attr("class","line")
+				.attr("title",d=> d.service)
 				.attr("d", d =>{
 					return d3.line()
 					  .x(d => { return x(d.year); })
@@ -115,31 +115,25 @@ class LineChart {
 				.attr("stroke-width", 2)
 				.attr("transform", `translate(35, 15)`) //have to be shifted to line up with axis
 
-			
-		    
-			var sel = document.getElementsByClassName("single_line")
-			
-			console.log(sel)
-
-			for (let i = 0; i < sel.length; i++) {
-				sel[i].addEventListener('mouseover', function () {
-					var x = document.getElementsByClassName("single_line")
-					for(let j =0;j<x.length;j++){
-						if(x[j].id != x[i].id){
-							x[j].style.opacity = 0.3;
-						}
-					}
+			lineSvg.selectAll(".circle")
+				.append("g")
+				.data(filteredData)
+				.enter()
+				.append("circle")
+				.attr("r", 4)
+				.attr("cx", d => x(d.year))
+				.attr("cy", d => y(d.count))
+				.style("fill", d => {
+					return get_color(d.service)
 				})
-				sel[i].addEventListener('mouseout', function () {
-					var x = document.getElementsByClassName("single_line")
-					for(let j =0;j<x.length;j++){
-						if(x[j].id != x[i].id){
-							x[j].style.opacity = 1;
-						}
-					}
+				.attr("transform", `translate(35, 15)`)
+				.attr("class","dot")
+				.attr("id", d => {
+					return 'dot' + d.service + d.year
 				})
-			}
-		
+				.append('title').text(d => {
+					return d.service + ' ' + d.year + '\n' + d.count
+				})
 
 		var brush = d3.brushX()
 			.extent([
@@ -173,7 +167,6 @@ class LineChart {
 		function onBrush(d) {
 			//var b = d3.event.selection === null ? contextXScale.domain() : d3.event.selection.map(contextXScale.invert);
 			var domain = d.selection.map(contextX.invert)
-			console.log(domain)
 			x.domain(domain)
 			lineSvg.select(".x.axis").call(d3.axisBottom(x).ticks(5))
 			lineSvg.select("path")
@@ -215,7 +208,7 @@ whenDocumentLoaded(() => {
 		onChange:function () { //when update the select, update graph
 		 	graphUpdate()
 		}
-})
+	})
 
 	function graphUpdate() {
 		new LineChart('Data/all_streams.csv');

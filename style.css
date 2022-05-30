@@ -324,3 +324,21 @@ svg {
 .boywiz:hover img{
     display:none;
 }
+
+.dot:hover {
+    r : 9;
+    opacity: 1;
+    
+}
+.dot {
+    opacity: 0.4;
+    transition: r 0.5s, opacity 0.5s;
+}
+.line {
+    opacity: 0.5;
+    transition: stroke-width 0.3s, opacity 0.3s;
+}
+.line:hover {
+    opacity: 1;
+    stroke-width: 3;
+}
