@@ -60,6 +60,8 @@ h2 {
 }
 
 .container h1 {
+    margin: auto;
+    width: 60%;
     font-size: 45px;
     color: #000;
 }
@@ -76,6 +78,14 @@ h2 {
 .container p {
     margin-top: 1em;
     font-size: 20px;
+}
+
+.text ul {
+    font-size: 20px;
+}
+
+.text h2 {
+    font-size: 25px;
 }
 
 .viz {
