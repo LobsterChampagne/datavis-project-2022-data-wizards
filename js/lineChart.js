@@ -17,6 +17,13 @@ class LineChart {
 		this.svg = d3.select("#lineChart")
 			.attr("width", this.width)
 			.attr("height", this.height);
+
+		this.x = d3.scaleLinear()
+			.domain([1920, 2021])
+			.range([ 0, this.width - 45 ]);
+		this.y = d3.scaleLinear()
+			.domain([0, 100])//d3.max(filteredData, d => +d.count)])
+			.range([ this.height - 45, 0 ]);
 	}
 
 	loadData(data){ //load the data based on selector
@@ -71,22 +78,18 @@ class LineChart {
 		console.log(lineSelect)
 
 		//create the x axis scaled to the full data (1920-2022)
-		var x = d3.scaleLinear()
-			.domain(d3.extent(this.data, d => d.year))
-			.range([ 0, this.width - 45 ]);
-
 		this.svg.append("g")
 			.attr("class","x axis")
 			.attr("transform", `translate(35, ${this.height - 30})`) //have to be shifted into visible space
-			.call(d3.axisBottom(x).ticks(5));
+			.call(d3.axisBottom(this.x).ticks(5));
 
 		//create the y axis scaled to the filtered data
-		var y = d3.scaleLinear()
+		this.y = d3.scaleLinear()
 			.domain([0, d3.max(filteredData, d => +d.count)])
 			.range([ this.height - 45, 0 ]);
 		this.svg.append("g")
 			.attr("transform", `translate(35, 15)`) //have to be shifted into visible space
-			.call(d3.axisLeft(y))
+			.call(d3.axisLeft(this.y))
 
 		//group by provider, to make one path for each
 		var sumstat = d3.group(filteredData, d => d.service)
@@ -105,8 +108,8 @@ class LineChart {
 			.attr("title",d=> d.service)
 			.attr("d", d =>{
 				return d3.line()
-				.x(d => { return x(d.year); })
-				.y(d => { return y(+d.count); })
+				.x(d => { return this.x(d.year); })
+				.y(d => { return this.y(+d.count); })
 				(d[1]) //needed to aaccess the current structure
 			})
 			.attr("stroke-linejoin", "round")
@@ -120,8 +123,8 @@ class LineChart {
 			.enter()
 			.append("circle")
 			.attr("r", 4)
-			.attr("cx", d => x(d.year))
-			.attr("cy", d => y(d.count))
+			.attr("cx", d => this.x(d.year))
+			.attr("cy", d => this.y(d.count))
 			.style("fill", d => {
 				return this.get_color(d.service)
 			})
@@ -135,19 +138,20 @@ class LineChart {
 			})
 	}
 
-	brushFunc(){
+	createBrush(){
+		//brush
 		var contextX = d3.scaleLinear()
 			.domain(d3.extent(this.data, d => d.year))
-			.range([ 0, width - 45 ]);
+			.range([ 0, this.width - 45 ]);
 
 		var brushSvg = d3.select("#lineBrush")
-			.attr("width", width)
+			.attr("width", this.width)
 			.attr("height", 150)
 
 		var brush = d3.brushX()
 			.extent([
-			[x.range()[0], 0],
-			[x.range()[1], 100]
+			[this.x.range()[0], 0],
+			[this.x.range()[1], 100]
 			])
 			.on("brush", onBrush);
 
@@ -157,7 +161,7 @@ class LineChart {
 		context.append("g")
 			.attr("class", "x axis top")
 			.attr("transform", "translate(20, 20)")
-			.call(d3.axisBottom(x))
+			.call(d3.axisBottom(this.x))
 
 		context.append("g")
 			.attr("class", "x brush")
@@ -171,17 +175,20 @@ class LineChart {
 			.attr("class", "instructions")
 			.attr("transform", "translate(212, 140)") //center text
 			.text('Click and drag above to zoom / pan the data');
-		
+
+		let that = this;
 
 		// Brush handler. Get time-range from a brush and pass it to the charts. 
 		function onBrush(d) {
-			//var b = d3.event.selection === null ? contextXScale.domain() : d3.event.selection.map(contextXScale.invert);
 			var domain = d.selection.map(contextX.invert)
-			x.domain(domain)
-			lineSvg.select(".x.axis").call(d3.axisBottom(x).ticks(5))
-			lineSvg.select("path")
+			that.x.domain(domain)
+			that.svg.select(".x.axis").call(d3.axisBottom(that.x).ticks(5))
+			that.svg.select("path")
+			that.drawChart()
 		}
 	}
+
+	
 
 	get_color(name) {
 		switch (name) {
@@ -205,6 +212,7 @@ whenDocumentLoaded(() => {
 		.then(d => {
 			lineChart.loadData(d)
 			lineChart.drawChart()
+			lineChart.createBrush()
 		})
 	
 	
