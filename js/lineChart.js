@@ -43,7 +43,7 @@ class LineChart {
 					.filter(d => d != '')
 					.map(d => ({ service: cur.service, selector: d.trim(), year: cur.release_year }))
 				break;
-				case "every":
+				case "type":
 				var ret = cur.type
 				.split(',')
 				.filter(d => d != '')
@@ -262,7 +262,7 @@ whenDocumentLoaded(() => {
 			case 'genre':
 				csvFile = 'Data/genre_per_platform.csv'
 				break;
-			case 'every':
+			case 'type':
 				csvFile = 'Data/types_per_platform.csv'
 				break;
 		}
