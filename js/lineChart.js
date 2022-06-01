@@ -199,8 +199,6 @@ class LineChart {
 		}
 	}
 
-	
-
 	get_color(name) {
 		switch (name) {
 			case 'Netflix':
