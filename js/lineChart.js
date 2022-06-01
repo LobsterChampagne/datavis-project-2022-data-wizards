@@ -44,14 +44,14 @@ class LineChart {
 					.map(d => ({ service: cur.service, selector: d.trim(), year: cur.release_year }))
 				break;
 				case "every":
-				var ret = cur.listed_in
-					.split(/[\s&,]+/)
-					.filter(d => d != '')
-					.map(d => ({ service: cur.service, selector: d.trim(), year: cur.release_year }))
-				break;
+				var ret = cur.type
+				.split(',')
+				.filter(d => d != '')
+				.map(d => ({ service: cur.service, selector: d.trim(), year: cur.release_year }))
+			break;
 			}
 		return prev.concat(ret)
-		}, [])			
+		}, [])	
 
 		//reduce the data from above to the single keys
 		var num_movies = movies.reduce(function (prev, cur) {
@@ -254,29 +254,41 @@ whenDocumentLoaded(() => {
 		let lineSelectorSelect = $('#lineSelectorSelect').val() //get the value of the upper menu
 
 		//get the csv of the option data
-		let csvFile = ((lineSelectorSelect == 'country') ? 'Data/country_per_platform.csv' : 'Data/genre_per_platform.csv');
+		let csvFile;
+		switch (lineSelectorSelect) {
+			case 'country':
+				csvFile = 'Data/country_per_platform.csv'
+				break;
+			case 'genre':
+				csvFile = 'Data/genre_per_platform.csv'
+				break;
+			case 'every':
+				csvFile = 'Data/types_per_platform.csv'
+				break;
+		}
+
+		console.log
 
 		d3.csv(csvFile)
-		.then( data => {
-				let temp = []
-				data.forEach(d => {temp.push(d.qnt)})
-				let selectors = [...new Set(temp)].sort() //create a set of the data in the csv (due to duplicates)
+		.then(data => {
+			let temp = []
+			data.forEach(d => {temp.push(d.qnt)})
+			let selectors = [...new Set(temp)].sort() //create a set of the data in the csv (due to duplicates)
 
-				var menu = d3.select('#lineSelect').html('') //clear the options of the dropdown
+			var menu = d3.select('#lineSelect').html('') //clear the options of the dropdown
 
-				menu = menu //add the option
-					.selectAll('option')
-					.data(selectors)
-					.enter()
-					.append('option')
-					.attr('value', f => f)
-					.text(f => f)
-					.attr('selected', 'selected')
+			menu = menu //add the option
+				.selectAll('option')
+				.data(selectors)
+				.enter()
+				.append('option')
+				.attr('value', f => f)
+				.text(f => f)
+				.attr('selected', 'selected')
 
-				$('#lineSelect')
-					.val([((lineSelectorSelect == 'country') ? 'United States' : 'Action')])
-					.multiselect('rebuild')
-			}	
-		)
+			$('#lineSelect')
+				.val([((lineSelectorSelect == 'country') ? 'United States' : ((lineSelectorSelect == 'genre') ? 'Action' : 'Movie'))])
+				.multiselect('rebuild')
+		})
 	}
 });
