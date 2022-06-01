@@ -93,7 +93,7 @@ class LineChart {
 
 		//create the y axis scaled to the brushed data
 		this.y = d3.scaleLinear()
-			.domain([0, highY])
+			.domain([0, highY + 1])
 			.range([ this.height - 45, 0 ]);
 		this.svg.append("g")
 			.attr("transform", `translate(35, 15)`) //have to be shifted into visible space
