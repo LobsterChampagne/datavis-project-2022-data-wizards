@@ -267,8 +267,6 @@ whenDocumentLoaded(() => {
 				break;
 		}
 
-		console.log
-
 		d3.csv(csvFile)
 		.then(data => {
 			let temp = []
