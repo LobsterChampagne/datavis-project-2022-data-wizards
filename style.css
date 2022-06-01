@@ -1,351 +1,344 @@
 * {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
+	margin: 0;
+	font-family: "Roboto", sans-serif;
 }
 
 .nav {
-    display: flex;
-    background: #41b3a3;
-    color: #fff;
-    text-align: center;
-    vertical-align: middle;
+	display: flex;
+	background: #41b3a3;
+	color: #fff;
+	text-align: center;
+	vertical-align: middle;
 }
 
 .smallboxNav {
-    text-align: left;
-    margin: auto;
-    margin-top: 10px;
-    width: 10%;
-    height: 100%;
-    font-size: 18px;
+	text-align: left;
+	margin: auto;
+	margin-top: 10px;
+	width: 10%;
+	height: 100%;
+	font-size: 18px;
 }
 
 .smallboxNav p {
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 .boxNav {
-    padding: 20px;
-    width: 80%;
-    font-size: 45px;
+	padding: 20px;
+	width: 80%;
+	font-size: 45px;
 }
 
 .smallboxNav img {
-    width: 80%;
+	width: 80%;
 }
 
 .providers {
-    display: flex;
-    width: 60%;
-    margin: auto;
-    margin-top: 3em;
-    margin-bottom: 5em;
+	display: flex;
+	width: 60%;
+	margin: auto;
+	margin-top: 3em;
+	margin-bottom: 5em;
 }
 
 .providers img {
-    width: 80%;
-    margin: auto;
+	width: 80%;
+	margin: auto;
 }
 
 h1,
 h2 {
-    text-align: center;
+	text-align: center;
 }
 
 .container {
-    display: block;
-    width: 100%;
-    margin: auto;
-    margin-top: 2em;
-    overflow-x: hidden;
-    max-width: 100%;
-
+	display: block;
+	width: 100%;
+	margin: auto;
+	margin-top: 2em;
+	overflow-x: hidden;
+	max-width: 100%;
 }
 
 .container h1 {
-    margin: auto;
-    width: 60%;
-    font-size: 45px;
-    color: #000;
+	margin: auto;
+	width: 60%;
+	font-size: 45px;
+	color: #000;
 }
 
 #by {
-    text-align: center;
+	text-align: center;
 }
 
 .container .text {
-    margin: auto;
-    width: 60%;
+	margin: auto;
+	width: 60%;
 }
 
 .container p {
-    margin-top: 1em;
-    font-size: 20px;
+	margin-top: 1em;
+	font-size: 20px;
 }
 
 .text ul {
-    font-size: 20px;
+	font-size: 20px;
 }
 
 .text h2 {
-    font-size: 25px;
+	font-size: 25px;
 }
 
 .viz {
-    margin-top: 5em;
-    padding: 50px;
+	margin-top: 5em;
+	padding: 50px;
 }
 
 .viz h1 {
-    font-size: 30px;
-    color: #41b3a3;
+	font-size: 30px;
+	color: #41b3a3;
 }
 
 .viz img {
-    display: block;
-    margin: auto;
-    width: 40%;
+	display: block;
+	margin: auto;
+	width: 40%;
 }
 
 .footer {
-    padding: 10px;
-    margin-top: 2em;
-    background: #41b3a3;
-    color: #fff;
+	padding: 10px;
+	margin-top: 2em;
+	background: #41b3a3;
+	color: #fff;
 }
 
 #hat {
-    display: flex;
-    margin: auto;
-    height: 50px;
-    transform: translateY(10px);
-
+	display: flex;
+	margin: auto;
+	height: 50px;
+	transform: translateY(10px);
 }
 
 .rotate_hover:hover {
-    animation: rotate 2s ease 1;
+	animation: rotate 2s ease 1;
 }
 
 @keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
+	0% {
+		transform: rotate(0deg);
+	}
 
-    100% {
-        transform: rotate(360deg);
-    }
+	100% {
+		transform: rotate(360deg);
+	}
 }
 
 .footer h1 {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }
 
 .footer p {
-    text-align: center;
-    margin-bottom: 1em;
+	text-align: center;
+	margin-bottom: 1em;
 }
 
 #git {
-    display: block;
-    margin: auto;
+	display: block;
+	margin: auto;
 }
 
 .themBoys {
-    margin-top: 1em;
-    width: 80%;
-    display: flex;
-    margin: auto;
-    margin-top: 1em;
+	margin-top: 1em;
+	width: 80%;
+	display: flex;
+	margin: auto;
+	margin-top: 1em;
 }
 
 .boywiz {
-    width: 20%;
-    font-size: 20px;
-    text-align: center;
-    margin: auto;
+	width: 20%;
+	font-size: 20px;
+	text-align: center;
+	margin: auto;
 }
 
 .boywiz img {
-    width: 100%;
-    border-radius: 10px;
+	width: 100%;
+	border-radius: 10px;
 }
 
 .boywiz:hover {
-    animation: rotate 3s ease 1;
+	animation: rotate 3s ease 1;
 }
 
 .disclaimer {
-    color: #fff;
-    width: 80%;
-    margin: auto;
-    margin-top: 2em;
+	color: #fff;
+	width: 80%;
+	margin: auto;
+	margin-top: 2em;
 }
 
 .disclaimer p {
-    margin-top: 10px;
-    font-size: 15px;
-    text-align: center;
+	margin-top: 10px;
+	font-size: 15px;
+	text-align: center;
 }
 
 .disclaimer h1 {
-    font-size: 20px;
+	font-size: 20px;
 }
 
 .slider {
-    width: 30% !important;
-    display: inline-block !important;
+	width: 30% !important;
+	display: inline-block !important;
 }
 
 .form-control {
-    width: 50% !important;
-    display: inline-block !important;
+	width: 50% !important;
+	display: inline-block !important;
 }
 
 .sankey_stroke:hover {
-    opacity: 0.6
+	opacity: 0.6;
 }
 
 rect:hover {
-    opacity: 0.6;
+	opacity: 0.6;
 }
 
 .multiselect-search {
-    width: 100% !important;
+	width: 100% !important;
 }
 
 svg {
-    margin: 5px;
+	margin: 5px;
 }
 
 #sankey_env {
-    display: none;
-    height: 80%;
-    width: 100%;
+	display: none;
+	height: 80%;
+	width: 100%;
 }
 
 #sankey_laod {
-    height: 50%;
+	height: 50%;
 }
 
 .loader {
-    animation: grow 2s linear infinite;
-
+	animation: grow 2s linear infinite;
 }
 
 .center {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
 }
 
 .loader img {
-    width: 10%;
-    margin-top: 20%;
+	width: 10%;
+	margin-top: 20%;
 }
 
 @keyframes grow {
-    0% {
-        transform: scale(0.5) rotate(0deg);
-    }
+	0% {
+		transform: scale(0.5) rotate(0deg);
+	}
 
-    50% {
-        transform: scale(1.0) rotate(180deg);
-    }
+	50% {
+		transform: scale(1) rotate(180deg);
+	}
 
-    100% {
-        transform: scale(0.5) rotate(360deg);
-    }
+	100% {
+		transform: scale(0.5) rotate(360deg);
+	}
 }
 
 .one-line {
-    display: flex;
-    width: 100%;
+	display: flex;
+	width: 100%;
 }
 
 .sankey_plot {
-    height: 90%;
-    width: 100%;
+	height: 90%;
+	width: 100%;
 }
 
 .info {
-
-    display: inline-block;
+	display: inline-block;
 }
 
 .info img {
-    height: 20px;
-    width: 20px;
+	height: 20px;
+	width: 20px;
 }
 
 .info_text {
-    display: none;
-    position: absolute;
-    font-size: 10pt;
-    background-color: #41b3a4;
-    width: 60%;
-    font-style: bold;
-    font-family: sans-serif;
-
-
+	display: none;
+	position: absolute;
+	font-size: 10pt;
+	background-color: #41b3a4;
+	width: 60%;
+	font-style: bold;
+	font-family: sans-serif;
 }
 
 .multiselect-container {
-    max-width: 400px;
+	max-width: 400px;
 }
 
 .bar_hover:hover text {
-    display: block;
+	display: block;
 }
 
 .bar_hover text {
-    display: none;
-    fill: black;
+	display: none;
+	fill: black;
 }
 
 .bar_hover #rect_background {
-    display: none;
+	display: none;
 }
 
 .bar_hover:hover #rect_background {
-    display: block;
+	display: block;
 }
 
 #year_txt {
-    width: auto !important;
+	width: auto !important;
 }
 
 .wizwiz {
-    display: none;
+	display: none;
 }
 
 .boywiz:hover .wizwiz {
-    display: block;
+	display: block;
 }
 
 .boywiz:hover img {
-    display: none;
+	display: none;
 }
 
 .dot:hover {
-    r: 9;
-    opacity: 1;
-
+	r: 9;
+	opacity: 1;
 }
 
 .dot {
-    opacity: 0.4;
-    transition: r 0.5s, opacity 0.5s;
+	opacity: 0.4;
+	transition: r 0.5s, opacity 0.5s;
 }
 
 .line {
-    opacity: 0.5;
-    transition: stroke-width 0.3s, opacity 0.3s;
+	opacity: 0.5;
+	transition: stroke-width 0.3s, opacity 0.3s;
 }
 
 .line:hover {
-    opacity: 1;
-    stroke-width: 3;
+	opacity: 1;
+	stroke-width: 3;
 }
