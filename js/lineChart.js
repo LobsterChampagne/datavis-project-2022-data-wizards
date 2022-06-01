@@ -151,7 +151,7 @@ class LineChart {
 
 		//brush
 		var contextX = d3.scaleLinear()
-			.domain(d3.extent(this.data, d => d.year))
+			.domain([1920, 2021])
 			.range([ 0, this.width - 45 ]);
 
 		var brushSvg = d3.select("#lineBrush")
@@ -160,8 +160,8 @@ class LineChart {
 
 		var brush = d3.brushX()
 			.extent([
-			[this.x.range()[0], 0],
-			[this.x.range()[1], 100]
+				[this.x.range()[0], 0],
+				[this.x.range()[1], 100]
 			])
 			.on("brush", onBrush)
 			.on("end", checkReset);
@@ -176,9 +176,9 @@ class LineChart {
 
 		context.append("g")
 			.attr("class", "x brush")
+			.attr("transform", "translate(20, 20)")
 			.call(brush)
 			.selectAll("rect")
-			.attr("transform", "translate(20, 20)")
 			.attr("y", 0)
 			.attr("height", 100);
 
