@@ -15,7 +15,6 @@ const svg = d3.select("#barchart")
   .append("svg")
   .attr("width", width + margin.left + margin.right + 200)
   .attr("height", height + margin.top + margin.bottom)
-
   .append("g")
   .attr("id", "bar_plot_area")
   .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -44,10 +43,10 @@ d3.csv("./Data/platform_per_year.csv")
       .unbind('input')
       .on('input', function () {
 
-        //delete the previously drawn things
+        //delete the previously drawn things and read our year
         year = document.getElementById('year_plot').value;
         d3.select("#bar_plot_area").selectAll("g").remove()
-        draw_barplot(year)
+        draw_barplot(year);
 
         //check for special case 2023
         if (year == 2023) {
@@ -60,6 +59,7 @@ d3.csv("./Data/platform_per_year.csv")
           )
         }
 
+        //display meme if selection is smaller than 2000
         if (year <= 2000) {
           document.getElementById('bar_to_old').style.display = 'block'
           document.getElementById('barchart').style.display = 'none'
@@ -69,7 +69,7 @@ d3.csv("./Data/platform_per_year.csv")
         }
       })
 
-
+    // update barplot
     draw_barplot(document.getElementById('year_plot').value)
 
 
@@ -81,6 +81,8 @@ d3.csv("./Data/platform_per_year.csv")
 
       //summarize data according to the filter above
       data = data.reduce((prev, cur) => {
+
+        //add an empty element if not yet present
         if (!prev[cur.service]) {
           prev[cur.service] = {
             MovieOld: 0,
@@ -90,6 +92,7 @@ d3.csv("./Data/platform_per_year.csv")
           };
         }
 
+        // add to corresponding selection
         if (cur.date_added == year) {
           prev[cur.service].MovieNew += parseFloat(cur.Movie) || 0;
           prev[cur.service].TVShowNew += parseFloat(cur["TV Show"]) || 0;
@@ -180,7 +183,6 @@ d3.csv("./Data/platform_per_year.csv")
         .attr("x", 460)
         .attr("y", margin.top + 50)
 
-
       // insert area for legend
       legend = svg.append("g")
 
@@ -223,6 +225,7 @@ d3.csv("./Data/platform_per_year.csv")
           .attr("cx", 450)
           .attr("r", 5)
           .style("fill", '#8A449F')
+          
         legend.append("text")
           .attr("x", 460)
           .attr("y", height / 2 + 30)

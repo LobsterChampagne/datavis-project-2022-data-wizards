@@ -50,7 +50,7 @@ class sankeyPlot {
       .attr('class', 'sankey_stroke')
 
 
-    //add a text to the svg strokes
+    //add a hover on text to the svg strokes
     link.append('title').text(d => {
       return d.source.name + ' on ' + d.target.name + '\n' + d.value
     })
@@ -61,7 +61,7 @@ class sankeyPlot {
       .enter()
       .append('g')
 
-    //for each node append a rect with the corresponding sizes given by sankey
+    //for each node append a rect with the corresponding sizes and position given by sankey
     node
       .append('rect')
       .attr('x', d => {
@@ -81,16 +81,18 @@ class sankeyPlot {
       })
       .on('click', (d, i) => window.open("http://www.google.com/search?q=" + i.name.replace(" ", "+")))
 
+    //add the node titles to the nodes
     node.append("title")
       .text(d => d.name + ', ' + d.value)
-    //add the node titles to the nodes
+
+
+    //append the names to the nodes
     node
       .append('text')
       .text(d => {
         return d.name
       })
-      .attr('font-size', '3pt')
-      .attr('transform', 'rotate(0)')
+      .attr('font-size', (4 / (data.nodes.length - 4) + 2) + "pt")
       .attr('y', d => {
         return (d.y0 + d.y1) / 2
       })
@@ -133,7 +135,7 @@ class sankeyPlot {
       return color
     }
 
-    //function to make agiven color 10% darker
+    //function to make a given color 10% darker
     function darker(color) {
       var new_color = '#'
       color = color.replace('#', '')
@@ -165,14 +167,14 @@ function whenDocumentLoaded(action) {
   }
 }
 
+// function called as soon as the document is loaded
 whenDocumentLoaded(() => {
-  // console.log('Sankey: Do what ever you want here')
   $('#quantity_select').multiselect({
     onChange: function () {
       document.getElementById('sankey_load').style.display = 'block'
       document.getElementById('sankey_env').style.display = 'none'
       selection = $('#quantity_select').val()
-      sleep = new Promise((d, u) => setTimeout(d, 1000))
+      sleep = new Promise((d, u) => setTimeout(d, 500))
       sleep.then(function () {
         setup()
       })
@@ -187,7 +189,6 @@ whenDocumentLoaded(() => {
 
   function setup() {
     //Load the data from the file and consolidate it
-    //d3.csv('./Data/cast_per_platform.csv').then(function (dd) {
     quantity_selection = $('#quantity_select').val()
     var src = ""
     switch (quantity_selection) {
@@ -465,9 +466,6 @@ whenDocumentLoaded(() => {
 
           document.getElementById('sankey_load').style.display = 'none'
           document.getElementById('sankey_env').style.display = 'block'
-          //aggregate the data
-          //data = get_data(actors, providers, links, null)
-          //plot = new sankeyPlot('sankey', data, false)
         }
       })
   }
