@@ -12,46 +12,58 @@ class LineChart {
 	constructor() {
 		$("#lineChart").empty(); //reset the SVG, useful for updating
 
-		this.width = 700;// set the SVG size
-		this.height = 450; 
+		this.width = 700; // set the SVG size
+		this.height = 450;
 		this.svg = d3.select("#lineChart")
 			.attr("width", this.width)
 			.attr("height", this.height);
 
 		this.x = d3.scaleLinear()
 			.domain([1920, 2021])
-			.range([ 0, this.width - 45 ]);
+			.range([0, this.width - 45]);
 		this.y = d3.scaleLinear()
-			.domain([0, 100])//d3.max(filteredData, d => +d.count)])
-			.range([ this.height - 45, 0 ]);
+			.domain([0, 100]) //d3.max(filteredData, d => +d.count)])
+			.range([this.height - 45, 0]);
 	}
 
-	loadData(data){ //load the data based on selector
+	loadData(data) { //load the data based on selector
 		let lineSelectorSelect = $('#lineSelectorSelect').val() //get the selector type
 		//divide the data into multiple elements
 		var movies = data.reduce(function (prev, cur) {
 			switch (lineSelectorSelect) {
 				case "country":
-				var ret = cur.country
-					.split(',')
-					.filter(d => d != '')
-					.map(d => ({ service: cur.service, selector: d.trim(), year: cur.release_year }))
-				break;
+					var ret = cur.country
+						.split(',')
+						.filter(d => d != '')
+						.map(d => ({
+							service: cur.service,
+							selector: d.trim(),
+							year: cur.release_year
+						}))
+					break;
 				case "genre":
-				var ret = cur.listed_in
-					.split(/[\s&,]+/)
-					.filter(d => d != '')
-					.map(d => ({ service: cur.service, selector: d.trim(), year: cur.release_year }))
-				break;
+					var ret = cur.listed_in
+						.split(/[\s&,]+/)
+						.filter(d => d != '')
+						.map(d => ({
+							service: cur.service,
+							selector: d.trim(),
+							year: cur.release_year
+						}))
+					break;
 				case "type":
-				var ret = cur.type
-				.split(',')
-				.filter(d => d != '')
-				.map(d => ({ service: cur.service, selector: d.trim(), year: cur.release_year }))
-			break;
+					var ret = cur.type
+						.split(',')
+						.filter(d => d != '')
+						.map(d => ({
+							service: cur.service,
+							selector: d.trim(),
+							year: cur.release_year
+						}))
+					break;
 			}
-		return prev.concat(ret)
-		}, [])	
+			return prev.concat(ret)
+		}, [])
 
 		//reduce the data from above to the single keys
 		var num_movies = movies.reduce(function (prev, cur) {
@@ -69,21 +81,23 @@ class LineChart {
 			year: d.split(',')[2],
 			count: num_movies[d]
 		}))
-	
+
 		this.data = ret;
 	}
 
-	drawChart(){
+	drawChart() {
 		$("#lineChart").empty(); //remove previous chart
 		let lineSelect = $('#lineSelect').val() //get the select value
 
 		//filter the data to that value and sort by year ascending order
-		const filteredData = this.data.filter(d => d.selector == lineSelect) 
-			.sort((a, b) => { return a.year - b.year })
+		const filteredData = this.data.filter(d => d.selector == lineSelect)
+			.sort((a, b) => {
+				return a.year - b.year
+			})
 
 		//create the x axis scaled to the full data (1920-2022)
 		this.svg.append("g")
-			.attr("class","x axis")
+			.attr("class", "x axis")
 			.attr("transform", `translate(35, ${this.height - 30})`) //have to be shifted into visible space
 			.call(d3.axisBottom(this.x).ticks(5));
 
@@ -94,14 +108,14 @@ class LineChart {
 		//create the y axis scaled to the brushed data
 		this.y = d3.scaleLinear()
 			.domain([0, highY + 1])
-			.range([ this.height - 45, 0 ]);
+			.range([this.height - 45, 0]);
 		this.svg.append("g")
 			.attr("transform", `translate(35, 15)`) //have to be shifted into visible space
 			.call(d3.axisLeft(this.y))
 
 		//group by provider, to make one path for each
 		var sumstat = d3.group(filteredData, d => d.service)
-		
+
 		this.svg.selectAll(".line")
 			.append("g")
 			.data(sumstat)
@@ -111,14 +125,18 @@ class LineChart {
 			.attr("stroke", d => {
 				return this.get_color(d[0])
 			})
-			.attr("id",d => d[0])
-			.attr("class","line")
-			.attr("title",d=> d.service)
-			.attr("d", d =>{
+			.attr("id", d => d[0])
+			.attr("class", "line")
+			.attr("title", d => d.service)
+			.attr("d", d => {
 				return d3.line()
-				.x(d => { return this.x(d.year); })
-				.y(d => { return this.y(+d.count); })
-				(d[1]) //needed to aaccess the current structure
+					.x(d => {
+						return this.x(d.year);
+					})
+					.y(d => {
+						return this.y(+d.count);
+					})
+					(d[1]) //needed to aaccess the current structure
 			})
 			.attr("stroke-linejoin", "round")
 			.attr("stroke-linecap", "round")
@@ -137,7 +155,7 @@ class LineChart {
 				return this.get_color(d.service)
 			})
 			.attr("transform", `translate(35, 15)`)
-			.attr("class","dot")
+			.attr("class", "dot")
 			.attr("id", d => {
 				return 'dot' + d.service + d.year
 			})
@@ -146,13 +164,13 @@ class LineChart {
 			})
 	}
 
-	createBrush(){
+	createBrush() {
 		let that = this;
 
 		//brush
 		var contextX = d3.scaleLinear()
 			.domain([1920, 2021])
-			.range([ 0, this.width - 45 ]);
+			.range([0, this.width - 45]);
 
 		var brushSvg = d3.select("#lineBrush")
 			.attr("width", this.width)
@@ -188,10 +206,10 @@ class LineChart {
 			.text('Click and drag above to zoom / pan the data');
 
 		function checkReset(d) {
-			if(!d.selection){
+			if (!d.selection) {
 				that.x = d3.scaleLinear()
 					.domain(d3.extent(that.data, d => d.year))
-					.range([ 0, that.width - 45 ]);
+					.range([0, that.width - 45]);
 				that.drawChart();
 			}
 		}
@@ -229,8 +247,8 @@ whenDocumentLoaded(() => {
 			lineChart.drawChart()
 			lineChart.createBrush()
 		})
-	
-	
+
+
 	$("#lineSelectorSelect").multiselect({ //when updating the selector, both change the options and update the graph
 		onChange: function () {
 			createLineSelect()
@@ -245,7 +263,7 @@ whenDocumentLoaded(() => {
 		maxHeight: 300,
 		enableCaseInsensitiveFiltering: true,
 		enableFiltering: true,
-		onChange:function () { //when update the select, update graph
+		onChange: function () { //when update the select, update graph
 			lineChart.drawChart()
 		}
 	})
@@ -268,22 +286,24 @@ whenDocumentLoaded(() => {
 		}
 
 		d3.csv(csvFile)
-		.then(data => {
-			let temp = []
-			data.forEach(d => {temp.push(d.qnt)})
-			let selectors = [...new Set(temp)].sort().filter(d => d != "") //create a set of the data in the csv (due to duplicates)
-			var menu = d3.select('#lineSelect').html('') //clear the options of the dropdown
-			menu = menu //add the option
-				.selectAll('option')
-				.data(selectors)
-				.enter()
-				.append('option')
-				.attr('value', f => f)
-				.text(f => f)
+			.then(data => {
+				let temp = []
+				data.forEach(d => {
+					temp.push(d.qnt)
+				})
+				let selectors = [...new Set(temp)].sort().filter(d => d != "") //create a set of the data in the csv (due to duplicates)
+				var menu = d3.select('#lineSelect').html('') //clear the options of the dropdown
+				menu = menu //add the option
+					.selectAll('option')
+					.data(selectors)
+					.enter()
+					.append('option')
+					.attr('value', f => f)
+					.text(f => f)
 
-			$('#lineSelect')
-				.val([((lineSelectorSelect == 'country') ? 'United States' : ((lineSelectorSelect == 'genre') ? 'Action' : 'Movie'))])
-				.multiselect('rebuild')
-		})
+				$('#lineSelect')
+					.val([((lineSelectorSelect == 'country') ? 'United States' : ((lineSelectorSelect == 'genre') ? 'Action' : 'Movie'))])
+					.multiselect('rebuild')
+			})
 	}
 });

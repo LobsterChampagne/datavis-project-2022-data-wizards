@@ -1,7 +1,12 @@
 // Barchart for the first viz, inspired and adapted by https://d3-graph-gallery.com/graph/barplot_stacked_basicWide.html
 
 // set the dimensions and margins of the graph
-const margin = { top: 10, right: 30, bottom: 20, left: 50 },
+const margin = {
+    top: 10,
+    right: 30,
+    bottom: 20,
+    left: 50
+  },
   width = 660 - margin.left - margin.right - 200,
   height = 400 - margin.top - margin.bottom;
 
@@ -32,8 +37,8 @@ d3.csv("./Data/platform_per_year.csv")
   .then(function (dd) {
 
     //get distinct years
-    years = [... new Set(dd.map(d => d.date_added))].sort()
-    
+    years = [...new Set(dd.map(d => d.date_added))].sort()
+
     //Add input function incase the user changes the range
     $('#year_plot')
       .unbind('input')
@@ -55,7 +60,7 @@ d3.csv("./Data/platform_per_year.csv")
           )
         }
 
-        if(year <=2000){
+        if (year <= 2000) {
           document.getElementById('bar_to_old').style.display = 'block'
           document.getElementById('barchart').style.display = 'none'
         } else {
@@ -77,7 +82,12 @@ d3.csv("./Data/platform_per_year.csv")
       //summarize data according to the filter above
       data = data.reduce((prev, cur) => {
         if (!prev[cur.service]) {
-          prev[cur.service] = { MovieOld: 0, TVShowOld: 0, MovieNew: 0, TVShowNew: 0 };
+          prev[cur.service] = {
+            MovieOld: 0,
+            TVShowOld: 0,
+            MovieNew: 0,
+            TVShowNew: 0
+          };
         }
 
         if (cur.date_added == year) {
@@ -94,7 +104,8 @@ d3.csv("./Data/platform_per_year.csv")
       //generate new data fields
       keys = Object.keys(data)
       data = keys.map(d => ({
-        provider: d, MovieOld: data[d].MovieOld,
+        provider: d,
+        MovieOld: data[d].MovieOld,
         TVShowOld: data[d].TVShowOld,
         MovieNew: data[d].MovieNew,
         TVShowNew: data[d].TVShowNew

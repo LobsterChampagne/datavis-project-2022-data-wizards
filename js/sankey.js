@@ -1,7 +1,7 @@
 //Skeletton from Exercise 8
 //Class to create a sankey plot, some parts were adapted from https://stackoverflow.com/q/50429070
 class sankeyPlot {
-  constructor (svg_element_id, data, draw) {
+  constructor(svg_element_id, data, draw) {
     this.svg = d3.select('#' + svg_element_id)
     this.svg.selectAll('*').remove()
 
@@ -42,19 +42,19 @@ class sankeyPlot {
       .enter()
       .append('path')
       .attr('stroke', d => get_color(d.target.name))
-      .on('click', (d,i) =>  window.open("http://www.google.com/search?q=Movies+TV+Shows+on+"+i.source.name.replace(" ","+")+"+"+i.target.name))
+      .on('click', (d, i) => window.open("http://www.google.com/search?q=Movies+TV+Shows+on+" + i.source.name.replace(" ", "+") + "+" + i.target.name))
       .attr('d', d3.sankeyLinkHorizontal())
       .attr('stroke-width', d => {
         return Math.max(d.width, '1')
       })
       .attr('class', 'sankey_stroke')
-      
+
 
     //add a text to the svg strokes
     link.append('title').text(d => {
       return d.source.name + ' on ' + d.target.name + '\n' + d.value
     })
-    
+
     //fill in the nodes
     node = node
       .data(data.nodes)
@@ -79,10 +79,10 @@ class sankeyPlot {
       .attr('fill', d => {
         return darker(get_color(d.name))
       })
-      .on('click', (d,i) =>  window.open("http://www.google.com/search?q="+i.name.replace(" ","+")))
+      .on('click', (d, i) => window.open("http://www.google.com/search?q=" + i.name.replace(" ", "+")))
 
     node.append("title")
-    .text(d => d.name + ', ' + d.value)
+      .text(d => d.name + ', ' + d.value)
     //add the node titles to the nodes
     node
       .append('text')
@@ -101,7 +101,7 @@ class sankeyPlot {
 
     //function to return the colors of nodes and strokes. For the artist nodes
     //We used a hash color generator (just s.t. any artist will allways have the same color)
-    function get_color (name) {
+    function get_color(name) {
       var color = 'black'
       switch (name) {
         case 'Netflix':
@@ -116,26 +116,25 @@ class sankeyPlot {
         case 'Disney':
           color = '#bdd7ee'
           break
-        default:
-          {
-            //Hash color generator from https://stackoverflow.com/a/16348977
-            var hash = 0
-            for (var i = 0; i < name.length; i++) {
-              hash = name.charCodeAt(i) + ((hash << 5) - hash)
-            }
-            color = '#'
-            for (var i = 0; i < 3; i++) {
-              var value = (hash >> (i * 8)) & 0xff
-              color += ('00' + value.toString(16)).substr(-2)
-            }
+        default: {
+          //Hash color generator from https://stackoverflow.com/a/16348977
+          var hash = 0
+          for (var i = 0; i < name.length; i++) {
+            hash = name.charCodeAt(i) + ((hash << 5) - hash)
           }
-          break
+          color = '#'
+          for (var i = 0; i < 3; i++) {
+            var value = (hash >> (i * 8)) & 0xff
+            color += ('00' + value.toString(16)).substr(-2)
+          }
+        }
+        break
       }
       return color
     }
 
     //function to make agiven color 10% darker
-    function darker (color) {
+    function darker(color) {
       var new_color = '#'
       color = color.replace('#', '')
 
@@ -158,7 +157,7 @@ class sankeyPlot {
   }
 }
 
-function whenDocumentLoaded (action) {
+function whenDocumentLoaded(action) {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', action)
   } else {
@@ -186,7 +185,7 @@ whenDocumentLoaded(() => {
     setup()
   })
 
-  function setup () {
+  function setup() {
     //Load the data from the file and consolidate it
     //d3.csv('./Data/cast_per_platform.csv').then(function (dd) {
     quantity_selection = $('#quantity_select').val()
@@ -194,20 +193,20 @@ whenDocumentLoaded(() => {
     switch (quantity_selection) {
       case 'actors':
         src = "./Data/cast_per_platform.csv";
-        default_qnt=['Nicolas Cage', 'John Wayne']
+        default_qnt = ['Nicolas Cage', 'John Wayne']
         break
       case 'directors':
         src = "./Data/director_per_platform.csv";
-        default_qnt = ["Marcus Raboy","Jay Karas","Robert Stevenson"]
+        default_qnt = ["Marcus Raboy", "Jay Karas", "Robert Stevenson"]
         break
       case 'country':
         src = "./Data/country_per_platform.csv";
-        default_qnt = ["Sweden","Norway","Switzerland"]
+        default_qnt = ["Sweden", "Norway", "Switzerland"]
         break
       case 'genre':
-      src = "./Data/genre_per_platform.csv";
-      default_qnt = ["Action","Thriller","LGBTQ Movies"]
-      break
+        src = "./Data/genre_per_platform.csv";
+        default_qnt = ["Action", "Thriller", "LGBTQ Movies"]
+        break
     }
     d3.csv(src)
       .then(function (dd) {
@@ -216,21 +215,53 @@ whenDocumentLoaded(() => {
         document.getElementById('sankey_env').style.display = 'block'
 
         //setup some dumy data for tests
-        var providers = [
-          { name: 'Netflix' },
-          { name: 'Hulu' },
-          { name: 'Prime' },
-          { name: 'Disney' }
+        var providers = [{
+            name: 'Netflix'
+          },
+          {
+            name: 'Hulu'
+          },
+          {
+            name: 'Prime'
+          },
+          {
+            name: 'Disney'
+          }
         ]
 
-        var actors = [{ name: 'A' }, { name: 'B' }, { name: 'C' }]
+        var actors = [{
+          name: 'A'
+        }, {
+          name: 'B'
+        }, {
+          name: 'C'
+        }]
 
-        var links = [
-          { source: 'A', target: 'Netflix', value: 10 },
-          { source: 'B', target: 'Hulu', value: 20 },
-          { source: 'B', target: 'Netflix', value: 10 },
-          { source: 'C', target: 'Hulu', value: 10 },
-          { source: 'C', target: 'Prime', value: 10 }
+        var links = [{
+            source: 'A',
+            target: 'Netflix',
+            value: 10
+          },
+          {
+            source: 'B',
+            target: 'Hulu',
+            value: 20
+          },
+          {
+            source: 'B',
+            target: 'Netflix',
+            value: 10
+          },
+          {
+            source: 'C',
+            target: 'Hulu',
+            value: 10
+          },
+          {
+            source: 'C',
+            target: 'Prime',
+            value: 10
+          }
         ]
 
         //calculate the total number of movies a quantity has in the data
@@ -276,25 +307,26 @@ whenDocumentLoaded(() => {
           onSelectAll: update_sankey,
           onChange: update_sankey
         })
+
         function update_sankey() {
-            selection = $('#sankey_select').val()
+          selection = $('#sankey_select').val()
 
-            //if no selection was done, show meme. Otherwise show sankey diagram
-            if (!selection) {
-              document.getElementById('empty_sankey_select').style.display =
-                'block'
-              document.getElementById('sankey').style.display = 'none'
-              return
-            } else {
-              document.getElementById('empty_sankey_select').style.display =
-                'none'
-              document.getElementById('sankey').style.display = 'block'
-            }
+          //if no selection was done, show meme. Otherwise show sankey diagram
+          if (!selection) {
+            document.getElementById('empty_sankey_select').style.display =
+              'block'
+            document.getElementById('sankey').style.display = 'none'
+            return
+          } else {
+            document.getElementById('empty_sankey_select').style.display =
+              'none'
+            document.getElementById('sankey').style.display = 'block'
+          }
 
-            //aggregate the data and plot new sankey plot
-            var data = get_data(actors, providers, links, selection)
+          //aggregate the data and plot new sankey plot
+          var data = get_data(actors, providers, links, selection)
 
-            plot = new sankeyPlot('sankey', data, selection)
+          plot = new sankeyPlot('sankey', data, selection)
         }
 
         //enable button to reset the dropdown and recalculate the selection
@@ -318,18 +350,20 @@ whenDocumentLoaded(() => {
           document.getElementById('empty_sankey_select').style.display = 'block'
           document.getElementById('sankey').style.display = 'none'
         })
-        
+
         $('#number_of_movies_txt').val(
-          'Min. number of movies of '+quantity_selection+': ' + document.getElementById('number_of_movies').value
+          'Min. number of movies of ' + quantity_selection + ': ' + document.getElementById('number_of_movies').value
         )
 
+        //keep track of wether the slider already warned the user
         var slider_warned = false
+
         //configure the slider to choose the minimal number of movies an actor should have
         $('#number_of_movies')
           .unbind('input')
           .on('input', function () {
             $('#number_of_movies_txt').val(
-              'Min. number of movies of '+quantity_selection+': ' + document.getElementById('number_of_movies').value
+              'Min. number of movies of ' + quantity_selection + ': ' + document.getElementById('number_of_movies').value
             )
             if (
               !slider_warned &&
@@ -338,7 +372,7 @@ whenDocumentLoaded(() => {
               slider_warned = true
               alert(
                 'Pleas note that setting this value to low might make the website considerably slower since the amount of data is quite large.\n' +
-                  'We recommend using values >=5, but feel free to try it yourself :)'
+                'We recommend using values >=5, but feel free to try it yourself :)'
               )
             }
           })
@@ -366,7 +400,7 @@ whenDocumentLoaded(() => {
           })
 
         //function to create the select in the html page
-        function create_select () {
+        function create_select() {
           document.getElementById('sankey_load').style.display = 'block'
           document.getElementById('sankey_env').style.display = 'none'
 
@@ -389,12 +423,17 @@ whenDocumentLoaded(() => {
           //generate the actors list
           actors = [...new Set(known_data.map(d => d.qnt))]
             .sort()
-            .map(d => ({ name: d }))
+            .map(d => ({
+              name: d
+            }))
 
           //assign the actors to a group
           actors_grouped = [...new Set(known_data.map(d => d.qnt))]
             .sort()
-            .map(d => ({ name: d, group: get_group(d) }))
+            .map(d => ({
+              name: d,
+              group: get_group(d)
+            }))
 
           //finally create the arrays of the group
           actors_grouped = group_by(actors_grouped, 'group')
@@ -435,7 +474,7 @@ whenDocumentLoaded(() => {
 })
 
 //aggregate the needed data
-function get_data (actors, providers, links, selection) {
+function get_data(actors, providers, links, selection) {
   //If selection is empty, return everything
   if (selection == null) {
     data = {
@@ -459,7 +498,7 @@ function get_data (actors, providers, links, selection) {
 }
 
 //extract the first character of the name and add to group. Add to group other if not alphabetical list
-function get_group (d) {
+function get_group(d) {
   var group = d.charAt(0).toUpperCase()
   if (group.toLowerCase() == group) {
     group = 'other'
@@ -468,7 +507,7 @@ function get_group (d) {
 }
 
 //group array by a given key
-function group_by (arr, key) {
+function group_by(arr, key) {
   var grouped = arr.reduce((prev, cur) => {
     if (!prev[cur[key]]) {
       prev[cur[key]] = []
