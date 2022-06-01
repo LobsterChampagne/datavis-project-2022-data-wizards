@@ -85,7 +85,7 @@ class LineChart {
 		//get highest value for y within x range
 		let highY = d3.max(filteredData.filter(d => d.year >= xdom[0] && d.year <= xdom[1]), d => +d.count)
 
-		//create the y axis scaled to the filtered data
+		//create the y axis scaled to the brushed data
 		this.y = d3.scaleLinear()
 			.domain([0, highY])
 			.range([ this.height - 45, 0 ]);
@@ -141,6 +141,8 @@ class LineChart {
 	}
 
 	createBrush(){
+		let that = this;
+
 		//brush
 		var contextX = d3.scaleLinear()
 			.domain(d3.extent(this.data, d => d.year))
@@ -155,10 +157,11 @@ class LineChart {
 			[this.x.range()[0], 0],
 			[this.x.range()[1], 100]
 			])
-			.on("brush", onBrush);
+			.on("brush", onBrush)
+			.on("end", checkReset);
 
 		let context = brushSvg.append("g")
-			.attr("class", "context")
+			.attr("class", "context");
 
 		context.append("g")
 			.attr("class", "x axis top")
@@ -178,14 +181,20 @@ class LineChart {
 			.attr("transform", "translate(212, 140)") //center text
 			.text('Click and drag above to zoom / pan the data');
 
-		let that = this;
+		function checkReset(d) {
+			if(!d.selection){
+				that.x = d3.scaleLinear()
+					.domain(d3.extent(that.data, d => d.year))
+					.range([ 0, that.width - 45 ]);
+				that.drawChart();
+			}
+		}
 
 		// Brush handler. Get time-range from a brush and pass it to the charts. 
 		function onBrush(d) {
 			var domainX = d.selection.map(contextX.invert)
 			that.x.domain(domainX)
 			that.svg.select(".x.axis").call(d3.axisBottom(that.x).ticks(5))
-
 			that.drawChart()
 		}
 	}
