@@ -59,6 +59,7 @@ h2 {
     margin-top: 2em;
     overflow-x: hidden;
     max-width: 100%;
+    
 }
 
 .container h1 {
@@ -214,7 +215,7 @@ rect:hover {
 }
 
 svg {
-    margin: 50px;
+    margin: 5px;
 }
 
 #sankey_env {
