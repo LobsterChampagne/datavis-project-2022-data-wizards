@@ -75,17 +75,19 @@ class LineChart {
 		const filteredData = this.data.filter(d => d.selector == lineSelect) 
 			.sort((a, b) => { return a.year - b.year })
 
-		console.log(lineSelect)
-
 		//create the x axis scaled to the full data (1920-2022)
 		this.svg.append("g")
 			.attr("class","x axis")
 			.attr("transform", `translate(35, ${this.height - 30})`) //have to be shifted into visible space
 			.call(d3.axisBottom(this.x).ticks(5));
 
+		let xdom = this.x.domain()
+		//get highest value for y within x range
+		let highY = d3.max(filteredData.filter(d => d.year >= xdom[0] && d.year <= xdom[1]), d => +d.count)
+
 		//create the y axis scaled to the filtered data
 		this.y = d3.scaleLinear()
-			.domain([0, d3.max(filteredData, d => +d.count)])
+			.domain([0, highY])
 			.range([ this.height - 45, 0 ]);
 		this.svg.append("g")
 			.attr("transform", `translate(35, 15)`) //have to be shifted into visible space
@@ -180,10 +182,10 @@ class LineChart {
 
 		// Brush handler. Get time-range from a brush and pass it to the charts. 
 		function onBrush(d) {
-			var domain = d.selection.map(contextX.invert)
-			that.x.domain(domain)
+			var domainX = d.selection.map(contextX.invert)
+			that.x.domain(domainX)
 			that.svg.select(".x.axis").call(d3.axisBottom(that.x).ticks(5))
-			that.svg.select("path")
+
 			that.drawChart()
 		}
 	}
