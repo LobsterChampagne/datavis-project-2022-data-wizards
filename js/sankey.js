@@ -391,32 +391,21 @@ whenDocumentLoaded(() => {
 				});
 
 			//add event listeners to display the help texts
-			document
-				.getElementById("info_artist")
-				.addEventListener("mouseover", function () {
-					document.getElementById(
-						"info_artist_select"
-					).style.display = "flex";
-				});
-			document
-				.getElementById("info_artist")
-				.addEventListener("mouseout", function () {
-					document.getElementById(
-						"info_artist_select"
-					).style.display = "none";
-				});
-			document
-				.getElementById("info_size")
-				.addEventListener("mouseover", function () {
-					document.getElementById("info_size_select").style.display =
-						"flex";
-				});
-			document
-				.getElementById("info_size")
-				.addEventListener("mouseout", function () {
-					document.getElementById("info_size_select").style.display =
-						"none";
-				});
+			$("#infoSizeSelect").hide();
+			$("#infoSize").on("mouseover", () => {
+				$("#infoSizeSelect").show();
+			});
+			$("#infoSize").on("mouseout", () => {
+				$("#infoSizeSelect").hide();
+			});
+
+			$("#infoArtistSelect").hide();
+			$("#infoArtist").on("mouseover", () => {
+				$("#infoArtistSelect").show();
+			});
+			$("#infoArtist").on("mouseout", () => {
+				$("#infoArtistSelect").hide();
+			});
 
 			//function to create the select in the html page
 			function create_select() {

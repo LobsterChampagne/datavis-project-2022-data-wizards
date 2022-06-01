@@ -21,11 +21,12 @@ const svg = d3
 	.attr("transform", `translate(${margin.left},${margin.top})`);
 
 // Add event listeners to the info event
-document.getElementById("info_year").addEventListener("mouseover", function () {
-	document.getElementById("info_year_select").style.display = "flex";
+$("#infoYearSelect").hide();
+$("#infoYear").on("mouseover", () => {
+	$("#infoYearSelect").show();
 });
-document.getElementById("info_year").addEventListener("mouseout", function () {
-	document.getElementById("info_year_select").style.display = "none";
+$("#infoYear").on("mouseout", () => {
+	$("#infoYearSelect").hide();
 });
 
 // Parse the Data
@@ -53,10 +54,10 @@ d3.csv("./Data/platform_per_year.csv").then(function (dd) {
 
 			//display meme if selection is smaller than 2000
 			if (year <= 2000) {
-				document.getElementById("bar_to_old").style.display = "block";
+				document.getElementById("barToOld").style.display = "block";
 				document.getElementById("barchart").style.display = "none";
 			} else {
-				document.getElementById("bar_to_old").style.display = "none";
+				document.getElementById("barToOld").style.display = "none";
 				document.getElementById("barchart").style.display = "block";
 			}
 		});
