@@ -249,8 +249,6 @@ whenDocumentLoaded(() => {
           cnt: actors_total[key]
         }))
 
-        //default_qnt = ['Nicolas Cage', 'John Wayne']
-
         //instatiate the selection menu
         create_select()
 
@@ -377,7 +375,7 @@ whenDocumentLoaded(() => {
 
           //filter the data according to the value above
           known_qnt = num_mov_per_qnt
-            .filter(d => d.cnt >= number_of_movies)
+            .filter(d => (d.cnt >= number_of_movies) && (d.qnt != ""))
             .map(d => d.qnt)
 
           //aggregate the total data

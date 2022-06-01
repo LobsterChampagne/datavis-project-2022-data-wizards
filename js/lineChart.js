@@ -271,10 +271,8 @@ whenDocumentLoaded(() => {
 		.then(data => {
 			let temp = []
 			data.forEach(d => {temp.push(d.qnt)})
-			let selectors = [...new Set(temp)].sort() //create a set of the data in the csv (due to duplicates)
-
+			let selectors = [...new Set(temp)].sort().filter(d => d != "") //create a set of the data in the csv (due to duplicates)
 			var menu = d3.select('#lineSelect').html('') //clear the options of the dropdown
-
 			menu = menu //add the option
 				.selectAll('option')
 				.data(selectors)
@@ -282,7 +280,6 @@ whenDocumentLoaded(() => {
 				.append('option')
 				.attr('value', f => f)
 				.text(f => f)
-				.attr('selected', 'selected')
 
 			$('#lineSelect')
 				.val([((lineSelectorSelect == 'country') ? 'United States' : ((lineSelectorSelect == 'genre') ? 'Action' : 'Movie'))])

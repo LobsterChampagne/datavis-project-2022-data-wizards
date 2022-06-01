@@ -59,7 +59,7 @@ h2 {
     margin-top: 2em;
     overflow-x: hidden;
     max-width: 100%;
-    
+
 }
 
 .container h1 {
@@ -284,10 +284,12 @@ svg {
     display: none;
     position: absolute;
     font-size: 10pt;
-    background-color: #41b3a44d;
-    width: 80%;
+    background-color: #41b3a4;
+    width: 60%;
     font-style: bold;
     font-family: sans-serif;
+
+
 }
 
 .multiselect-container {
@@ -319,27 +321,30 @@ svg {
     display: none;
 }
 
-.boywiz:hover .wizwiz{
+.boywiz:hover .wizwiz {
     display: block;
 }
 
-.boywiz:hover img{
-    display:none;
+.boywiz:hover img {
+    display: none;
 }
 
 .dot:hover {
-    r : 9;
+    r: 9;
     opacity: 1;
-    
+
 }
+
 .dot {
     opacity: 0.4;
     transition: r 0.5s, opacity 0.5s;
 }
+
 .line {
     opacity: 0.5;
     transition: stroke-width 0.3s, opacity 0.3s;
 }
+
 .line:hover {
     opacity: 1;
     stroke-width: 3;
