@@ -43,6 +43,12 @@ class LineChart {
 					.filter(d => d != '')
 					.map(d => ({ service: cur.service, selector: d.trim(), year: cur.release_year }))
 				break;
+				case "every":
+				var ret = cur.listed_in
+					.split(/[\s&,]+/)
+					.filter(d => d != '')
+					.map(d => ({ service: cur.service, selector: d.trim(), year: cur.release_year }))
+				break;
 			}
 		return prev.concat(ret)
 		}, [])			
