@@ -1,4 +1,4 @@
-//Skeletton from Exercise 8
+//Skeleton from Exercise 8
 //Class to create a sankey plot, some parts were adapted from https://stackoverflow.com/q/50429070
 class sankeyPlot {
 	constructor(svg_element_id, data, draw) {
@@ -9,7 +9,7 @@ class sankeyPlot {
 		this.svg_width = svg_viewbox.width;
 		this.svg_height = svg_viewbox.height;
 
-		//Sett the basic values of the sankey diagram such as size and node width
+		//Set the basic values of the sankey diagram such as size and node width
 		var sankey = d3
 			.sankey()
 			.nodeWidth(5)
@@ -18,17 +18,17 @@ class sankeyPlot {
 				return d.name;
 			});
 
-		//create an area to create the links within the svg. We will use simple
+		//create an area for the links within the svg. We will use simple
 		//strokes for the links
 		let link = this.svg.append("g").attr("fill", "none").selectAll("path");
 
-		//create an area to create the nodes within the svg
+		//create an area for the nodes within the svg
 		let node = this.svg.append("g").selectAll("g");
 
 		//transform the input data. Sankey returns placement of nodes
 		sankey(data);
 
-		//if we just want to use the data generator of sankey we break hear
+		//if we just want to use the data generator of sankey we break here
 		if (!draw) {
 			return;
 		}
@@ -41,6 +41,7 @@ class sankeyPlot {
 			.attr("stroke", (d) => get_color(d.target.name))
 			.on("click", (d, i) =>
 				window.open(
+					// open window with google search when a link is clicked
 					"http://www.google.com/search?q=Movies+TV+Shows+on+" +
 						i.source.name.replace(" ", "+") +
 						"+" +
@@ -102,7 +103,7 @@ class sankeyPlot {
 			.attr("text-anchor", "start");
 
 		//function to return the colors of nodes and strokes. For the artist nodes
-		//We used a hash color generator (just s.t. any artist will allways have the same color)
+		//We used a hash color generator (just s.t. any artist will always have the same color)
 		function get_color(name) {
 			var color = "black";
 			switch (name) {
@@ -172,6 +173,7 @@ function whenDocumentLoaded(action) {
 whenDocumentLoaded(() => {
 	$("#quantity_select").multiselect({
 		onChange: function () {
+			//load the sankey environment and display a loader while it does
 			document.getElementById("sankey_load").style.display = "block";
 			document.getElementById("sankey_env").style.display = "none";
 			selection = $("#quantity_select").val();
@@ -215,7 +217,7 @@ whenDocumentLoaded(() => {
 			document.getElementById("sankey_load").style.display = "none";
 			document.getElementById("sankey_env").style.display = "block";
 
-			//setup some dumy data for tests
+			//setup some dummy data
 			var providers = [
 				{
 					name: "Netflix",
@@ -287,15 +289,11 @@ whenDocumentLoaded(() => {
 				cnt: actors_total[key],
 			}));
 
-			//instatiate the selection menu
+			//instantiate the selection menu
 			create_select();
 
 			//get the chosen values from the multiselect
 			selection = $("#sankey_select").val();
-
-			//instantiate the data by applying sankey to the full data
-			//var data = get_data(actors, providers, links, null)
-			//plot = new sankeyPlot('sankey', data, false)
 
 			//generate sankey by only using the required data
 			var data = get_data(actors, providers, links, selection);
@@ -320,11 +318,15 @@ whenDocumentLoaded(() => {
 
 				//if no selection was done, show meme. Otherwise show sankey diagram
 				if (!selection) {
-					document.getElementById("empty_sankey_select").style.display = "block";
+					document.getElementById(
+						"empty_sankey_select"
+					).style.display = "block";
 					document.getElementById("sankey").style.display = "none";
 					return;
 				} else {
-					document.getElementById("empty_sankey_select").style.display = "none";
+					document.getElementById(
+						"empty_sankey_select"
+					).style.display = "none";
 					document.getElementById("sankey").style.display = "block";
 				}
 
@@ -378,7 +380,7 @@ whenDocumentLoaded(() => {
 						!slider_warned &&
 						document.getElementById("number_of_movies").value <= 3
 					) {
-						slider_warned = true;
+						slider_warned = true; //warning of low value to the user
 						alert(
 							"Pleas note that setting this value to low might make the website considerably slower since the amount of data is quite large.\n" +
 								"We recommend using values >=5, but feel free to try it yourself :)"
@@ -481,7 +483,8 @@ whenDocumentLoaded(() => {
 
 				document.getElementById("sankey_load").style.display = "none";
 				document.getElementById("sankey_env").style.display = "block";
-				document.getElementById("empty_sankey_select").style.display = "none";
+				document.getElementById("empty_sankey_select").style.display =
+					"none";
 				document.getElementById("sankey").style.display = "block";
 			}
 		});

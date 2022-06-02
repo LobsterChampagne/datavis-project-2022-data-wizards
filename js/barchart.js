@@ -20,7 +20,7 @@ const svg = d3
 	.attr("id", "bar_plot_area")
 	.attr("transform", `translate(${margin.left},${margin.top})`);
 
-// Add event listeners to the info event
+// Add event listeners to show and hide the info event
 document.getElementById("info_year").addEventListener("mouseover", function () {
 	document.getElementById("info_year_select").style.display = "flex";
 });
@@ -33,7 +33,7 @@ d3.csv("./Data/platform_per_year.csv").then(function (dd) {
 	//get distinct years
 	years = [...new Set(dd.map((d) => d.date_added))].sort();
 
-	//Add input function incase the user changes the range
+	//Add input function in case the user changes the range
 	$("#year_plot")
 		.unbind("input")
 		.on("input", function () {
@@ -142,7 +142,7 @@ d3.csv("./Data/platform_per_year.csv").then(function (dd) {
 			.domain(subgroups)
 			.range(["#41b3a3", "#377eb8", "#BA93CD", "#8A449F"]);
 
-		//stack the data? --> stack per subgroup
+		//stack the data --> stack per subgroup
 		const stackedData = d3.stack().keys(subgroups)(data);
 
 		// Show the bars
