@@ -30,7 +30,18 @@
 
 <a href="https://www.youtube.com/watch?v=sk0pSG-X9hY" target="_blank">Screencast</a>
 
-## Late policy
+## Comments to milestone 3
 
--   < 24h: 80% of the grade for the milestone
--   < 48h: 70% of the grade for the milestone
+Our website, processbook and screencast can be found with the above links. The website uses index.html and style.css and the js folder for d3 components to each chart. The ipynb folder contains our exploration of the datasets and preprocessing to make the csvs found in the Data folder. All imports of d3, jquery, bootstrap etc. is in the begining of the index.html.
+The data was found on these sites:
+
+-   https://www.kaggle.com/datasets/shivamb/netflix-shows
+-   https://www.kaggle.com/datasets/ruchi798/movies-on-netflix-prime-video-hulu-and-disney
+-   https://www.kaggle.com/datasets/shivamb/amazon-prime-movies-and-tv-shows
+-   https://www.kaggle.com/datasets/shivamb/disney-movies-and-tv-shows
+-   https://www.kaggle.com/datasets/shivamb/hulu-movies-and-tv-shows
+-   https://www.imdb.com/interfaces/
+
+There is no need for any technical setup to access the website.
+
+The intended usage of the website is to explore what the different streaming providers offer and hopefully find one that suits your needs. Hope you enjoy!
