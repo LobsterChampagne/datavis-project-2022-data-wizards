@@ -320,15 +320,11 @@ whenDocumentLoaded(() => {
 
 				//if no selection was done, show meme. Otherwise show sankey diagram
 				if (!selection) {
-					document.getElementById(
-						"empty_sankey_select"
-					).style.display = "block";
+					document.getElementById("empty_sankey_select").style.display = "block";
 					document.getElementById("sankey").style.display = "none";
 					return;
 				} else {
-					document.getElementById(
-						"empty_sankey_select"
-					).style.display = "none";
+					document.getElementById("empty_sankey_select").style.display = "none";
 					document.getElementById("sankey").style.display = "block";
 				}
 
@@ -485,6 +481,8 @@ whenDocumentLoaded(() => {
 
 				document.getElementById("sankey_load").style.display = "none";
 				document.getElementById("sankey_env").style.display = "block";
+				document.getElementById("empty_sankey_select").style.display = "none";
+				document.getElementById("sankey").style.display = "block";
 			}
 		});
 	}
